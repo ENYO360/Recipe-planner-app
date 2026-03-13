@@ -1,5 +1,5 @@
 // src/screens/HomeScreen.jsx
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -35,36 +35,8 @@ export default function HomeScreen({ navigation }) {
     });
   }, [recipes, searchQuery, activeCategory]);
 
-  // ── What renders at the TOP of the FlatList (header) ─────────────────
-  const ListHeader = () => (
+  const renderListHeader = useCallback(() => (
     <View>
-      {/* Greeting */}
-      <View className="px-5 pt-4 pb-2">
-        <Text className="text-gray-400 text-sm font-medium">👋 Hello, Chef!</Text>
-        <Text className="text-gray-900 text-2xl font-bold mt-0.5">
-          What are you cooking today?
-        </Text>
-      </View>
-
-      {/* Search bar */}
-      <View className="mx-5 mt-4 mb-5 flex-row items-center bg-gray-100 rounded-2xl px-4 py-3 gap-2">
-        <Ionicons name="search-outline" size={18} color="#9ca3af" />
-        <TextInput
-          placeholder="Search recipes..."
-          placeholderTextColor="#9ca3af"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          className="flex-1 text-gray-800 text-sm"
-          returnKeyType="search"
-        />
-        {/* Clear button — only shows when there's text */}
-        {searchQuery.length > 0 && (
-          <TouchableOpacity onPress={() => setSearchQuery("")}>
-            <Ionicons name="close-circle" size={18} color="#9ca3af" />
-          </TouchableOpacity>
-        )}
-      </View>
-
       {/* Category pills — horizontal scroll */}
       <FlatList
         data={CATEGORIES}
@@ -84,17 +56,18 @@ export default function HomeScreen({ navigation }) {
       {/* Results count */}
       <View className="px-5 mb-3 flex-row items-center justify-between">
         <Text className="text-gray-900 font-bold text-lg">
-          {activeCategory === "all" ? "All Recipes" : CATEGORIES.find(c => c.id === activeCategory)?.label}
+          {activeCategory === "all"
+            ? "All Recipes"
+            : CATEGORIES.find(c => c.id === activeCategory)?.label}
         </Text>
         <Text className="text-gray-400 text-sm">
           {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? "s" : ""}
         </Text>
       </View>
     </View>
-  );
+  ), [activeCategory, filteredRecipes.length]);
 
-  // ── What renders when the filtered list is empty ──────────────────────
-  const EmptyState = () => (
+  const renderEmptyState = useCallback(() => (
     <View className="items-center justify-center py-20">
       <Ionicons name="search-outline" size={48} color="#d1d5db" />
       <Text className="text-gray-400 font-semibold text-base mt-4">
@@ -104,11 +77,37 @@ export default function HomeScreen({ navigation }) {
         Try a different search or category
       </Text>
     </View>
-  );
+  ), []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+
+      {/* Greeting */}
+      <View className="px-5 pt-4 pb-2">
+        <Text className="text-gray-400 text-sm font-medium">👋 Hello, Chef!</Text>
+        <Text className="text-gray-900 text-2xl font-bold mt-0.5">
+          What are you cooking today?
+        </Text>
+      </View>
+
+      {/* Search bar — lives OUTSIDE FlatList so it never unmounts on re-render */}
+      <View className="mx-5 mt-4 mb-5 flex-row items-center bg-gray-100 rounded-2xl px-4 py-3 gap-2">
+        <Ionicons name="search-outline" size={18} color="#9ca3af" />
+        <TextInput
+          placeholder="Search recipes..."
+          placeholderTextColor="#9ca3af"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          className="flex-1 text-gray-800 text-sm"
+          returnKeyType="search"
+        />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity onPress={() => setSearchQuery("")}>
+            <Ionicons name="close-circle" size={18} color="#9ca3af" />
+          </TouchableOpacity>
+        )}
+      </View>
 
       <FlatList
         data={filteredRecipes}
@@ -118,15 +117,14 @@ export default function HomeScreen({ navigation }) {
             <RecipeCard
               recipe={item}
               onPress={() =>
-                // Navigate to RecipeDetail and pass the full recipe object
                 navigation.navigate("RecipeDetail", { recipe: item })
               }
               onFavouritePress={() => toggleFavourite(item.id)}
             />
           </View>
         )}
-        ListHeaderComponent={ListHeader}
-        ListEmptyComponent={EmptyState}
+        ListHeaderComponent={renderListHeader}
+        ListEmptyComponent={renderEmptyState}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
