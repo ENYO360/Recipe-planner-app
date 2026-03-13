@@ -27,7 +27,14 @@
     },
     "plugins": [
       "expo-sqlite",
-      "expo-asset"
+      "expo-asset",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Recipe Planner to access your photos.",
+          "cameraPermission": "Allow Recipe Planner to take photos of your dishes."
+        }
+      ]
     ]
   }
 }
