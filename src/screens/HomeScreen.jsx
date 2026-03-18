@@ -16,7 +16,7 @@ import RecipeCard   from "../components/RecipeCard";
 import CategoryPill from "../components/CategoryPill";
 
 export default function HomeScreen({ navigation }) {
-  const { recipes, toggleFavourite } = useRecipes();
+  const { recipes, toggleFavourite, removeRecipe } = useRecipes();
 
   const [searchQuery,      setSearchQuery]      = useState("");
   const [activeCategory,   setActiveCategory]   = useState("all");
@@ -120,6 +120,7 @@ export default function HomeScreen({ navigation }) {
                 navigation.navigate("RecipeDetail", { recipe: item })
               }
               onFavouritePress={() => toggleFavourite(item.id)}
+              onDelete={removeRecipe}
             />
           </View>
         )}

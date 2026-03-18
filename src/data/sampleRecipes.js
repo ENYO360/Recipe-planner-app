@@ -13,33 +13,6 @@ export const SAMPLE_RECIPES = [
 
   // ─── BREAKFAST ────────────────────────────────────────────────
   {
-    id: "1",
-    title: "Avocado Toast",
-    category: "breakfast",
-    duration: "10 mins",
-    servings: 2,
-    difficulty: "Easy",
-    image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c820?w=400",
-    description: "Creamy avocado on crispy sourdough bread with a perfectly poached egg on top.",
-    ingredients: [
-      { id: "i1", name: "Sourdough bread",   amount: 2,   unit: "slices" },
-      { id: "i2", name: "Ripe avocado",       amount: 1,   unit: "whole"  },
-      { id: "i3", name: "Eggs",               amount: 2,   unit: "whole"  },
-      { id: "i4", name: "Lemon juice",        amount: 1,   unit: "tsp"    },
-      { id: "i5", name: "Red pepper flakes",  amount: 0.5, unit: "tsp"    },
-      { id: "i6", name: "Salt & pepper",      amount: 1,   unit: "pinch"  },
-    ],
-    steps: [
-      "Toast the sourdough bread until golden and crispy.",
-      "Halve the avocado, remove the pit, and scoop the flesh into a bowl.",
-      "Mash the avocado with lemon juice, salt, and pepper.",
-      "Poach the eggs in simmering water for 3 minutes.",
-      "Spread the avocado mixture onto the toast and top with poached egg.",
-      "Sprinkle red pepper flakes and serve immediately.",
-    ],
-    isFavourite: false,
-  },
-  {
     id: "2",
     title: "Classic Pancakes",
     category: "breakfast",

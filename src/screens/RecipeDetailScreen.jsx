@@ -4,14 +4,20 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  Animated,
-  Platform,
+  Alert,
 } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  useAnimatedScrollHandler,
+  interpolate,
+  Extrapolation,
+} from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { useRecipes } from "../context/RecipeContext";
+import AnimatedHeart from "../components/AnimatedHeart";
 
 const HEADER_IMAGE_HEIGHT = 300;
 
@@ -20,24 +26,46 @@ export default function RecipeDetailScreen({ navigation, route }) {
   const { recipe: initialRecipe } = route.params;
 
   // Pull live recipe data from context so favourite state stays in sync
-  const { recipes, toggleFavourite } = useRecipes();
+  const { recipes, toggleFavourite, removeRecipe } = useRecipes();
   const recipe = recipes.find((r) => r.id === initialRecipe.id) ?? initialRecipe;
 
   // ── Local state ───────────────────────────────────────────────────────
-  const [servings,       setServings]       = useState(recipe.servings);
-  const [checkedSteps,   setCheckedSteps]   = useState([]);
+  const [servings, setServings] = useState(recipe.servings);
+  const [checkedSteps, setCheckedSteps] = useState([]);
 
   // ── Animated scroll value ─────────────────────────────────────────────
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const scrollY = useSharedValue(0);
+
+  // Scroll handler — runs on UI thread
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  // Parallax style for the image — moves up at half scroll speed
+  const imageParallaxStyle = useAnimatedStyle(() => ({
+    transform: [{
+      translateY: interpolate(
+        scrollY.value,
+        [0, HEADER_IMAGE_HEIGHT],
+        [0, -HEADER_IMAGE_HEIGHT / 2],   // move up half as fast as scroll
+        Extrapolation.CLAMP
+      ),
+    }],
+  }));
+
+  // Header buttons fade in as user scrolls
+  const headerOpacity = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      scrollY.value,
+      [0, 100],
+      [0, 1],
+      Extrapolation.CLAMP
+    ),
+  }));
 
   // Interpolate scroll position → header button background opacity
   // As user scrolls down 80px, the back button bg fades from
   // semi-transparent white to fully white
-  const headerBgOpacity = scrollY.interpolate({
-    inputRange:  [0, 80],
-    outputRange: [0, 1],
-    extrapolate: "clamp", // don't go below 0 or above 1
-  });
 
   // ── Serving scaler logic ──────────────────────────────────────────────
   // Multiply each ingredient amount by (current servings / original servings)
@@ -45,6 +73,24 @@ export default function RecipeDetailScreen({ navigation, route }) {
     const scaled = (originalAmount * servings) / recipe.servings;
     // Show clean integers when possible, otherwise 1 decimal place
     return Number.isInteger(scaled) ? scaled : scaled.toFixed(1);
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete Recipe",
+      `Are you sure you want to delete "${recipe.title}"? This cannot be undone.`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await removeRecipe(recipe.id);
+            navigation.goBack(); // return to Home after deletion
+          },
+        },
+      ]
+    );
   };
 
   // ── Step checkbox toggle ──────────────────────────────────────────────
@@ -61,20 +107,24 @@ export default function RecipeDetailScreen({ navigation, route }) {
 
       {/* ── ANIMATED SCROLL VIEW ── */}
       <Animated.ScrollView
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false } // must be false when animating layout props
-        )}
+        onScroll={scrollHandler}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
         {/* ── HERO IMAGE ── */}
-        <Image
-          source={{ uri: recipe.image }}
-          style={{ width: "100%", height: HEADER_IMAGE_HEIGHT }}
-          resizeMode="cover"
-        />
+        <Animated.View
+          style={[
+            imageParallaxStyle,
+            { height: HEADER_IMAGE_HEIGHT, overflow: "hidden" }
+          ]}
+        >
+          <Image
+            source={{ uri: recipe.image }}
+            style={{ width: "100%", height: HEADER_IMAGE_HEIGHT + 60 }}
+            resizeMode="cover"
+          />
+        </Animated.View>
 
         {/* ── CONTENT CARD (sits on top of image) ── */}
         <View
@@ -88,25 +138,20 @@ export default function RecipeDetailScreen({ navigation, route }) {
               style={{ lineHeight: 32 }}>
               {recipe.title}
             </Text>
-            <TouchableOpacity
+            <AnimatedHeart
+              isFavourite={recipe.isFavourite}
               onPress={() => toggleFavourite(recipe.id)}
-              activeOpacity={0.7}
-              className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mt-1"
-            >
-              <Ionicons
-                name={recipe.isFavourite ? "heart" : "heart-outline"}
-                size={20}
-                color={recipe.isFavourite ? "#ef4444" : "#6b7280"}
-              />
-            </TouchableOpacity>
+              size={20}
+              containerClass="w-10 h-10 rounded-full bg-gray-100"
+            />
           </View>
 
           {/* Meta pills */}
           <View className="flex-row flex-wrap gap-2 mb-5">
             {[
-              { icon: "time-outline",       label: recipe.duration      },
-              { icon: "people-outline",     label: `${recipe.servings} servings` },
-              { icon: "bar-chart-outline",  label: recipe.difficulty    },
+              { icon: "time-outline", label: recipe.duration },
+              { icon: "people-outline", label: `${recipe.servings} servings` },
+              { icon: "bar-chart-outline", label: recipe.difficulty },
             ].map(({ icon, label }) => (
               <View key={label}
                 className="flex-row items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
@@ -156,9 +201,8 @@ export default function RecipeDetailScreen({ navigation, route }) {
             {recipe.ingredients.map((ing, index) => (
               <View
                 key={ing.id}
-                className={`flex-row items-center justify-between py-3 px-4 rounded-xl ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                }`}
+                className={`flex-row items-center justify-between py-3 px-4 rounded-xl ${index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  }`}
               >
                 <View className="flex-row items-center gap-3">
                   {/* Coloured dot */}
@@ -187,11 +231,10 @@ export default function RecipeDetailScreen({ navigation, route }) {
                   key={index}
                   onPress={() => toggleStep(index)}
                   activeOpacity={0.8}
-                  className={`flex-row gap-4 p-4 rounded-2xl border ${
-                    isChecked
-                      ? "bg-green-50 border-green-200"
-                      : "bg-white border-gray-100"
-                  }`}
+                  className={`flex-row gap-4 p-4 rounded-2xl border ${isChecked
+                    ? "bg-green-50 border-green-200"
+                    : "bg-white border-gray-100"
+                    }`}
                   style={{
                     shadowColor: "#000",
                     shadowOffset: { width: 0, height: 1 },
@@ -202,9 +245,8 @@ export default function RecipeDetailScreen({ navigation, route }) {
                 >
                   {/* Step number / checkmark */}
                   <View
-                    className={`w-7 h-7 rounded-full items-center justify-center flex-shrink-0 mt-0.5 ${
-                      isChecked ? "bg-green-500" : "bg-gray-100"
-                    }`}
+                    className={`w-7 h-7 rounded-full items-center justify-center flex-shrink-0 mt-0.5 ${isChecked ? "bg-green-500" : "bg-gray-100"
+                      }`}
                   >
                     {isChecked ? (
                       <Ionicons name="checkmark" size={14} color="white" />
@@ -217,11 +259,10 @@ export default function RecipeDetailScreen({ navigation, route }) {
 
                   {/* Step text */}
                   <Text
-                    className={`flex-1 text-sm leading-6 ${
-                      isChecked
-                        ? "text-gray-400 line-through"
-                        : "text-gray-700"
-                    }`}
+                    className={`flex-1 text-sm leading-6 ${isChecked
+                      ? "text-gray-400 line-through"
+                      : "text-gray-700"
+                      }`}
                   >
                     {step}
                   </Text>
@@ -264,8 +305,8 @@ export default function RecipeDetailScreen({ navigation, route }) {
         pointerEvents="box-none" // lets touches pass through to ScrollView behind it
       >
         <Animated.View
-          className="flex-row justify-between px-4 pt-2 pb-3"
-          style={{ backgroundColor: `rgba(255,255,255,${headerBgOpacity.__getValue?.() ?? 0})` }}
+          className="flex-row justify-between px-4 pt-2 pb-3 "
+          style={headerOpacity}
         >
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -280,6 +321,22 @@ export default function RecipeDetailScreen({ navigation, route }) {
             }}
           >
             <Ionicons name="arrow-back" size={20} color="#111827" />
+          </TouchableOpacity>
+
+          {/* Delete button */}
+          <TouchableOpacity
+            onPress={handleDelete}
+            activeOpacity={0.8}
+            className="w-10 h-10 rounded-full bg-white items-center justify-center"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 3,
+            }}
+          >
+            <Ionicons name="trash-outline" size={18} color="#ef4444" />
           </TouchableOpacity>
         </Animated.View>
       </SafeAreaView>

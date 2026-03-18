@@ -1,105 +1,93 @@
 // src/hooks/useShoppingList.js
 import { useState, useEffect, useCallback } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const STORAGE_KEY = "recipe-planner-shopping-list";
+import {
+  getAllShoppingItems,
+  insertShoppingItem,
+  insertShoppingItems,
+  toggleShoppingItem,
+  deleteShoppingItem,
+  deleteCheckedItems,
+  clearShoppingList,
+} from "../database/shoppingRepository";
 
 export function useShoppingList(incomingList) {
   const [items,   setItems]   = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ── On mount — load persisted list from AsyncStorage ─────────────────
+  // ── Load from SQLite on mount ─────────────────────────────────────────
   useEffect(() => {
-    const loadStored = async () => {
+    const load = async () => {
       try {
-        const stored = await AsyncStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          setItems(JSON.parse(stored));
-        }
+        const data = await getAllShoppingItems();
+        setItems(data);
       } catch (e) {
         console.warn("Failed to load shopping list:", e);
       } finally {
         setLoading(false);
       }
     };
-    loadStored();
-  }, []); // runs once on mount
-
-  // ── When a new list is generated from the Meal Planner ───────────────
-  // incomingList changes when the user navigates here from the planner
-  useEffect(() => {
-    if (!incomingList || incomingList.length === 0) return;
-
-    // Merge incoming with existing — don't wipe manual items
-    setItems((prev) => {
-      const existingIds = new Set(prev.map((i) => i.id));
-      const newItems    = incomingList.filter((i) => !existingIds.has(i.id));
-      const merged      = [...prev, ...newItems];
-      persist(merged);
-      return merged;
-    });
-  }, [incomingList]);
-
-  // ── Persist helper — saves current list to AsyncStorage ──────────────
-  const persist = useCallback(async (list) => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } catch (e) {
-      console.warn("Failed to save shopping list:", e);
-    }
+    load();
   }, []);
 
+  // ── Merge incoming list from Meal Planner ─────────────────────────────
+  useEffect(() => {
+    if (!incomingList || incomingList.length === 0) return;
+    const refresh = async () => {
+      try {
+        // insertShoppingItems uses INSERT OR IGNORE so no duplicates
+        await insertShoppingItems(incomingList);
+        const data = await getAllShoppingItems();
+        setItems(data);
+      } catch (e) {
+        console.warn("Failed to merge shopping list:", e);
+      }
+    };
+    refresh();
+  }, [incomingList]);
+
   // ── Actions ───────────────────────────────────────────────────────────
-  const toggleItem = useCallback((id) => {
-    setItems((prev) => {
-      const updated = prev.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      );
-      persist(updated);
-      return updated;
-    });
-  }, [persist]);
+  const toggleItem = useCallback(async (id) => {
+    const item = items.find((i) => i.id === id);
+    if (!item) return;
+    // Optimistic update
+    setItems((prev) =>
+      prev.map((i) => i.id === id ? { ...i, checked: !i.checked } : i)
+    );
+    await toggleShoppingItem(id, item.checked);
+  }, [items]);
 
-  const removeItem = useCallback((id) => {
-    setItems((prev) => {
-      const updated = prev.filter((item) => item.id !== id);
-      persist(updated);
-      return updated;
-    });
-  }, [persist]);
+  const removeItem = useCallback(async (id) => {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+    await deleteShoppingItem(id);
+  }, []);
 
-  const addItem = useCallback((name) => {
+  const addItem = useCallback(async (name) => {
     if (!name.trim()) return;
     const newItem = {
       id:      `manual-${Date.now()}`,
       name:    name.trim(),
-      amount:  1,
+      amount:  0,
       unit:    "",
       checked: false,
     };
-    setItems((prev) => {
-      const updated = [newItem, ...prev];
-      persist(updated);
-      return updated;
-    });
-  }, [persist]);
+    // Optimistic update
+    setItems((prev) => [newItem, ...prev]);
+    await insertShoppingItem(newItem);
+  }, []);
 
-  const clearChecked = useCallback(() => {
-    setItems((prev) => {
-      const updated = prev.filter((item) => !item.checked);
-      persist(updated);
-      return updated;
-    });
-  }, [persist]);
+  const clearChecked = useCallback(async () => {
+    setItems((prev) => prev.filter((i) => !i.checked));
+    await deleteCheckedItems();
+  }, []);
 
-  const clearAll = useCallback(() => {
+  const clearAll = useCallback(async () => {
     setItems([]);
-    persist([]);
-  }, [persist]);
+    await clearShoppingList();
+  }, []);
 
-  // Derived values
-  const checkedCount   = items.filter((i) => i.checked).length;
-  const totalCount     = items.length;
+  // ── Derived values ────────────────────────────────────────────────────
+  const checkedCount    = items.filter((i) => i.checked).length;
+  const totalCount      = items.length;
   const progressPercent = totalCount > 0
     ? Math.round((checkedCount / totalCount) * 100)
     : 0;

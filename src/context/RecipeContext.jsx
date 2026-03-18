@@ -1,41 +1,77 @@
 // src/context/RecipeContext.jsx
-import React, { createContext, useContext, useState } from "react";
-import { SAMPLE_RECIPES } from "../data/sampleRecipes";
+import React, {
+  createContext, useContext, useState,
+  useEffect, useCallback,
+} from "react";
+import { initDatabase }                          from "../database/db";
+import { getAllRecipes, insertRecipe,
+         toggleFavouriteInDb, deleteRecipe }     from "../database/recipeRepository";
+import { getAllMealPlan, assignMealInDb,
+         removeMealFromDb }                      from "../database/mealPlanRepository";
+import { getAllShoppingItems, insertShoppingItems } from "../database/shoppingRepository";
 
 const RecipeContext = createContext();
 
-// ── Meal plan shape ───────────────────────────────────────────────────────────
-// {
-//   "2024-03-11": {
-//     breakfast: { id, title, image, duration } | null,
-//     lunch:     { id, title, image, duration } | null,
-//     dinner:    { id, title, image, duration } | null,
-//   },
-//   ...
-// }
-
 export function RecipeProvider({ children }) {
-  const [recipes,  setRecipes]  = useState(SAMPLE_RECIPES);
-  const [mealPlan, setMealPlan] = useState({});
+  const [dbReady,   setDbReady]   = useState(false);
+  const [recipes,   setRecipes]   = useState([]);
+  const [mealPlan,  setMealPlan]  = useState({});
+
+  // ── Initialise database then load all data ────────────────────────────
+  useEffect(() => {
+    const setup = async () => {
+      try {
+        await initDatabase();           // creates tables + seeds if empty
+        await refreshRecipes();         // load recipes into state
+        await refreshMealPlan();        // load meal plan into state
+        setDbReady(true);
+      } catch (e) {
+        console.error("Database init failed:", e);
+      }
+    };
+    setup();
+  }, []);
+
+  // ── Refresh helpers — re-query DB and update state ────────────────────
+  const refreshRecipes = useCallback(async () => {
+    const data = await getAllRecipes();
+    setRecipes(data);
+  }, []);
+
+  const refreshMealPlan = useCallback(async () => {
+    const data = await getAllMealPlan();
+    setMealPlan(data);
+  }, []);
 
   // ── Recipe actions ────────────────────────────────────────────────────
-  const toggleFavourite = (id) => {
-    setRecipes((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, isFavourite: !r.isFavourite } : r))
-    );
-  };
+  const addRecipe = useCallback(async (recipe) => {
+    const newRecipe = {
+      ...recipe,
+      id: Date.now().toString(),
+    };
+    await insertRecipe(newRecipe);
+    await refreshRecipes();           // re-query to get db-generated timestamps
+  }, [refreshRecipes]);
 
-  const addRecipe = (recipe) => {
-    setRecipes((prev) => [
-      { ...recipe, id: Date.now().toString(), isFavourite: false },
-      ...prev,
-    ]);
-  };
+  const toggleFavourite = useCallback(async (id) => {
+    const recipe = recipes.find((r) => r.id === id);
+    if (!recipe) return;
+    // Optimistic update — update UI immediately
+    setRecipes((prev) =>
+      prev.map((r) => r.id === id ? { ...r, isFavourite: !r.isFavourite } : r)
+    );
+    // Then persist to DB
+    await toggleFavouriteInDb(id, recipe.isFavourite);
+  }, [recipes]);
+
+  const removeRecipe = useCallback(async (id) => {
+    await deleteRecipe(id);
+    await refreshRecipes();
+  }, [refreshRecipes]);
 
   // ── Meal plan actions ─────────────────────────────────────────────────
-
-  // Assign a recipe to a specific day + meal slot
-  const assignMeal = (dateKey, mealType, recipe) => {
+  const assignMeal = useCallback(async (dateKey, mealType, recipe) => {
+    // Optimistic update
     setMealPlan((prev) => ({
       ...prev,
       [dateKey]: {
@@ -45,51 +81,46 @@ export function RecipeProvider({ children }) {
           title:    recipe.title,
           image:    recipe.image,
           duration: recipe.duration,
-          category: recipe.category,
         },
       },
     }));
-  };
+    await assignMealInDb(dateKey, mealType, recipe);
+  }, []);
 
-  // Remove a recipe from a specific day + meal slot
-  const removeMeal = (dateKey, mealType) => {
+  const removeMeal = useCallback(async (dateKey, mealType) => {
+    // Optimistic update
     setMealPlan((prev) => ({
       ...prev,
-      [dateKey]: {
-        ...prev[dateKey],
-        [mealType]: null,
-      },
+      [dateKey]: { ...prev[dateKey], [mealType]: null },
     }));
-  };
+    await removeMealFromDb(dateKey, mealType);
+  }, []);
 
-  // Get the meal plan entry for a specific day
-  const getMealsForDay = (dateKey) => {
+  const getMealsForDay = useCallback((dateKey) => {
     return mealPlan[dateKey] ?? { breakfast: null, lunch: null, dinner: null };
-  };
+  }, [mealPlan]);
 
-  // Generate a flat shopping list from all planned meals this week
-  const generateShoppingList = (weekDates) => {
+  // ── Shopping list generation ──────────────────────────────────────────
+  const generateShoppingList = useCallback(async (weekDates) => {
     const ingredientMap = {};
 
     weekDates.forEach((dateKey) => {
       const dayMeals = getMealsForDay(dateKey);
-      const assignedRecipeIds = Object.values(dayMeals).filter(Boolean).map((m) => m.id);
+      const assignedIds = Object.values(dayMeals).filter(Boolean).map((m) => m.id);
 
-      assignedRecipeIds.forEach((recipeId) => {
+      assignedIds.forEach((recipeId) => {
         const recipe = recipes.find((r) => r.id === recipeId);
         if (!recipe) return;
-
         recipe.ingredients.forEach((ing) => {
           const key = `${ing.name.toLowerCase()}-${ing.unit}`;
           if (ingredientMap[key]) {
-            // Accumulate amounts for the same ingredient
             ingredientMap[key].amount += ing.amount;
           } else {
             ingredientMap[key] = {
-              id:     key,
-              name:   ing.name,
-              amount: ing.amount,
-              unit:   ing.unit,
+              id:      key,
+              name:    ing.name,
+              amount:  ing.amount,
+              unit:    ing.unit,
               checked: false,
             };
           }
@@ -97,10 +128,18 @@ export function RecipeProvider({ children }) {
       });
     });
 
-    return Object.values(ingredientMap);
-  };
+    const list = Object.values(ingredientMap);
+
+    // Persist to shopping_list table
+    await insertShoppingItems(list);
+
+    return list;
+  }, [getMealsForDay, recipes]);
 
   const favourites = recipes.filter((r) => r.isFavourite);
+
+  // ── Don't render children until DB is ready ───────────────────────────
+  if (!dbReady) return null;
 
   return (
     <RecipeContext.Provider
@@ -108,8 +147,9 @@ export function RecipeProvider({ children }) {
         recipes,
         favourites,
         mealPlan,
-        toggleFavourite,
         addRecipe,
+        toggleFavourite,
+        removeRecipe,
         assignMeal,
         removeMeal,
         getMealsForDay,
