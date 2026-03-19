@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRecipes } from "../context/RecipeContext";
@@ -20,30 +21,26 @@ import {
   isToday,
 } from "../utils/dateHelpers";
 
-// Meal slot config
 const MEAL_TYPES = [
-  { key: "breakfast", label: "Breakfast", icon: "sunny-outline",        color: "text-amber-500",  bg: "bg-amber-50",  border: "border-amber-200"  },
-  { key: "lunch",     label: "Lunch",     icon: "partly-sunny-outline",  color: "text-sky-500",    bg: "bg-sky-50",    border: "border-sky-200"    },
-  { key: "dinner",    label: "Dinner",    icon: "moon-outline",          color: "text-indigo-500", bg: "bg-indigo-50", border: "border-indigo-200" },
+  { key: "breakfast", label: "Breakfast", icon: "sunny-outline",       color: "text-amber-500",  bg: "bg-amber-50",  border: "border-amber-200"  },
+  { key: "lunch",     label: "Lunch",     icon: "partly-sunny-outline", color: "text-sky-500",    bg: "bg-sky-50",    border: "border-sky-200"    },
+  { key: "dinner",    label: "Dinner",    icon: "moon-outline",         color: "text-indigo-500", bg: "bg-indigo-50", border: "border-indigo-200" },
 ];
 
 export default function MealPlannerScreen({ navigation }) {
-  const { getMealsForDay, assignMeal, removeMeal, generateShoppingList } =
-    useRecipes();
+  const { getMealsForDay, assignMeal, removeMeal, generateShoppingList } = useRecipes();
 
-  const weekDates    = useMemo(() => getCurrentWeekDates(), []);
+  const weekDates   = useMemo(() => getCurrentWeekDates(), []);
   const [selectedDay, setSelectedDay] = useState(
     weekDates.find((d) => isToday(d)) ?? weekDates[0]
   );
 
-  // Modal state
-  const [pickerVisible, setPickerVisible] = useState(false);
+  const [pickerVisible,  setPickerVisible]  = useState(false);
   const [activeMealType, setActiveMealType] = useState(null);
+  const [generating,     setGenerating]     = useState(false);
 
-  // The meals assigned to the currently selected day
   const dayMeals = getMealsForDay(selectedDay);
 
-  // Count total planned meals across the whole week
   const totalPlanned = useMemo(() => {
     return weekDates.reduce((count, dateKey) => {
       const meals = getMealsForDay(dateKey);
@@ -60,13 +57,29 @@ export default function MealPlannerScreen({ navigation }) {
     assignMeal(selectedDay, activeMealType, recipe);
   };
 
-  const handleGenerateShoppingList = () => {
-    const list = generateShoppingList(weekDates);
-    // Navigate to Shopping tab and pass the list as params
-    navigation.navigate("Shopping", {
-      screen: "ShoppingListMain",
-      params: { shoppingList: list },
-    });
+  // ── FIXED: properly await generateShoppingList ────────────────────────
+  // Previously this was NOT awaited, so navigation received a Promise
+  // instead of an array, causing the shopping screen to show nothing.
+  const handleGenerateShoppingList = async () => {
+    if (totalPlanned === 0) return;
+
+    setGenerating(true);
+    try {
+      // generateShoppingList is async — MUST be awaited
+      const list = await generateShoppingList(weekDates);
+
+      console.log("[MealPlanner] Generated list length:", list.length);
+
+      // Navigate and pass the resolved array (not a Promise)
+      navigation.navigate("Shopping", {
+        screen: "ShoppingListMain",
+        params: { shoppingList: list },
+      });
+    } catch (e) {
+      console.error("[MealPlanner] Failed to generate shopping list:", e);
+    } finally {
+      setGenerating(false);
+    }
   };
 
   return (
@@ -87,8 +100,6 @@ export default function MealPlannerScreen({ navigation }) {
               Meal Planner
             </Text>
           </View>
-
-          {/* Total planned badge */}
           {totalPlanned > 0 && (
             <View className="bg-green-100 px-3 py-1.5 rounded-full flex-row items-center gap-1.5 mt-1">
               <Ionicons name="restaurant-outline" size={13} color="#16a34a" />
@@ -99,7 +110,7 @@ export default function MealPlannerScreen({ navigation }) {
           )}
         </View>
 
-        {/* ── DAY SELECTOR (horizontal scroll) ── */}
+        {/* ── DAY SELECTOR ── */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -109,10 +120,8 @@ export default function MealPlannerScreen({ navigation }) {
             const { day, date } = formatShortDate(dateKey);
             const isSelected    = dateKey === selectedDay;
             const todayFlag     = isToday(dateKey);
-
-            // Count meals planned for this day for the dot indicators
-            const dayData  = getMealsForDay(dateKey);
-            const mealCount = Object.values(dayData).filter(Boolean).length;
+            const dayData       = getMealsForDay(dateKey);
+            const mealCount     = Object.values(dayData).filter(Boolean).length;
 
             return (
               <TouchableOpacity
@@ -127,32 +136,23 @@ export default function MealPlannerScreen({ navigation }) {
                     : "bg-gray-50"
                 }`}
               >
-                <Text
-                  className={`text-xs font-semibold mb-1 ${
-                    isSelected ? "text-green-200" : "text-gray-400"
-                  }`}
-                >
+                <Text className={`text-xs font-semibold mb-1 ${
+                  isSelected ? "text-green-200" : "text-gray-400"
+                }`}>
                   {day}
                 </Text>
-                <Text
-                  className={`text-base font-bold ${
-                    isSelected ? "text-white" : todayFlag ? "text-green-700" : "text-gray-700"
-                  }`}
-                >
+                <Text className={`text-base font-bold ${
+                  isSelected ? "text-white" : todayFlag ? "text-green-700" : "text-gray-700"
+                }`}>
                   {date}
                 </Text>
-
-                {/* Meal count dots */}
                 <View className="flex-row gap-0.5 mt-1.5">
                   {[0, 1, 2].map((i) => (
-                    <View
-                      key={i}
-                      className={`w-1 h-1 rounded-full ${
-                        i < mealCount
-                          ? isSelected ? "bg-green-200" : "bg-green-500"
-                          : isSelected ? "bg-green-700" : "bg-gray-200"
-                      }`}
-                    />
+                    <View key={i} className={`w-1 h-1 rounded-full ${
+                      i < mealCount
+                        ? isSelected ? "bg-green-200" : "bg-green-500"
+                        : isSelected ? "bg-green-700" : "bg-gray-200"
+                    }`} />
                   ))}
                 </View>
               </TouchableOpacity>
@@ -180,7 +180,6 @@ export default function MealPlannerScreen({ navigation }) {
 
             return (
               <View key={meal.key}>
-                {/* Meal type label */}
                 <View className="flex-row items-center gap-2 mb-2">
                   <Ionicons name={meal.icon} size={15} color="#6b7280" />
                   <Text className="text-gray-500 text-xs font-bold uppercase tracking-widest">
@@ -189,15 +188,14 @@ export default function MealPlannerScreen({ navigation }) {
                 </View>
 
                 {assigned ? (
-                  // ── Filled slot ──────────────────────────────────────
                   <View
                     className="flex-row items-center gap-3 bg-white border border-gray-100 rounded-2xl p-3"
                     style={{
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
+                      shadowColor:   "#000",
+                      shadowOffset:  { width: 0, height: 1 },
                       shadowOpacity: 0.05,
-                      shadowRadius: 4,
-                      elevation: 1,
+                      shadowRadius:  4,
+                      elevation:     1,
                     }}
                   >
                     <Image
@@ -206,7 +204,10 @@ export default function MealPlannerScreen({ navigation }) {
                       resizeMode="cover"
                     />
                     <View className="flex-1">
-                      <Text className="text-gray-900 font-bold text-sm mb-0.5" numberOfLines={1}>
+                      <Text
+                        className="text-gray-900 font-bold text-sm mb-0.5"
+                        numberOfLines={1}
+                      >
                         {assigned.title}
                       </Text>
                       <View className="flex-row items-center gap-1">
@@ -214,8 +215,6 @@ export default function MealPlannerScreen({ navigation }) {
                         <Text className="text-gray-400 text-xs">{assigned.duration}</Text>
                       </View>
                     </View>
-
-                    {/* Replace button */}
                     <TouchableOpacity
                       onPress={() => openPicker(meal.key)}
                       activeOpacity={0.7}
@@ -223,8 +222,6 @@ export default function MealPlannerScreen({ navigation }) {
                     >
                       <Ionicons name="swap-horizontal" size={14} color="#6b7280" />
                     </TouchableOpacity>
-
-                    {/* Remove button */}
                     <TouchableOpacity
                       onPress={() => removeMeal(selectedDay, meal.key)}
                       activeOpacity={0.7}
@@ -234,7 +231,6 @@ export default function MealPlannerScreen({ navigation }) {
                     </TouchableOpacity>
                   </View>
                 ) : (
-                  // ── Empty slot ───────────────────────────────────────
                   <TouchableOpacity
                     onPress={() => openPicker(meal.key)}
                     activeOpacity={0.8}
@@ -253,41 +249,54 @@ export default function MealPlannerScreen({ navigation }) {
 
         {/* ── GENERATE SHOPPING LIST ── */}
         <View className="px-5 mt-8">
-          {/* Divider */}
           <View className="h-px bg-gray-100 mb-6" />
 
-          <Text className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-2 text-center">
-            Based on your full week plan
-          </Text>
-
-          <TouchableOpacity
-            onPress={handleGenerateShoppingList}
-            activeOpacity={0.85}
-            className="bg-green-600 rounded-2xl py-4 flex-row items-center justify-center gap-2"
-            style={{
-              shadowColor: "#16a34a",
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.3,
-              shadowRadius: 8,
-              elevation: 4,
-            }}
-          >
-            <Ionicons name="cart-outline" size={20} color="white" />
-            <Text className="text-white font-bold text-base">
-              Generate Shopping List
-            </Text>
-            {totalPlanned > 0 && (
-              <View className="bg-white/20 px-2 py-0.5 rounded-full ml-1">
-                <Text className="text-white text-xs font-bold">
-                  {totalPlanned} meals
+          {totalPlanned === 0 ? (
+            <View className="items-center py-4">
+              <Text className="text-gray-300 text-xs font-semibold uppercase tracking-widest text-center">
+                Plan some meals to generate a shopping list
+              </Text>
+            </View>
+          ) : (
+            <>
+              <Text className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-3 text-center">
+                Based on your full week plan
+              </Text>
+              <TouchableOpacity
+                onPress={handleGenerateShoppingList}
+                disabled={generating}
+                activeOpacity={0.85}
+                className="bg-green-600 rounded-2xl py-4 flex-row items-center justify-center gap-2"
+                style={{
+                  shadowColor:   "#16a34a",
+                  shadowOffset:  { width: 0, height: 4 },
+                  shadowOpacity: generating ? 0.1 : 0.3,
+                  shadowRadius:  8,
+                  elevation:     4,
+                  opacity:       generating ? 0.75 : 1,
+                }}
+              >
+                {generating ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <Ionicons name="cart-outline" size={20} color="white" />
+                )}
+                <Text className="text-white font-bold text-base">
+                  {generating ? "Generating..." : "Generate Shopping List"}
                 </Text>
-              </View>
-            )}
-          </TouchableOpacity>
+                {totalPlanned > 0 && !generating && (
+                  <View className="bg-white/20 px-2 py-0.5 rounded-full ml-1">
+                    <Text className="text-white text-xs font-bold">
+                      {totalPlanned} meals
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </ScrollView>
 
-      {/* ── RECIPE PICKER MODAL ── */}
       <RecipePickerModal
         visible={pickerVisible}
         mealType={activeMealType}

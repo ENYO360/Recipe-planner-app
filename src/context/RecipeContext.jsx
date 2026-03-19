@@ -3,38 +3,45 @@ import React, {
   createContext, useContext, useState,
   useEffect, useCallback,
 } from "react";
-import { initDatabase }                          from "../database/db";
+import { initDatabase }                              from "../database/db";
 import { getAllRecipes, insertRecipe,
-         toggleFavouriteInDb, deleteRecipe }     from "../database/recipeRepository";
+         toggleFavouriteInDb, deleteRecipe }         from "../database/recipeRepository";
 import { getAllMealPlan, assignMealInDb,
-         removeMealFromDb }                      from "../database/mealPlanRepository";
-import { getAllShoppingItems, insertShoppingItems } from "../database/shoppingRepository";
+         removeMealFromDb }                          from "../database/mealPlanRepository";
+import { insertShoppingItems }                       from "../database/shoppingRepository";
 
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
-  const [dbReady,   setDbReady]   = useState(false);
-  const [recipes,   setRecipes]   = useState([]);
-  const [mealPlan,  setMealPlan]  = useState({});
+  const [dbReady,  setDbReady]  = useState(false);
+  const [recipes,  setRecipes]  = useState([]);
+  const [mealPlan, setMealPlan] = useState({});
 
-  // ── Initialise database then load all data ────────────────────────────
+  // ── Init DB then load all data ────────────────────────────────────────
   useEffect(() => {
     const setup = async () => {
       try {
-        await initDatabase();           // creates tables + seeds if empty
-        await refreshRecipes();         // load recipes into state
-        await refreshMealPlan();        // load meal plan into state
+        await initDatabase();
+        await refreshRecipes();
+        await refreshMealPlan();
         setDbReady(true);
       } catch (e) {
-        console.error("Database init failed:", e);
+        console.error("[RecipeContext] Database init failed:", e);
       }
     };
     setup();
   }, []);
 
-  // ── Refresh helpers — re-query DB and update state ────────────────────
+  // ── Refresh helpers ───────────────────────────────────────────────────
   const refreshRecipes = useCallback(async () => {
     const data = await getAllRecipes();
+    console.log(`[RecipeContext] Loaded ${data.length} recipes from DB`);
+    // Debug: log ingredient counts
+    data.forEach(r => {
+      if (r.ingredients.length === 0) {
+        console.warn(`[RecipeContext] ⚠️ Recipe "${r.title}" (${r.id}) has 0 ingredients`);
+      }
+    });
     setRecipes(data);
   }, []);
 
@@ -45,22 +52,18 @@ export function RecipeProvider({ children }) {
 
   // ── Recipe actions ────────────────────────────────────────────────────
   const addRecipe = useCallback(async (recipe) => {
-    const newRecipe = {
-      ...recipe,
-      id: Date.now().toString(),
-    };
+    const newRecipe = { ...recipe, id: Date.now().toString() };
     await insertRecipe(newRecipe);
-    await refreshRecipes();           // re-query to get db-generated timestamps
+    await refreshRecipes();
   }, [refreshRecipes]);
 
   const toggleFavourite = useCallback(async (id) => {
     const recipe = recipes.find((r) => r.id === id);
     if (!recipe) return;
-    // Optimistic update — update UI immediately
+    // Optimistic update
     setRecipes((prev) =>
       prev.map((r) => r.id === id ? { ...r, isFavourite: !r.isFavourite } : r)
     );
-    // Then persist to DB
     await toggleFavouriteInDb(id, recipe.isFavourite);
   }, [recipes]);
 
@@ -100,17 +103,39 @@ export function RecipeProvider({ children }) {
     return mealPlan[dateKey] ?? { breakfast: null, lunch: null, dinner: null };
   }, [mealPlan]);
 
-  // ── Shopping list generation ──────────────────────────────────────────
+  // ── Generate shopping list ────────────────────────────────────────────
+  // IMPORTANT: this is async — always await it at the call site
   const generateShoppingList = useCallback(async (weekDates) => {
+    console.log("[generateShoppingList] Starting for", weekDates.length, "days");
+    console.log("[generateShoppingList] Recipes in state:", recipes.length);
+
     const ingredientMap = {};
 
     weekDates.forEach((dateKey) => {
-      const dayMeals = getMealsForDay(dateKey);
-      const assignedIds = Object.values(dayMeals).filter(Boolean).map((m) => m.id);
+      const dayMeals    = getMealsForDay(dateKey);
+      const assignedIds = Object.values(dayMeals)
+        .filter(Boolean)
+        .map((m) => m.id);
+
+      if (assignedIds.length > 0) {
+        console.log(`[generateShoppingList] ${dateKey} has meals:`, assignedIds);
+      }
 
       assignedIds.forEach((recipeId) => {
         const recipe = recipes.find((r) => r.id === recipeId);
-        if (!recipe) return;
+
+        if (!recipe) {
+          console.warn(`[generateShoppingList] Recipe ${recipeId} not found in state`);
+          return;
+        }
+
+        if (!recipe.ingredients || recipe.ingredients.length === 0) {
+          console.warn(`[generateShoppingList] Recipe "${recipe.title}" has no ingredients`);
+          return;
+        }
+
+        console.log(`[generateShoppingList] Adding ${recipe.ingredients.length} ingredients from "${recipe.title}"`);
+
         recipe.ingredients.forEach((ing) => {
           const key = `${ing.name.toLowerCase()}-${ing.unit}`;
           if (ingredientMap[key]) {
@@ -129,16 +154,20 @@ export function RecipeProvider({ children }) {
     });
 
     const list = Object.values(ingredientMap);
+    console.log(`[generateShoppingList] Generated ${list.length} unique ingredients`);
 
-    // Persist to shopping_list table
-    await insertShoppingItems(list);
+    // Save to DB so Shopping screen can load from SQLite
+    if (list.length > 0) {
+      await insertShoppingItems(list);
+      console.log("[generateShoppingList] Saved to shopping_list DB");
+    }
 
+    // Return the array — NOT a Promise — caller must await this function
     return list;
   }, [getMealsForDay, recipes]);
 
   const favourites = recipes.filter((r) => r.isFavourite);
 
-  // ── Don't render children until DB is ready ───────────────────────────
   if (!dbReady) return null;
 
   return (

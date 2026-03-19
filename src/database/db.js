@@ -15,7 +15,7 @@ export async function initDatabase() {
 
   await database.execAsync(`PRAGMA foreign_keys = ON;`);
 
-  // Create all tables
+  // ── Create all tables ─────────────────────────────────────────────────
   await database.execAsync(`
     CREATE TABLE IF NOT EXISTS recipes (
       id           TEXT PRIMARY KEY,
@@ -69,24 +69,52 @@ export async function initDatabase() {
     );
   `);
 
-  // ── Use PRAGMA user_version as a reliable seeded flag ─────────────────
-  // user_version = 0 means fresh DB, user_version = 1 means seeded
-  // This survives hot reloads unlike a COUNT(*) check
-  const versionRow = await database.getFirstAsync(`PRAGMA user_version`);
+  // ── Migration system ──────────────────────────────────────────────────
+  // user_version tracks which seed/migration has run.
+  // Bump TARGET_VERSION whenever sample data changes.
+  const TARGET_VERSION = 4;
+  const { user_version } = await database.getFirstAsync(`PRAGMA user_version`);
 
-  if (versionRow.user_version === 0) {
-    await seedSampleData(database);
-    // Mark as seeded — will never run again for this DB file
-    await database.execAsync(`PRAGMA user_version = 1`);
+  if (user_version < TARGET_VERSION) {
+    await migrateTo(database, TARGET_VERSION);
   }
+}
+
+async function migrateTo(database, version) {
+  console.log(`[DB] Migrating to version ${version}...`);
+
+  // ── Step 1: Wipe ALL existing sample recipe data ──────────────────────
+  // We wipe by the known sample IDs from the current file.
+  // Also wipe any old IDs that may have existed in previous versions.
+  const currentSampleIds = SAMPLE_RECIPES.map((r) => r.id);
+
+  // Old sample IDs from earlier versions of the app (ids "1"–"5")
+  const legacyIds = ["1", "2", "3", "4", "5"];
+
+  const allIdsToWipe = [...new Set([...currentSampleIds, ...legacyIds])];
+
+  await database.withTransactionAsync(async () => {
+    for (const id of allIdsToWipe) {
+      // CASCADE automatically removes ingredients + steps for this recipe
+      await database.runAsync(`DELETE FROM recipes WHERE id = ?`, [id]);
+    }
+  });
+
+  // ── Step 2: Re-seed with current sample data ──────────────────────────
+  await seedSampleData(database);
+
+  // ── Step 3: Mark migration complete ──────────────────────────────────
+  await database.execAsync(`PRAGMA user_version = ${version}`);
+
+  console.log(`[DB] Migration to version ${version} complete.`);
 }
 
 async function seedSampleData(database) {
   await database.withTransactionAsync(async () => {
     for (const recipe of SAMPLE_RECIPES) {
-      // INSERT OR IGNORE — if row exists, skip silently instead of crashing
+      // INSERT OR REPLACE so if somehow a row exists it gets refreshed
       await database.runAsync(
-        `INSERT OR IGNORE INTO recipes
+        `INSERT OR REPLACE INTO recipes
           (id, title, category, difficulty, duration, servings, description, image, is_favourite)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -96,8 +124,8 @@ async function seedSampleData(database) {
           recipe.difficulty,
           recipe.duration,
           recipe.servings,
-          recipe.description,
-          recipe.image,
+          recipe.description ?? "",
+          recipe.image ?? "",
           recipe.isFavourite ? 1 : 0,
         ]
       );
@@ -105,16 +133,16 @@ async function seedSampleData(database) {
       for (let i = 0; i < recipe.ingredients.length; i++) {
         const ing = recipe.ingredients[i];
         await database.runAsync(
-          `INSERT OR IGNORE INTO ingredients
+          `INSERT OR REPLACE INTO ingredients
             (id, recipe_id, name, amount, unit, sort_order)
            VALUES (?, ?, ?, ?, ?, ?)`,
-          [ing.id, recipe.id, ing.name, ing.amount, ing.unit, i]
+          [ing.id, recipe.id, ing.name, ing.amount, ing.unit ?? "", i]
         );
       }
 
       for (let i = 0; i < recipe.steps.length; i++) {
         await database.runAsync(
-          `INSERT OR IGNORE INTO steps
+          `INSERT OR REPLACE INTO steps
             (id, recipe_id, step_text, sort_order)
            VALUES (?, ?, ?, ?)`,
           [`${recipe.id}-step-${i}`, recipe.id, recipe.steps[i], i]

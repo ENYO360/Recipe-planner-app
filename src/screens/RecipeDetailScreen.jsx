@@ -14,6 +14,8 @@ import Animated, {
   useAnimatedScrollHandler,
   interpolate,
   Extrapolation,
+  withSequence,
+  withSpring
 } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { useRecipes } from "../context/RecipeContext";
@@ -224,51 +226,15 @@ export default function RecipeDetailScreen({ navigation, route }) {
           </Text>
 
           <View className="gap-3">
-            {recipe.steps.map((step, index) => {
-              const isChecked = checkedSteps.includes(index);
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => toggleStep(index)}
-                  activeOpacity={0.8}
-                  className={`flex-row gap-4 p-4 rounded-2xl border ${isChecked
-                    ? "bg-green-50 border-green-200"
-                    : "bg-white border-gray-100"
-                    }`}
-                  style={{
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 1 },
-                    shadowOpacity: 0.04,
-                    shadowRadius: 4,
-                    elevation: 1,
-                  }}
-                >
-                  {/* Step number / checkmark */}
-                  <View
-                    className={`w-7 h-7 rounded-full items-center justify-center flex-shrink-0 mt-0.5 ${isChecked ? "bg-green-500" : "bg-gray-100"
-                      }`}
-                  >
-                    {isChecked ? (
-                      <Ionicons name="checkmark" size={14} color="white" />
-                    ) : (
-                      <Text className="text-gray-500 text-xs font-bold">
-                        {index + 1}
-                      </Text>
-                    )}
-                  </View>
-
-                  {/* Step text */}
-                  <Text
-                    className={`flex-1 text-sm leading-6 ${isChecked
-                      ? "text-gray-400 line-through"
-                      : "text-gray-700"
-                      }`}
-                  >
-                    {step}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+            {recipe.steps.map((step, index) => (
+              <AnimatedStep
+                key={index}
+                step={step}
+                index={index}
+                isChecked={checkedSteps.includes(index)}
+                onToggle={toggleStep}
+              />
+            ))}
           </View>
 
           {/* Progress indicator */}
@@ -342,5 +308,71 @@ export default function RecipeDetailScreen({ navigation, route }) {
       </SafeAreaView>
 
     </View>
+  );
+}
+
+// Create an AnimatedStep sub-component at the bottom of the file
+function AnimatedStep({ step, index, isChecked, onToggle }) {
+  const scale = useSharedValue(1);
+  const checkScale = useSharedValue(isChecked ? 1 : 0);
+
+  // Animate the checkmark appearing/disappearing
+  React.useEffect(() => {
+    checkScale.value = withSpring(isChecked ? 1 : 0, {
+      damping: 15,
+      stiffness: 300,
+    });
+  }, [isChecked]);
+
+  const stepStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const checkStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: checkScale.value }],
+    opacity: checkScale.value,
+  }));
+
+  const handlePress = () => {
+    scale.value = withSequence(
+      withSpring(0.97, { damping: 15, stiffness: 400 }),
+      withSpring(1, { damping: 12, stiffness: 200 })
+    );
+    onToggle(index);
+  };
+
+  return (
+    <Animated.View style={stepStyle}>
+      <TouchableOpacity
+        onPress={handlePress}
+        activeOpacity={1}
+        className={`flex-row gap-4 p-4 rounded-2xl border ${isChecked ? "bg-green-50 border-green-200" : "bg-white border-gray-100"
+          }`}
+        style={{
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.04,
+          shadowRadius: 4,
+          elevation: 1,
+        }}
+      >
+        {/* Step number / checkmark circle */}
+        <View className={`w-7 h-7 rounded-full items-center justify-center flex-shrink-0 mt-0.5 ${isChecked ? "bg-green-500" : "bg-gray-100"
+          }`}>
+          {isChecked ? (
+            <Animated.View style={checkStyle}>
+              <Ionicons name="checkmark" size={14} color="white" />
+            </Animated.View>
+          ) : (
+            <Text className="text-gray-500 text-xs font-bold">{index + 1}</Text>
+          )}
+        </View>
+
+        <Text className={`flex-1 text-sm leading-6 ${isChecked ? "text-gray-400 line-through" : "text-gray-700"
+          }`}>
+          {step}
+        </Text>
+      </TouchableOpacity>
+    </Animated.View>
   );
 }

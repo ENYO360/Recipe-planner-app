@@ -1,7 +1,6 @@
 // src/database/shoppingRepository.js
 import { getDb } from "./db";
 
-// ── READ all items ordered by creation date ───────────────────────────────────
 export async function getAllShoppingItems() {
   const db = await getDb();
   const rows = await db.getAllAsync(
@@ -10,33 +9,37 @@ export async function getAllShoppingItems() {
   return rows.map(dbRowToItem);
 }
 
-// ── INSERT new item ───────────────────────────────────────────────────────────
 export async function insertShoppingItem(item) {
   const db = await getDb();
   await db.runAsync(
-    `INSERT INTO shopping_list (id, name, amount, unit, checked)
+    `INSERT OR REPLACE INTO shopping_list (id, name, amount, unit, checked)
      VALUES (?, ?, ?, ?, ?)`,
-    [item.id, item.name, item.amount ?? 0, item.unit ?? "", 0]
+    [item.id, item.name, item.amount ?? 0, item.unit ?? "", item.checked ? 1 : 0]
   );
 }
 
-// ── INSERT multiple items (from meal plan generation) ────────────────────────
+// ── Insert multiple items from meal plan generation ───────────────────────────
+// Uses INSERT OR REPLACE so if the same ingredient already exists
+// (from a previous generation) its amount gets updated, not skipped.
 export async function insertShoppingItems(items) {
   const db = await getDb();
   await db.withTransactionAsync(async () => {
     for (const item of items) {
-      // INSERT OR IGNORE — skip if the same id already exists
-      // This prevents duplicating items if user generates list twice
       await db.runAsync(
-        `INSERT OR IGNORE INTO shopping_list (id, name, amount, unit, checked)
-         VALUES (?, ?, ?, ?, ?)`,
-        [item.id, item.name, item.amount ?? 0, item.unit ?? "", 0]
+        `INSERT OR REPLACE INTO shopping_list (id, name, amount, unit, checked)
+         VALUES (?, ?, ?, ?, 0)`,
+        [
+          item.id,
+          item.name,
+          item.amount ?? 0,
+          item.unit   ?? "",
+        ]
       );
     }
   });
+  console.log(`[shoppingRepository] Inserted/replaced ${items.length} items`);
 }
 
-// ── TOGGLE checked state ──────────────────────────────────────────────────────
 export async function toggleShoppingItem(id, currentChecked) {
   const db = await getDb();
   await db.runAsync(
@@ -45,19 +48,16 @@ export async function toggleShoppingItem(id, currentChecked) {
   );
 }
 
-// ── DELETE single item ────────────────────────────────────────────────────────
 export async function deleteShoppingItem(id) {
   const db = await getDb();
   await db.runAsync(`DELETE FROM shopping_list WHERE id = ?`, [id]);
 }
 
-// ── DELETE all checked items ──────────────────────────────────────────────────
 export async function deleteCheckedItems() {
   const db = await getDb();
   await db.runAsync(`DELETE FROM shopping_list WHERE checked = 1`);
 }
 
-// ── DELETE all items ──────────────────────────────────────────────────────────
 export async function clearShoppingList() {
   const db = await getDb();
   await db.runAsync(`DELETE FROM shopping_list`);

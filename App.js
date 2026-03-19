@@ -5,24 +5,53 @@ import React from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator }     from "@react-navigation/stack";
-import { Ionicons }                 from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
 import { RecipeProvider, useRecipes } from "./src/context/RecipeContext";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withSequence,
+} from "react-native-reanimated";
 
-import HomeScreen         from "./src/screens/HomeScreen";
+import HomeScreen from "./src/screens/HomeScreen";
 import RecipeDetailScreen from "./src/screens/RecipeDetailScreen";
-import MealPlannerScreen  from "./src/screens/MealPlannerScreen";
+import MealPlannerScreen from "./src/screens/MealPlannerScreen";
 import ShoppingListScreen from "./src/screens/ShoppingListScreen";
-import AddRecipeScreen    from "./src/screens/AddRecipeScreen";
-import FavouritesScreen   from "./src/screens/FavouritesScreen";
+import AddRecipeScreen from "./src/screens/AddRecipeScreen";
+import FavouritesScreen from "./src/screens/FavouritesScreen";
 
-const Tab   = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+function AnimatedTabIcon({ name, color, size, focused }) {
+  const scale = useSharedValue(1);
+
+  React.useEffect(() => {
+    if (focused) {
+      scale.value = withSequence(
+        withSpring(1.3, { damping: 6, stiffness: 400 }),
+        withSpring(1, { damping: 10, stiffness: 200 })
+      );
+    }
+  }, [focused]);
+
+  const animStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  return (
+    <Animated.View style={animStyle}>
+      <Ionicons name={name} size={size} color={color} />
+    </Animated.View>
+  );
+}
 
 function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeMain"     component={HomeScreen}         />
+      <Stack.Screen name="HomeMain" component={HomeScreen} />
       <Stack.Screen name="RecipeDetail" component={RecipeDetailScreen} />
     </Stack.Navigator>
   );
@@ -64,34 +93,64 @@ function AppNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown:            false,
-        tabBarActiveTintColor:   "#16a34a",
+        headerShown: false,
+        tabBarActiveTintColor: "#16a34a",
         tabBarInactiveTintColor: "#9ca3af",
         tabBarStyle: {
           backgroundColor: "#ffffff",
-          borderTopColor:  "#f3f4f6",
-          paddingBottom:   8,
-          paddingTop:      8,
-          height:          65,
+          borderTopColor: "#f3f4f6",
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 65,
         },
         tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}
     >
-      <Tab.Screen name="Home" component={HomeStack}
-        options={{ tabBarIcon: ({ color, size }) =>
-          <Ionicons name="home" color={color} size={size} /> }} />
-      <Tab.Screen name="Planner" component={MealPlannerStack}
-        options={{ tabBarIcon: ({ color, size }) =>
-          <Ionicons name="calendar" color={color} size={size} /> }} />
-      <Tab.Screen name="Add" component={AddRecipeStack}
-        options={{ tabBarIcon: ({ color, size }) =>
-          <Ionicons name="add-circle" color={color} size={size} /> }} />
-      <Tab.Screen name="Shopping" component={ShoppingListStack}
-        options={{ tabBarIcon: ({ color, size }) =>
-          <Ionicons name="cart" color={color} size={size} /> }} />
-      <Tab.Screen name="Favourites" component={FavouritesStack}
-        options={{ tabBarIcon: ({ color, size }) =>
-          <Ionicons name="heart" color={color} size={size} /> }} />
+      <Tab.Screen
+  name="Home"
+  component={HomeStack}
+  options={{
+    tabBarIcon: ({ color, size, focused }) => (
+      <AnimatedTabIcon name="home" color={color} size={size} focused={focused} />
+    ),
+  }}
+/>
+<Tab.Screen
+  name="Planner"
+  component={MealPlannerStack}
+  options={{
+    tabBarIcon: ({ color, size, focused }) => (
+      <AnimatedTabIcon name="calendar" color={color} size={size} focused={focused} />
+    ),
+  }}
+/>
+<Tab.Screen
+  name="Add"
+  component={AddRecipeStack}
+  options={{
+    tabBarIcon: ({ color, size, focused }) => (
+      <AnimatedTabIcon name="add-circle" color={color} size={size} focused={focused} />
+    ),
+  }}
+/>
+<Tab.Screen
+  name="Shopping"
+  component={ShoppingListStack}
+  options={{
+    tabBarIcon: ({ color, size, focused }) => (
+      <AnimatedTabIcon name="cart" color={color} size={size} focused={focused} />
+    ),
+  }}
+/>
+<Tab.Screen
+  name="Favourites"
+  component={FavouritesStack}
+  options={{
+    tabBarIcon: ({ color, size, focused }) => (
+      <AnimatedTabIcon name="heart" color={color} size={size} focused={focused} />
+    ),
+  }}
+/>
     </Tab.Navigator>
   );
 }

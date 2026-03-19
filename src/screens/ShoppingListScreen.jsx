@@ -1,5 +1,5 @@
 // src/screens/ShoppingListScreen.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,9 +11,10 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Animated,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Swipeable, GestureHandlerRootView } from "react-native-gesture-handler";
 import { useShoppingList } from "../hooks/useShoppingList";
 
 export default function ShoppingListScreen({ navigation, route }) {
@@ -36,7 +37,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   const [newItemText, setNewItemText] = useState("");
   const [showInput,   setShowInput]   = useState(false);
 
-  // ── Confirm before clearing all ──────────────────────────────────────
+  // ── Confirm before clearing ───────────────────────────────────────────
   const handleClearAll = () => {
     Alert.alert(
       "Clear List",
@@ -67,10 +68,9 @@ export default function ShoppingListScreen({ navigation, route }) {
     setShowInput(false);
   };
 
-  // ── Separate checked and unchecked items ─────────────────────────────
-  // Unchecked items appear at top, checked at bottom
-  const unchecked = items.filter((i) => !i.checked);
-  const checked   = items.filter((i) => i.checked);
+  // Unchecked items at top, checked at bottom
+  const unchecked   = items.filter((i) => !i.checked);
+  const checked     = items.filter((i) => i.checked);
   const sortedItems = [...unchecked, ...checked];
 
   // ── List header ───────────────────────────────────────────────────────
@@ -84,8 +84,6 @@ export default function ShoppingListScreen({ navigation, route }) {
             Shopping List
           </Text>
         </View>
-
-        {/* Actions menu */}
         {totalCount > 0 && (
           <View className="flex-row gap-2 mt-1">
             {checkedCount > 0 && (
@@ -115,7 +113,6 @@ export default function ShoppingListScreen({ navigation, route }) {
       {/* Progress section */}
       {totalCount > 0 && (
         <View className="px-5 py-4">
-          {/* Stats row */}
           <View className="flex-row items-center justify-between mb-2">
             <Text className="text-gray-500 text-sm">
               <Text className="text-gray-900 font-bold">{checkedCount}</Text>
@@ -127,7 +124,6 @@ export default function ShoppingListScreen({ navigation, route }) {
               {progressPercent}%
             </Text>
           </View>
-
           {/* Progress bar */}
           <View className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
             <View
@@ -135,8 +131,7 @@ export default function ShoppingListScreen({ navigation, route }) {
               style={{ width: `${progressPercent}%` }}
             />
           </View>
-
-          {/* Completion message */}
+          {/* All done message */}
           {progressPercent === 100 && (
             <View className="flex-row items-center gap-2 mt-3 bg-green-50 border border-green-200 px-4 py-2.5 rounded-xl">
               <Ionicons name="checkmark-circle" size={16} color="#16a34a" />
@@ -189,7 +184,7 @@ export default function ShoppingListScreen({ navigation, route }) {
         </TouchableOpacity>
       )}
 
-      {/* Section label for unchecked items */}
+      {/* Unchecked section label */}
       {unchecked.length > 0 && (
         <View className="px-5 mb-2">
           <Text className="text-xs font-bold uppercase tracking-widest text-gray-400">
@@ -200,9 +195,10 @@ export default function ShoppingListScreen({ navigation, route }) {
     </View>
   );
 
-  // ── Separator between unchecked and checked sections ─────────────────
+  // ── Section divider between unchecked and checked ────────────────────
   const renderSeparator = (index) => {
-    const isLastUnchecked = index === unchecked.length - 1 && checked.length > 0;
+    const isLastUnchecked =
+      index === unchecked.length - 1 && checked.length > 0;
     if (!isLastUnchecked) return null;
     return (
       <View className="px-5 pt-4 pb-2">
@@ -232,17 +228,15 @@ export default function ShoppingListScreen({ navigation, route }) {
         activeOpacity={0.8}
         className="flex-row items-center gap-2 bg-green-600 px-6 py-3.5 rounded-full"
         style={{
-          shadowColor: "#16a34a",
-          shadowOffset: { width: 0, height: 4 },
+          shadowColor:   "#16a34a",
+          shadowOffset:  { width: 0, height: 4 },
           shadowOpacity: 0.3,
-          shadowRadius: 8,
-          elevation: 4,
+          shadowRadius:  8,
+          elevation:     4,
         }}
       >
         <Ionicons name="calendar-outline" size={18} color="white" />
-        <Text className="text-white font-bold text-sm">
-          Go to Meal Planner
-        </Text>
+        <Text className="text-white font-bold text-sm">Go to Meal Planner</Text>
       </TouchableOpacity>
     </View>
   );
@@ -256,11 +250,9 @@ export default function ShoppingListScreen({ navigation, route }) {
   }
 
   return (
-    // GestureHandlerRootView must wrap any screen using Swipeable
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView className="flex-1 bg-white">
         <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
@@ -270,9 +262,7 @@ export default function ShoppingListScreen({ navigation, route }) {
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
               <View>
-                {/* Section separator between unchecked and checked */}
                 {renderSeparator(index - 1)}
-
                 <SwipeableItem
                   item={item}
                   onToggle={toggleItem}
@@ -284,7 +274,6 @@ export default function ShoppingListScreen({ navigation, route }) {
             ListEmptyComponent={EmptyState}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
-            // Important — keeps FlatList from stealing gestures from Swipeable
             keyboardShouldPersistTaps="handled"
           />
         </KeyboardAvoidingView>
@@ -293,10 +282,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   );
 }
 
-// ── SwipeableItem defined here to keep imports clean ─────────────────────────
-import { Swipeable } from "react-native-gesture-handler";
-import { Animated } from "react-native";
-
+// ── SwipeableItem ─────────────────────────────────────────────────────────────
 function SwipeableItem({ item, onToggle, onDelete }) {
   const swipeableRef = React.useRef(null);
 
@@ -337,6 +323,7 @@ function SwipeableItem({ item, onToggle, onDelete }) {
         activeOpacity={0.7}
         className="flex-row items-center gap-3 px-4 py-3.5 bg-white border-b border-gray-50"
       >
+        {/* Checkbox */}
         <View
           className={`w-6 h-6 rounded-full border-2 items-center justify-center flex-shrink-0 ${
             item.checked
@@ -349,6 +336,7 @@ function SwipeableItem({ item, onToggle, onDelete }) {
           )}
         </View>
 
+        {/* Item name */}
         <Text
           className={`flex-1 text-sm font-medium ${
             item.checked ? "line-through text-gray-300" : "text-gray-800"
@@ -358,6 +346,7 @@ function SwipeableItem({ item, onToggle, onDelete }) {
           {item.name}
         </Text>
 
+        {/* Amount + unit */}
         {(item.amount > 0 || item.unit) && (
           <Text
             className={`text-xs font-semibold ${

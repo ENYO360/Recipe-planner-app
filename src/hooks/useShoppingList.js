@@ -19,9 +19,10 @@ export function useShoppingList(incomingList) {
     const load = async () => {
       try {
         const data = await getAllShoppingItems();
+        console.log("[useShoppingList] Loaded", data.length, "items from DB on mount");
         setItems(data);
       } catch (e) {
-        console.warn("Failed to load shopping list:", e);
+        console.warn("[useShoppingList] Failed to load:", e);
       } finally {
         setLoading(false);
       }
@@ -29,20 +30,40 @@ export function useShoppingList(incomingList) {
     load();
   }, []);
 
-  // ── Merge incoming list from Meal Planner ─────────────────────────────
+  // ── Handle incoming list from Meal Planner ────────────────────────────
+  // incomingList is the array passed via navigation params.
+  // It arrives AFTER the initial load, so we refresh from DB after saving.
   useEffect(() => {
-    if (!incomingList || incomingList.length === 0) return;
-    const refresh = async () => {
+    // Guard: must be a real non-empty array (not undefined, null, or a Promise)
+    if (!Array.isArray(incomingList) || incomingList.length === 0) {
+      if (incomingList !== null && incomingList !== undefined) {
+        console.warn(
+          "[useShoppingList] incomingList is not a valid array:",
+          typeof incomingList,
+          incomingList
+        );
+      }
+      return;
+    }
+
+    console.log("[useShoppingList] Received", incomingList.length, "items from Meal Planner");
+
+    const merge = async () => {
       try {
-        // insertShoppingItems uses INSERT OR IGNORE so no duplicates
+        // Use INSERT OR REPLACE so quantities update if the same ingredient
+        // appears from a newly generated list (not INSERT OR IGNORE which skips)
         await insertShoppingItems(incomingList);
-        const data = await getAllShoppingItems();
-        setItems(data);
+
+        // Re-query DB to get the merged, up-to-date list
+        const fresh = await getAllShoppingItems();
+        console.log("[useShoppingList] After merge:", fresh.length, "total items");
+        setItems(fresh);
       } catch (e) {
-        console.warn("Failed to merge shopping list:", e);
+        console.warn("[useShoppingList] Failed to merge incoming list:", e);
       }
     };
-    refresh();
+
+    merge();
   }, [incomingList]);
 
   // ── Actions ───────────────────────────────────────────────────────────
@@ -70,7 +91,6 @@ export function useShoppingList(incomingList) {
       unit:    "",
       checked: false,
     };
-    // Optimistic update
     setItems((prev) => [newItem, ...prev]);
     await insertShoppingItem(newItem);
   }, []);
@@ -85,7 +105,6 @@ export function useShoppingList(incomingList) {
     await clearShoppingList();
   }, []);
 
-  // ── Derived values ────────────────────────────────────────────────────
   const checkedCount    = items.filter((i) => i.checked).length;
   const totalCount      = items.length;
   const progressPercent = totalCount > 0

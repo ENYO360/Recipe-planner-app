@@ -1,17 +1,15 @@
 // src/data/sampleRecipes.js
 export const CATEGORIES = [
-  { id: "all",       label: "All"       },
-  { id: "breakfast", label: "Breakfast" },
-  { id: "lunch",     label: "Lunch"     },
-  { id: "dinner",    label: "Dinner"    },
-  { id: "snacks",    label: "Snacks"    },
-  { id: "dessert",   label: "Dessert"   },
+  { id: "all",       label: "All"           },
+  { id: "breakfast", label: "Breakfast"     },
+  { id: "lunch",     label: "Lunch"         },
+  { id: "dinner",    label: "Dinner"        },
+  { id: "snacks",    label: "Snacks"        },
+  { id: "dessert",   label: "Dessert"       },
   { id: "nigerian",  label: "🇳🇬 Nigerian" },
 ];
 
 export const SAMPLE_RECIPES = [
-
-  // ─── BREAKFAST ────────────────────────────────────────────────
   {
     id: "2",
     title: "Classic Pancakes",
@@ -22,14 +20,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",
     description: "Fluffy, golden pancakes served with maple syrup and fresh berries.",
     ingredients: [
-      { id: "i1", name: "All-purpose flour", amount: 2,   unit: "cups"  },
-      { id: "i2", name: "Milk",              amount: 1.5, unit: "cups"  },
-      { id: "i3", name: "Eggs",              amount: 2,   unit: "whole" },
-      { id: "i4", name: "Butter, melted",    amount: 3,   unit: "tbsp"  },
-      { id: "i5", name: "Sugar",             amount: 2,   unit: "tbsp"  },
-      { id: "i6", name: "Baking powder",     amount: 2,   unit: "tsp"   },
-      { id: "i7", name: "Salt",              amount: 0.5, unit: "tsp"   },
-      { id: "i8", name: "Vanilla extract",   amount: 1,   unit: "tsp"   },
+      {
+        id: "2-i1",
+        name: "All-purpose flour",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "2-i2",
+        name: "Milk",
+        amount: 1.5,
+        unit: "cups"
+      },
+      {
+        id: "2-i3",
+        name: "Eggs",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "2-i4",
+        name: "Butter, melted",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "2-i5",
+        name: "Sugar",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "2-i6",
+        name: "Baking powder",
+        amount: 2,
+        unit: "tsp"
+      },
+      {
+        id: "2-i7",
+        name: "Salt",
+        amount: 0.5,
+        unit: "tsp"
+      },
+      {
+        id: "2-i8",
+        name: "Vanilla extract",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Whisk together flour, sugar, baking powder, and salt in a bowl.",
@@ -38,9 +76,9 @@ export const SAMPLE_RECIPES = [
       "Heat a non-stick pan over medium heat and lightly grease with butter.",
       "Pour ¼ cup of batter per pancake. Cook until bubbles form on the surface.",
       "Flip and cook for another 1–2 minutes until golden.",
-      "Serve with maple syrup, fresh berries, and a dusting of icing sugar.",
+      "Serve with maple syrup, fresh berries, and a dusting of icing sugar."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "3",
@@ -52,14 +90,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400",
     description: "The classic fry-up — eggs, bacon, sausages, beans, mushrooms and toast.",
     ingredients: [
-      { id: "i1", name: "Pork sausages",      amount: 4,  unit: "whole" },
-      { id: "i2", name: "Streaky bacon",       amount: 4,  unit: "rashers" },
-      { id: "i3", name: "Eggs",               amount: 2,  unit: "whole" },
-      { id: "i4", name: "Baked beans",         amount: 200, unit: "g"   },
-      { id: "i5", name: "Button mushrooms",    amount: 6,  unit: "whole" },
-      { id: "i6", name: "Cherry tomatoes",     amount: 6,  unit: "whole" },
-      { id: "i7", name: "White bread",         amount: 2,  unit: "slices" },
-      { id: "i8", name: "Butter",              amount: 1,  unit: "tbsp"  },
+      {
+        id: "3-i1",
+        name: "Pork sausages",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "3-i2",
+        name: "Streaky bacon",
+        amount: 4,
+        unit: "rashers"
+      },
+      {
+        id: "3-i3",
+        name: "Eggs",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "3-i4",
+        name: "Baked beans",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "3-i5",
+        name: "Button mushrooms",
+        amount: 6,
+        unit: "whole"
+      },
+      {
+        id: "3-i6",
+        name: "Cherry tomatoes",
+        amount: 6,
+        unit: "whole"
+      },
+      {
+        id: "3-i7",
+        name: "White bread",
+        amount: 2,
+        unit: "slices"
+      },
+      {
+        id: "3-i8",
+        name: "Butter",
+        amount: 1,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Heat a large frying pan over medium-high heat with a little oil.",
@@ -69,9 +147,9 @@ export const SAMPLE_RECIPES = [
       "Warm the baked beans in a small saucepan.",
       "Fry or scramble the eggs to your liking.",
       "Toast the bread and butter it.",
-      "Plate everything together and serve hot.",
+      "Plate everything together and serve hot."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "4",
@@ -83,26 +161,64 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400",
     description: "Thick blended smoothie topped with granola, fresh fruit and seeds.",
     ingredients: [
-      { id: "i1", name: "Frozen banana",    amount: 2,   unit: "whole" },
-      { id: "i2", name: "Frozen mango",     amount: 100, unit: "g"     },
-      { id: "i3", name: "Greek yogurt",     amount: 100, unit: "g"     },
-      { id: "i4", name: "Granola",          amount: 4,   unit: "tbsp"  },
-      { id: "i5", name: "Fresh berries",    amount: 50,  unit: "g"     },
-      { id: "i6", name: "Chia seeds",       amount: 1,   unit: "tsp"   },
-      { id: "i7", name: "Coconut flakes",   amount: 1,   unit: "tbsp"  },
-      { id: "i8", name: "Honey",            amount: 1,   unit: "tsp"   },
+      {
+        id: "4-i1",
+        name: "Frozen banana",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "4-i2",
+        name: "Frozen mango",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "4-i3",
+        name: "Greek yogurt",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "4-i4",
+        name: "Granola",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "4-i5",
+        name: "Fresh berries",
+        amount: 50,
+        unit: "g"
+      },
+      {
+        id: "4-i6",
+        name: "Chia seeds",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "4-i7",
+        name: "Coconut flakes",
+        amount: 1,
+        unit: "tbsp"
+      },
+      {
+        id: "4-i8",
+        name: "Honey",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Blend frozen banana, mango, and Greek yogurt until thick and smooth.",
       "Add a splash of milk if needed — keep it thick enough to eat with a spoon.",
       "Pour into a bowl.",
       "Arrange granola, berries, coconut flakes, and chia seeds on top.",
-      "Drizzle with honey and serve immediately.",
+      "Drizzle with honey and serve immediately."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
-
-  // ─── LUNCH ───────────────────────────────────────────────────
   {
     id: "5",
     title: "Caesar Salad",
@@ -113,12 +229,42 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=400",
     description: "Classic Caesar salad with crispy croutons and creamy homemade dressing.",
     ingredients: [
-      { id: "i1", name: "Romaine lettuce",  amount: 1,  unit: "head"  },
-      { id: "i2", name: "Parmesan cheese",  amount: 50, unit: "g"     },
-      { id: "i3", name: "Croutons",         amount: 1,  unit: "cup"   },
-      { id: "i4", name: "Caesar dressing",  amount: 4,  unit: "tbsp"  },
-      { id: "i5", name: "Lemon juice",      amount: 1,  unit: "tbsp"  },
-      { id: "i6", name: "Black pepper",     amount: 1,  unit: "pinch" },
+      {
+        id: "5-i1",
+        name: "Romaine lettuce",
+        amount: 1,
+        unit: "head"
+      },
+      {
+        id: "5-i2",
+        name: "Parmesan cheese",
+        amount: 50,
+        unit: "g"
+      },
+      {
+        id: "5-i3",
+        name: "Croutons",
+        amount: 1,
+        unit: "cup"
+      },
+      {
+        id: "5-i4",
+        name: "Caesar dressing",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "5-i5",
+        name: "Lemon juice",
+        amount: 1,
+        unit: "tbsp"
+      },
+      {
+        id: "5-i6",
+        name: "Black pepper",
+        amount: 1,
+        unit: "pinch"
+      }
     ],
     steps: [
       "Wash and dry the romaine lettuce, then tear into pieces.",
@@ -126,9 +272,9 @@ export const SAMPLE_RECIPES = [
       "Drizzle Caesar dressing and lemon juice over the lettuce.",
       "Toss well to coat every leaf.",
       "Top with croutons and shaved parmesan.",
-      "Crack fresh black pepper over the top and serve.",
+      "Crack fresh black pepper over the top and serve."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "6",
@@ -140,14 +286,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400",
     description: "Grilled chicken with crisp lettuce, tomatoes and garlic mayo in a flour tortilla.",
     ingredients: [
-      { id: "i1", name: "Chicken breast",   amount: 2,  unit: "whole"  },
-      { id: "i2", name: "Flour tortillas",  amount: 2,  unit: "whole"  },
-      { id: "i3", name: "Romaine lettuce",  amount: 2,  unit: "cups"   },
-      { id: "i4", name: "Tomato",           amount: 1,  unit: "whole"  },
-      { id: "i5", name: "Cheddar cheese",   amount: 50, unit: "g"      },
-      { id: "i6", name: "Mayonnaise",       amount: 2,  unit: "tbsp"   },
-      { id: "i7", name: "Garlic powder",    amount: 0.5, unit: "tsp"   },
-      { id: "i8", name: "Smoked paprika",   amount: 0.5, unit: "tsp"   },
+      {
+        id: "6-i1",
+        name: "Chicken breast",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "6-i2",
+        name: "Flour tortillas",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "6-i3",
+        name: "Romaine lettuce",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "6-i4",
+        name: "Tomato",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "6-i5",
+        name: "Cheddar cheese",
+        amount: 50,
+        unit: "g"
+      },
+      {
+        id: "6-i6",
+        name: "Mayonnaise",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "6-i7",
+        name: "Garlic powder",
+        amount: 0.5,
+        unit: "tsp"
+      },
+      {
+        id: "6-i8",
+        name: "Smoked paprika",
+        amount: 0.5,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Season chicken with garlic powder, paprika, salt, and pepper.",
@@ -157,9 +343,9 @@ export const SAMPLE_RECIPES = [
       "Warm the tortillas in a dry pan for 30 seconds each side.",
       "Spread garlic mayo on each tortilla.",
       "Layer lettuce, tomato, cheese, and chicken strips.",
-      "Roll tightly, slice in half, and serve.",
+      "Roll tightly, slice in half, and serve."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "7",
@@ -171,14 +357,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400",
     description: "Velvety roasted tomato soup with a swirl of cream and crusty bread.",
     ingredients: [
-      { id: "i1", name: "Ripe tomatoes",    amount: 1,   unit: "kg"    },
-      { id: "i2", name: "Onion",            amount: 1,   unit: "whole" },
-      { id: "i3", name: "Garlic cloves",    amount: 4,   unit: "whole" },
-      { id: "i4", name: "Vegetable stock",  amount: 500, unit: "ml"    },
-      { id: "i5", name: "Heavy cream",      amount: 4,   unit: "tbsp"  },
-      { id: "i6", name: "Olive oil",        amount: 2,   unit: "tbsp"  },
-      { id: "i7", name: "Fresh basil",      amount: 1,   unit: "handful" },
-      { id: "i8", name: "Sugar",            amount: 1,   unit: "tsp"   },
+      {
+        id: "7-i1",
+        name: "Ripe tomatoes",
+        amount: 1,
+        unit: "kg"
+      },
+      {
+        id: "7-i2",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "7-i3",
+        name: "Garlic cloves",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "7-i4",
+        name: "Vegetable stock",
+        amount: 500,
+        unit: "ml"
+      },
+      {
+        id: "7-i5",
+        name: "Heavy cream",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "7-i6",
+        name: "Olive oil",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "7-i7",
+        name: "Fresh basil",
+        amount: 1,
+        unit: "handful"
+      },
+      {
+        id: "7-i8",
+        name: "Sugar",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Preheat oven to 200°C. Halve tomatoes and place on a baking tray.",
@@ -187,9 +413,9 @@ export const SAMPLE_RECIPES = [
       "Add roasted tomatoes and garlic to the pot along with the stock.",
       "Simmer for 10 minutes, then blend until smooth.",
       "Season with salt, pepper, and sugar. Stir in basil.",
-      "Serve with a swirl of cream and crusty bread.",
+      "Serve with a swirl of cream and crusty bread."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "8",
@@ -201,14 +427,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400",
     description: "Triple-decker sandwich with turkey, bacon, lettuce, tomato and mayo.",
     ingredients: [
-      { id: "i1", name: "White bread",       amount: 6,  unit: "slices"  },
-      { id: "i2", name: "Turkey slices",     amount: 6,  unit: "slices"  },
-      { id: "i3", name: "Bacon",             amount: 4,  unit: "rashers" },
-      { id: "i4", name: "Lettuce leaves",    amount: 4,  unit: "whole"   },
-      { id: "i5", name: "Tomato",            amount: 1,  unit: "whole"   },
-      { id: "i6", name: "Cheddar cheese",    amount: 4,  unit: "slices"  },
-      { id: "i7", name: "Mayonnaise",        amount: 3,  unit: "tbsp"    },
-      { id: "i8", name: "Mustard",           amount: 1,  unit: "tsp"     },
+      {
+        id: "8-i1",
+        name: "White bread",
+        amount: 6,
+        unit: "slices"
+      },
+      {
+        id: "8-i2",
+        name: "Turkey slices",
+        amount: 6,
+        unit: "slices"
+      },
+      {
+        id: "8-i3",
+        name: "Bacon",
+        amount: 4,
+        unit: "rashers"
+      },
+      {
+        id: "8-i4",
+        name: "Lettuce leaves",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "8-i5",
+        name: "Tomato",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "8-i6",
+        name: "Cheddar cheese",
+        amount: 4,
+        unit: "slices"
+      },
+      {
+        id: "8-i7",
+        name: "Mayonnaise",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "8-i8",
+        name: "Mustard",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Toast all the bread slices until golden.",
@@ -218,12 +484,10 @@ export const SAMPLE_RECIPES = [
       "Layer 1: bread, turkey, lettuce, tomato, cheese.",
       "Add second bread slice, then bacon, lettuce, turkey, cheese.",
       "Top with the final slice of bread.",
-      "Secure with toothpicks, cut diagonally into triangles and serve.",
+      "Secure with toothpicks, cut diagonally into triangles and serve."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
-
-  // ─── DINNER ──────────────────────────────────────────────────
   {
     id: "9",
     title: "Spaghetti Bolognese",
@@ -234,14 +498,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1598866594230-a7c12756260f?w=400",
     description: "A rich and hearty Italian meat sauce slow-cooked with tomatoes and herbs.",
     ingredients: [
-      { id: "i1", name: "Spaghetti",        amount: 400, unit: "g"     },
-      { id: "i2", name: "Ground beef",      amount: 500, unit: "g"     },
-      { id: "i3", name: "Canned tomatoes",  amount: 400, unit: "g"     },
-      { id: "i4", name: "Onion",            amount: 1,   unit: "whole" },
-      { id: "i5", name: "Garlic cloves",    amount: 3,   unit: "whole" },
-      { id: "i6", name: "Olive oil",        amount: 2,   unit: "tbsp"  },
-      { id: "i7", name: "Dried oregano",    amount: 1,   unit: "tsp"   },
-      { id: "i8", name: "Tomato paste",     amount: 2,   unit: "tbsp"  },
+      {
+        id: "9-i1",
+        name: "Spaghetti",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "9-i2",
+        name: "Ground beef",
+        amount: 500,
+        unit: "g"
+      },
+      {
+        id: "9-i3",
+        name: "Canned tomatoes",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "9-i4",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "9-i5",
+        name: "Garlic cloves",
+        amount: 3,
+        unit: "whole"
+      },
+      {
+        id: "9-i6",
+        name: "Olive oil",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "9-i7",
+        name: "Dried oregano",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "9-i8",
+        name: "Tomato paste",
+        amount: 2,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Heat olive oil in a large pan over medium heat.",
@@ -250,9 +554,9 @@ export const SAMPLE_RECIPES = [
       "Stir in tomato paste and cook for 2 minutes.",
       "Add canned tomatoes, oregano, salt, and pepper. Simmer 30 mins.",
       "Cook spaghetti according to package instructions.",
-      "Serve the bolognese sauce over the spaghetti with parmesan.",
+      "Serve the bolognese sauce over the spaghetti with parmesan."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "10",
@@ -264,16 +568,66 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400",
     description: "Tender chicken in a rich, creamy tomato-based sauce with warm spices.",
     ingredients: [
-      { id: "i1", name: "Chicken thighs, boneless", amount: 700, unit: "g"    },
-      { id: "i2", name: "Butter",                   amount: 3,   unit: "tbsp" },
-      { id: "i3", name: "Heavy cream",              amount: 200, unit: "ml"   },
-      { id: "i4", name: "Canned tomatoes",           amount: 400, unit: "g"   },
-      { id: "i5", name: "Onion",                    amount: 1,   unit: "whole" },
-      { id: "i6", name: "Garlic cloves",             amount: 4,   unit: "whole" },
-      { id: "i7", name: "Fresh ginger",              amount: 1,   unit: "tbsp" },
-      { id: "i8", name: "Garam masala",              amount: 2,   unit: "tsp"  },
-      { id: "i9", name: "Cumin",                    amount: 1,   unit: "tsp"  },
-      { id: "i10", name: "Turmeric",                amount: 0.5, unit: "tsp"  },
+      {
+        id: "10-i1",
+        name: "Chicken thighs, boneless",
+        amount: 700,
+        unit: "g"
+      },
+      {
+        id: "10-i2",
+        name: "Butter",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "10-i3",
+        name: "Heavy cream",
+        amount: 200,
+        unit: "ml"
+      },
+      {
+        id: "10-i4",
+        name: "Canned tomatoes",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "10-i5",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "10-i6",
+        name: "Garlic cloves",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "10-i7",
+        name: "Fresh ginger",
+        amount: 1,
+        unit: "tbsp"
+      },
+      {
+        id: "10-i8",
+        name: "Garam masala",
+        amount: 2,
+        unit: "tsp"
+      },
+      {
+        id: "10-i9",
+        name: "Cumin",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "10-i10",
+        name: "Turmeric",
+        amount: 0.5,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Marinate chicken in yogurt, half the spices, and lemon juice for 30 mins.",
@@ -283,9 +637,9 @@ export const SAMPLE_RECIPES = [
       "Add canned tomatoes and simmer for 15 minutes. Blend until smooth.",
       "Return sauce to pan, add cream and stir well.",
       "Add chicken pieces and simmer for 10 minutes.",
-      "Serve with basmati rice and naan bread.",
+      "Serve with basmati rice and naan bread."
     ],
-    isFavourite: true,
+    isFavourite: true
   },
   {
     id: "11",
@@ -297,13 +651,48 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400",
     description: "Perfectly grilled salmon fillet with lemon butter and garlic asparagus.",
     ingredients: [
-      { id: "i1", name: "Salmon fillets",   amount: 2,  unit: "whole" },
-      { id: "i2", name: "Asparagus",        amount: 200, unit: "g"    },
-      { id: "i3", name: "Butter",           amount: 2,  unit: "tbsp"  },
-      { id: "i4", name: "Lemon",            amount: 1,  unit: "whole" },
-      { id: "i5", name: "Garlic cloves",    amount: 2,  unit: "whole" },
-      { id: "i6", name: "Olive oil",        amount: 1,  unit: "tbsp"  },
-      { id: "i7", name: "Fresh dill",       amount: 1,  unit: "tbsp"  },
+      {
+        id: "11-i1",
+        name: "Salmon fillets",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "11-i2",
+        name: "Asparagus",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "11-i3",
+        name: "Butter",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "11-i4",
+        name: "Lemon",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "11-i5",
+        name: "Garlic cloves",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "11-i6",
+        name: "Olive oil",
+        amount: 1,
+        unit: "tbsp"
+      },
+      {
+        id: "11-i7",
+        name: "Fresh dill",
+        amount: 1,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Pat salmon dry and season with salt, pepper, and olive oil.",
@@ -312,9 +701,9 @@ export const SAMPLE_RECIPES = [
       "In a separate pan, melt butter and sauté minced garlic for 1 minute.",
       "Add asparagus and cook for 4 minutes until tender-crisp.",
       "Squeeze lemon juice over salmon and asparagus.",
-      "Garnish with fresh dill and serve immediately.",
+      "Garnish with fresh dill and serve immediately."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "12",
@@ -326,15 +715,60 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400",
     description: "Juicy marinated chicken in a smoky, spiced tomato and cream sauce.",
     ingredients: [
-      { id: "i1", name: "Chicken breast",   amount: 700, unit: "g"     },
-      { id: "i2", name: "Plain yogurt",     amount: 150, unit: "g"     },
-      { id: "i3", name: "Canned tomatoes",  amount: 400, unit: "g"     },
-      { id: "i4", name: "Heavy cream",      amount: 150, unit: "ml"    },
-      { id: "i5", name: "Onion",            amount: 2,   unit: "whole" },
-      { id: "i6", name: "Tikka masala paste", amount: 3, unit: "tbsp"  },
-      { id: "i7", name: "Garlic cloves",    amount: 4,   unit: "whole" },
-      { id: "i8", name: "Fresh ginger",     amount: 2,   unit: "tsp"   },
-      { id: "i9", name: "Coriander",        amount: 1,   unit: "handful" },
+      {
+        id: "12-i1",
+        name: "Chicken breast",
+        amount: 700,
+        unit: "g"
+      },
+      {
+        id: "12-i2",
+        name: "Plain yogurt",
+        amount: 150,
+        unit: "g"
+      },
+      {
+        id: "12-i3",
+        name: "Canned tomatoes",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "12-i4",
+        name: "Heavy cream",
+        amount: 150,
+        unit: "ml"
+      },
+      {
+        id: "12-i5",
+        name: "Onion",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "12-i6",
+        name: "Tikka masala paste",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "12-i7",
+        name: "Garlic cloves",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "12-i8",
+        name: "Fresh ginger",
+        amount: 2,
+        unit: "tsp"
+      },
+      {
+        id: "12-i9",
+        name: "Coriander",
+        amount: 1,
+        unit: "handful"
+      }
     ],
     steps: [
       "Mix chicken with yogurt and 1 tbsp tikka paste. Marinate 1 hour or overnight.",
@@ -344,9 +778,9 @@ export const SAMPLE_RECIPES = [
       "Simmer for 20 minutes until sauce thickens.",
       "Stir in cream and add the chicken chunks.",
       "Simmer for 10 more minutes. Season to taste.",
-      "Garnish with fresh coriander. Serve with rice.",
+      "Garnish with fresh coriander. Serve with rice."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "13",
@@ -358,14 +792,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400",
     description: "Seasoned ground beef in crispy taco shells with all the toppings.",
     ingredients: [
-      { id: "i1", name: "Ground beef",       amount: 500, unit: "g"     },
-      { id: "i2", name: "Taco shells",       amount: 8,   unit: "whole" },
-      { id: "i3", name: "Taco seasoning",    amount: 2,   unit: "tbsp"  },
-      { id: "i4", name: "Cheddar, shredded", amount: 100, unit: "g"     },
-      { id: "i5", name: "Tomato, diced",     amount: 2,   unit: "whole" },
-      { id: "i6", name: "Lettuce, shredded", amount: 2,   unit: "cups"  },
-      { id: "i7", name: "Sour cream",        amount: 4,   unit: "tbsp"  },
-      { id: "i8", name: "Salsa",             amount: 4,   unit: "tbsp"  },
+      {
+        id: "13-i1",
+        name: "Ground beef",
+        amount: 500,
+        unit: "g"
+      },
+      {
+        id: "13-i2",
+        name: "Taco shells",
+        amount: 8,
+        unit: "whole"
+      },
+      {
+        id: "13-i3",
+        name: "Taco seasoning",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "13-i4",
+        name: "Cheddar, shredded",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "13-i5",
+        name: "Tomato, diced",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "13-i6",
+        name: "Lettuce, shredded",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "13-i7",
+        name: "Sour cream",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "13-i8",
+        name: "Salsa",
+        amount: 4,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Brown ground beef in a pan over medium-high heat, breaking it apart.",
@@ -374,12 +848,10 @@ export const SAMPLE_RECIPES = [
       "Warm taco shells in the oven at 180°C for 5 minutes.",
       "Fill each shell with beef, then add cheese, lettuce, and tomato.",
       "Top with sour cream and salsa.",
-      "Serve immediately with lime wedges.",
+      "Serve immediately with lime wedges."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
-
-  // ─── SNACKS ──────────────────────────────────────────────────
   {
     id: "14",
     title: "Greek Yogurt Parfait",
@@ -390,11 +862,36 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400",
     description: "Layered yogurt, granola, and fresh berries for a healthy and satisfying snack.",
     ingredients: [
-      { id: "i1", name: "Greek yogurt",  amount: 200, unit: "g"    },
-      { id: "i2", name: "Granola",       amount: 50,  unit: "g"    },
-      { id: "i3", name: "Mixed berries", amount: 100, unit: "g"    },
-      { id: "i4", name: "Honey",         amount: 1,   unit: "tbsp" },
-      { id: "i5", name: "Chia seeds",    amount: 1,   unit: "tsp"  },
+      {
+        id: "14-i1",
+        name: "Greek yogurt",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "14-i2",
+        name: "Granola",
+        amount: 50,
+        unit: "g"
+      },
+      {
+        id: "14-i3",
+        name: "Mixed berries",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "14-i4",
+        name: "Honey",
+        amount: 1,
+        unit: "tbsp"
+      },
+      {
+        id: "14-i5",
+        name: "Chia seeds",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Spoon half the Greek yogurt into a glass or bowl.",
@@ -402,9 +899,9 @@ export const SAMPLE_RECIPES = [
       "Add a layer of mixed berries.",
       "Repeat layers with remaining yogurt and toppings.",
       "Drizzle honey over the top.",
-      "Sprinkle chia seeds and serve immediately.",
+      "Sprinkle chia seeds and serve immediately."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "15",
@@ -416,13 +913,48 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=400",
     description: "Fresh, chunky guacamole with crispy tortilla chips.",
     ingredients: [
-      { id: "i1", name: "Ripe avocados",  amount: 3,  unit: "whole" },
-      { id: "i2", name: "Lime juice",     amount: 2,  unit: "tbsp"  },
-      { id: "i3", name: "Red onion",      amount: 0.5, unit: "whole" },
-      { id: "i4", name: "Tomato",         amount: 1,  unit: "whole" },
-      { id: "i5", name: "Fresh coriander", amount: 2, unit: "tbsp"  },
-      { id: "i6", name: "Jalapeño",       amount: 1,  unit: "whole" },
-      { id: "i7", name: "Tortilla chips", amount: 200, unit: "g"    },
+      {
+        id: "15-i1",
+        name: "Ripe avocados",
+        amount: 3,
+        unit: "whole"
+      },
+      {
+        id: "15-i2",
+        name: "Lime juice",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "15-i3",
+        name: "Red onion",
+        amount: 0.5,
+        unit: "whole"
+      },
+      {
+        id: "15-i4",
+        name: "Tomato",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "15-i5",
+        name: "Fresh coriander",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "15-i6",
+        name: "Jalapeño",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "15-i7",
+        name: "Tortilla chips",
+        amount: 200,
+        unit: "g"
+      }
     ],
     steps: [
       "Halve and pit the avocados, scoop flesh into a bowl.",
@@ -430,9 +962,9 @@ export const SAMPLE_RECIPES = [
       "Add lime juice immediately and stir.",
       "Finely dice red onion, tomato, jalapeño, and coriander.",
       "Fold everything into the avocado.",
-      "Season with salt and serve with tortilla chips.",
+      "Season with salt and serve with tortilla chips."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "16",
@@ -444,14 +976,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1576186726115-4d51596775d1?w=400",
     description: "Smooth homemade hummus with colourful vegetable dippers.",
     ingredients: [
-      { id: "i1", name: "Canned chickpeas",  amount: 400, unit: "g"    },
-      { id: "i2", name: "Tahini",            amount: 3,   unit: "tbsp" },
-      { id: "i3", name: "Lemon juice",       amount: 2,   unit: "tbsp" },
-      { id: "i4", name: "Garlic clove",      amount: 1,   unit: "whole" },
-      { id: "i5", name: "Olive oil",         amount: 2,   unit: "tbsp" },
-      { id: "i6", name: "Carrot sticks",     amount: 2,   unit: "whole" },
-      { id: "i7", name: "Cucumber",          amount: 1,   unit: "whole" },
-      { id: "i8", name: "Bell pepper",       amount: 1,   unit: "whole" },
+      {
+        id: "16-i1",
+        name: "Canned chickpeas",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "16-i2",
+        name: "Tahini",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "16-i3",
+        name: "Lemon juice",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "16-i4",
+        name: "Garlic clove",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "16-i5",
+        name: "Olive oil",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "16-i6",
+        name: "Carrot sticks",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "16-i7",
+        name: "Cucumber",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "16-i8",
+        name: "Bell pepper",
+        amount: 1,
+        unit: "whole"
+      }
     ],
     steps: [
       "Drain and rinse chickpeas, reserving the liquid.",
@@ -459,12 +1031,10 @@ export const SAMPLE_RECIPES = [
       "Add reserved chickpea liquid a little at a time until smooth.",
       "Season with salt and a pinch of cumin.",
       "Cut carrots, cucumber, and pepper into sticks.",
-      "Serve hummus in a bowl with a drizzle of olive oil and veggie sticks.",
+      "Serve hummus in a bowl with a drizzle of olive oil and veggie sticks."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
-
-  // ─── DESSERT ─────────────────────────────────────────────────
   {
     id: "17",
     title: "Chocolate Lava Cake",
@@ -475,12 +1045,42 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400",
     description: "Warm chocolate cake with a gooey molten centre. Best served with vanilla ice cream.",
     ingredients: [
-      { id: "i1", name: "Dark chocolate", amount: 200, unit: "g"     },
-      { id: "i2", name: "Butter",         amount: 100, unit: "g"     },
-      { id: "i3", name: "Eggs",           amount: 4,   unit: "whole" },
-      { id: "i4", name: "Sugar",          amount: 100, unit: "g"     },
-      { id: "i5", name: "Plain flour",    amount: 50,  unit: "g"     },
-      { id: "i6", name: "Cocoa powder",   amount: 2,   unit: "tbsp"  },
+      {
+        id: "17-i1",
+        name: "Dark chocolate",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "17-i2",
+        name: "Butter",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "17-i3",
+        name: "Eggs",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "17-i4",
+        name: "Sugar",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "17-i5",
+        name: "Plain flour",
+        amount: 50,
+        unit: "g"
+      },
+      {
+        id: "17-i6",
+        name: "Cocoa powder",
+        amount: 2,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Preheat oven to 200°C. Grease 4 ramekins with butter and dust with cocoa.",
@@ -490,9 +1090,9 @@ export const SAMPLE_RECIPES = [
       "Sift in flour and fold until just combined.",
       "Pour into ramekins and bake for 12 minutes.",
       "The edges should be set but the centre should still wobble.",
-      "Turn out onto plates and serve immediately with ice cream.",
+      "Turn out onto plates and serve immediately with ice cream."
     ],
-    isFavourite: true,
+    isFavourite: true
   },
   {
     id: "18",
@@ -504,13 +1104,48 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400",
     description: "The classic Italian dessert — espresso-soaked ladyfingers layered with mascarpone cream.",
     ingredients: [
-      { id: "i1", name: "Ladyfinger biscuits", amount: 24,  unit: "whole" },
-      { id: "i2", name: "Mascarpone cheese",   amount: 500, unit: "g"     },
-      { id: "i3", name: "Eggs",                amount: 4,   unit: "whole" },
-      { id: "i4", name: "Sugar",               amount: 100, unit: "g"     },
-      { id: "i5", name: "Strong espresso",     amount: 300, unit: "ml"    },
-      { id: "i6", name: "Cocoa powder",        amount: 3,   unit: "tbsp"  },
-      { id: "i7", name: "Marsala wine",        amount: 2,   unit: "tbsp"  },
+      {
+        id: "18-i1",
+        name: "Ladyfinger biscuits",
+        amount: 24,
+        unit: "whole"
+      },
+      {
+        id: "18-i2",
+        name: "Mascarpone cheese",
+        amount: 500,
+        unit: "g"
+      },
+      {
+        id: "18-i3",
+        name: "Eggs",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "18-i4",
+        name: "Sugar",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "18-i5",
+        name: "Strong espresso",
+        amount: 300,
+        unit: "ml"
+      },
+      {
+        id: "18-i6",
+        name: "Cocoa powder",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "18-i7",
+        name: "Marsala wine",
+        amount: 2,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Separate eggs. Whisk yolks and sugar until pale and thick.",
@@ -520,9 +1155,9 @@ export const SAMPLE_RECIPES = [
       "Quickly dip each ladyfinger in the espresso mixture.",
       "Layer dipped biscuits in a dish, then spread half the cream.",
       "Repeat layers, finishing with cream on top.",
-      "Dust generously with cocoa powder. Refrigerate for at least 4 hours.",
+      "Dust generously with cocoa powder. Refrigerate for at least 4 hours."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "19",
@@ -534,14 +1169,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1605286978633-2dec93ff88a2?w=400",
     description: "Moist, sweet banana bread with walnuts — perfect for using up ripe bananas.",
     ingredients: [
-      { id: "i1", name: "Ripe bananas",     amount: 3,   unit: "whole" },
-      { id: "i2", name: "All-purpose flour", amount: 200, unit: "g"    },
-      { id: "i3", name: "Sugar",            amount: 150, unit: "g"     },
-      { id: "i4", name: "Eggs",             amount: 2,   unit: "whole" },
-      { id: "i5", name: "Butter, melted",   amount: 80,  unit: "g"     },
-      { id: "i6", name: "Baking soda",      amount: 1,   unit: "tsp"   },
-      { id: "i7", name: "Walnuts, chopped", amount: 80,  unit: "g"     },
-      { id: "i8", name: "Vanilla extract",  amount: 1,   unit: "tsp"   },
+      {
+        id: "19-i1",
+        name: "Ripe bananas",
+        amount: 3,
+        unit: "whole"
+      },
+      {
+        id: "19-i2",
+        name: "All-purpose flour",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "19-i3",
+        name: "Sugar",
+        amount: 150,
+        unit: "g"
+      },
+      {
+        id: "19-i4",
+        name: "Eggs",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "19-i5",
+        name: "Butter, melted",
+        amount: 80,
+        unit: "g"
+      },
+      {
+        id: "19-i6",
+        name: "Baking soda",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "19-i7",
+        name: "Walnuts, chopped",
+        amount: 80,
+        unit: "g"
+      },
+      {
+        id: "19-i8",
+        name: "Vanilla extract",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Preheat oven to 175°C. Grease a loaf tin.",
@@ -551,9 +1226,9 @@ export const SAMPLE_RECIPES = [
       "Stir in walnuts.",
       "Pour into loaf tin and bake for 55–60 minutes.",
       "Test with a skewer — it should come out clean.",
-      "Cool for 10 minutes before slicing.",
+      "Cool for 10 minutes before slicing."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "20",
@@ -565,14 +1240,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
     description: "Creamy baked New York-style cheesecake on a buttery biscuit base.",
     ingredients: [
-      { id: "i1", name: "Digestive biscuits", amount: 250, unit: "g"     },
-      { id: "i2", name: "Butter, melted",     amount: 100, unit: "g"     },
-      { id: "i3", name: "Cream cheese",       amount: 900, unit: "g"     },
-      { id: "i4", name: "Sugar",              amount: 200, unit: "g"     },
-      { id: "i5", name: "Eggs",               amount: 3,   unit: "whole" },
-      { id: "i6", name: "Sour cream",         amount: 200, unit: "g"     },
-      { id: "i7", name: "Vanilla extract",    amount: 2,   unit: "tsp"   },
-      { id: "i8", name: "Lemon zest",         amount: 1,   unit: "tsp"   },
+      {
+        id: "20-i1",
+        name: "Digestive biscuits",
+        amount: 250,
+        unit: "g"
+      },
+      {
+        id: "20-i2",
+        name: "Butter, melted",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "20-i3",
+        name: "Cream cheese",
+        amount: 900,
+        unit: "g"
+      },
+      {
+        id: "20-i4",
+        name: "Sugar",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "20-i5",
+        name: "Eggs",
+        amount: 3,
+        unit: "whole"
+      },
+      {
+        id: "20-i6",
+        name: "Sour cream",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "20-i7",
+        name: "Vanilla extract",
+        amount: 2,
+        unit: "tsp"
+      },
+      {
+        id: "20-i8",
+        name: "Lemon zest",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Preheat oven to 160°C. Crush biscuits and mix with melted butter.",
@@ -582,12 +1297,10 @@ export const SAMPLE_RECIPES = [
       "Mix in sour cream, vanilla, and lemon zest.",
       "Pour filling onto the biscuit base.",
       "Bake for 55–60 minutes until just set with a slight wobble in the centre.",
-      "Turn off oven, crack the door, and leave for 1 hour. Chill overnight.",
+      "Turn off oven, crack the door, and leave for 1 hour. Chill overnight."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
-
-  // ─── NIGERIAN ────────────────────────────────────────────────
   {
     id: "21",
     title: "Jollof Rice",
@@ -598,18 +1311,78 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400",
     description: "The beloved West African party rice — smoky, tomato-based and deeply flavourful.",
     ingredients: [
-      { id: "i1", name: "Long grain rice",   amount: 3,   unit: "cups"  },
-      { id: "i2", name: "Tomatoes",          amount: 4,   unit: "whole" },
-      { id: "i3", name: "Red bell peppers",  amount: 2,   unit: "whole" },
-      { id: "i4", name: "Scotch bonnet",     amount: 1,   unit: "whole" },
-      { id: "i5", name: "Onion",             amount: 2,   unit: "whole" },
-      { id: "i6", name: "Tomato paste",      amount: 3,   unit: "tbsp"  },
-      { id: "i7", name: "Chicken stock",     amount: 2,   unit: "cups"  },
-      { id: "i8", name: "Vegetable oil",     amount: 4,   unit: "tbsp"  },
-      { id: "i9", name: "Curry powder",      amount: 1,   unit: "tsp"   },
-      { id: "i10", name: "Thyme",            amount: 1,   unit: "tsp"   },
-      { id: "i11", name: "Bay leaves",       amount: 2,   unit: "whole" },
-      { id: "i12", name: "Seasoning cubes",  amount: 2,   unit: "whole" },
+      {
+        id: "21-i1",
+        name: "Long grain rice",
+        amount: 3,
+        unit: "cups"
+      },
+      {
+        id: "21-i2",
+        name: "Tomatoes",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "21-i3",
+        name: "Red bell peppers",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "21-i4",
+        name: "Scotch bonnet",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "21-i5",
+        name: "Onion",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "21-i6",
+        name: "Tomato paste",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "21-i7",
+        name: "Chicken stock",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "21-i8",
+        name: "Vegetable oil",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "21-i9",
+        name: "Curry powder",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "21-i10",
+        name: "Thyme",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "21-i11",
+        name: "Bay leaves",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "21-i12",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      }
     ],
     steps: [
       "Blend tomatoes, red peppers, scotch bonnet, and 1 onion until smooth.",
@@ -620,9 +1393,9 @@ export const SAMPLE_RECIPES = [
       "Wash the rice until water runs clear and add to the pot.",
       "Stir, cover tightly with foil then lid to trap steam.",
       "Cook on low heat for 30 minutes. Check and stir halfway through.",
-      "Let it steam on the lowest heat for the last 5 minutes for that smoky bottom.",
+      "Let it steam on the lowest heat for the last 5 minutes for that smoky bottom."
     ],
-    isFavourite: true,
+    isFavourite: true
   },
   {
     id: "22",
@@ -634,17 +1407,72 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400",
     description: "Rich, hearty Nigerian soup made with ground melon seeds, leafy greens and assorted meat.",
     ingredients: [
-      { id: "i1", name: "Ground egusi (melon seeds)", amount: 2,   unit: "cups"  },
-      { id: "i2", name: "Beef or goat meat",          amount: 500, unit: "g"     },
-      { id: "i3", name: "Stockfish",                  amount: 100, unit: "g"     },
-      { id: "i4", name: "Smoked fish",                amount: 100, unit: "g"     },
-      { id: "i5", name: "Spinach or ugu leaves",      amount: 200, unit: "g"     },
-      { id: "i6", name: "Palm oil",                   amount: 4,   unit: "tbsp"  },
-      { id: "i7", name: "Tomatoes",                   amount: 3,   unit: "whole" },
-      { id: "i8", name: "Scotch bonnet",              amount: 2,   unit: "whole" },
-      { id: "i9", name: "Onion",                      amount: 1,   unit: "whole" },
-      { id: "i10", name: "Seasoning cubes",           amount: 2,   unit: "whole" },
-      { id: "i11", name: "Crayfish, ground",          amount: 2,   unit: "tbsp"  },
+      {
+        id: "22-i1",
+        name: "Ground egusi (melon seeds)",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "22-i2",
+        name: "Beef or goat meat",
+        amount: 500,
+        unit: "g"
+      },
+      {
+        id: "22-i3",
+        name: "Stockfish",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "22-i4",
+        name: "Smoked fish",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "22-i5",
+        name: "Spinach or ugu leaves",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "22-i6",
+        name: "Palm oil",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "22-i7",
+        name: "Tomatoes",
+        amount: 3,
+        unit: "whole"
+      },
+      {
+        id: "22-i8",
+        name: "Scotch bonnet",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "22-i9",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "22-i10",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "22-i11",
+        name: "Crayfish, ground",
+        amount: 2,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Season and cook meat with onion, seasoning cubes, and salt until tender. Reserve the stock.",
@@ -655,9 +1483,9 @@ export const SAMPLE_RECIPES = [
       "Add meat stock, cooked meat, stockfish, smoked fish, and crayfish.",
       "Simmer for 15 minutes, stirring occasionally.",
       "Add shredded spinach or ugu and cook for 5 more minutes.",
-      "Serve hot with pounded yam, eba, or fufu.",
+      "Serve hot with pounded yam, eba, or fufu."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "23",
@@ -669,9 +1497,24 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400",
     description: "Smooth, stretchy pounded yam — the classic Nigerian swallow, best served with egusi or any soup.",
     ingredients: [
-      { id: "i1", name: "White yam",   amount: 1,  unit: "kg"    },
-      { id: "i2", name: "Water",       amount: 4,  unit: "cups"  },
-      { id: "i3", name: "Salt",        amount: 1,  unit: "pinch" },
+      {
+        id: "23-i1",
+        name: "White yam",
+        amount: 1,
+        unit: "kg"
+      },
+      {
+        id: "23-i2",
+        name: "Water",
+        amount: 4,
+        unit: "cups"
+      },
+      {
+        id: "23-i3",
+        name: "Salt",
+        amount: 1,
+        unit: "pinch"
+      }
     ],
     steps: [
       "Peel the yam and cut into chunks. Rinse well.",
@@ -680,9 +1523,9 @@ export const SAMPLE_RECIPES = [
       "Transfer to a mortar and pound vigorously, adding a little warm water as needed.",
       "Keep pounding and turning until smooth, elastic, and lump-free.",
       "Alternatively, use a food processor — blend until a smooth dough forms.",
-      "Mould into balls and serve immediately with your favourite soup.",
+      "Mould into balls and serve immediately with your favourite soup."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "24",
@@ -694,14 +1537,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
     description: "Spicy Nigerian street-food skewers made with thin beef strips and a peanut-spice rub.",
     ingredients: [
-      { id: "i1", name: "Beef sirloin, thinly sliced", amount: 600, unit: "g"    },
-      { id: "i2", name: "Ground roasted peanuts",       amount: 4,   unit: "tbsp" },
-      { id: "i3", name: "Suya spice (yaji)",            amount: 2,   unit: "tbsp" },
-      { id: "i4", name: "Ginger powder",               amount: 1,   unit: "tsp"  },
-      { id: "i5", name: "Garlic powder",               amount: 1,   unit: "tsp"  },
-      { id: "i6", name: "Paprika",                     amount: 1,   unit: "tsp"  },
-      { id: "i7", name: "Vegetable oil",               amount: 2,   unit: "tbsp" },
-      { id: "i8", name: "Salt",                        amount: 1,   unit: "tsp"  },
+      {
+        id: "24-i1",
+        name: "Beef sirloin, thinly sliced",
+        amount: 600,
+        unit: "g"
+      },
+      {
+        id: "24-i2",
+        name: "Ground roasted peanuts",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "24-i3",
+        name: "Suya spice (yaji)",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "24-i4",
+        name: "Ginger powder",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "24-i5",
+        name: "Garlic powder",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "24-i6",
+        name: "Paprika",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "24-i7",
+        name: "Vegetable oil",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "24-i8",
+        name: "Salt",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Slice beef very thinly against the grain.",
@@ -710,9 +1593,9 @@ export const SAMPLE_RECIPES = [
       "Thread onto skewers.",
       "Grill over high heat or on a barbecue for 3–4 minutes per side.",
       "The beef should have charred edges and be cooked through.",
-      "Serve immediately with sliced onions, tomatoes, and extra suya spice.",
+      "Serve immediately with sliced onions, tomatoes, and extra suya spice."
     ],
-    isFavourite: true,
+    isFavourite: true
   },
   {
     id: "25",
@@ -724,18 +1607,63 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=400",
     description: "Steamed bean pudding made from blended black-eyed beans — soft, savoury and packed with flavour.",
     ingredients: [
-      { id: "i1", name: "Black-eyed beans",     amount: 2,   unit: "cups"  },
-      { id: "i2", name: "Red bell pepper",      amount: 1,   unit: "whole" },
-      { id: "i3", name: "Scotch bonnet",        amount: 1,   unit: "whole" },
-      { id: "i4", name: "Onion",               amount: 1,   unit: "whole" },
-      { id: "i5", name: "Vegetable oil",        amount: 3,   unit: "tbsp"  },
-      { id: "i6", name: "Seasoning cubes",      amount: 2,   unit: "whole" },
-      { id: "i7", name: "Crayfish, ground",     amount: 2,   unit: "tbsp"  },
-      { id: "i8", name: "Boiled eggs",          amount: 4,   unit: "whole" },
-      { id: "i9", name: "Corned beef (optional)", amount: 100, unit: "g"   },
+      {
+        id: "25-i1",
+        name: "Black-eyed beans",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "25-i2",
+        name: "Red bell pepper",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "25-i3",
+        name: "Scotch bonnet",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "25-i4",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "25-i5",
+        name: "Vegetable oil",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "25-i6",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "25-i7",
+        name: "Crayfish, ground",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "25-i8",
+        name: "Boiled eggs",
+        amount: 4,
+        unit: "whole"
+      },
+      {
+        id: "25-i9",
+        name: "Corned beef (optional)",
+        amount: 100,
+        unit: "g"
+      }
     ],
     steps: [
-      "Soak beans for 30 minutes, then rub off the skins and rinse.",
+      "Soak beans for 30 minutes, then rub off the skins and rinse thoroughly.",
       "Blend beans with pepper, scotch bonnet, and onion until very smooth.",
       "Add oil, crayfish, seasoning cubes, and salt. Mix well.",
       "The batter should be smooth and slightly thick but pourable.",
@@ -743,9 +1671,9 @@ export const SAMPLE_RECIPES = [
       "Add a slice of boiled egg and corned beef into each portion.",
       "Steam in a covered pot for 45–50 minutes. Check water level regularly.",
       "Test with a skewer — it should come out clean when done.",
-      "Serve warm with jollof rice, ogi, or on its own.",
+      "Serve warm with jollof rice, ogi, or on its own."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "26",
@@ -757,14 +1685,54 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=400",
     description: "Light, intensely spiced Nigerian broth with goat meat or fish — the ultimate comfort food.",
     ingredients: [
-      { id: "i1", name: "Goat meat or chicken", amount: 600, unit: "g"     },
-      { id: "i2", name: "Pepper soup spice",    amount: 2,   unit: "tbsp"  },
-      { id: "i3", name: "Scotch bonnet",        amount: 2,   unit: "whole" },
-      { id: "i4", name: "Onion",               amount: 1,   unit: "whole" },
-      { id: "i5", name: "Uziza leaves",         amount: 1,   unit: "handful" },
-      { id: "i6", name: "Scent leaves (efirin)", amount: 1,  unit: "handful" },
-      { id: "i7", name: "Seasoning cubes",      amount: 2,   unit: "whole" },
-      { id: "i8", name: "Crayfish, ground",     amount: 1,   unit: "tbsp"  },
+      {
+        id: "26-i1",
+        name: "Goat meat or chicken",
+        amount: 600,
+        unit: "g"
+      },
+      {
+        id: "26-i2",
+        name: "Pepper soup spice",
+        amount: 2,
+        unit: "tbsp"
+      },
+      {
+        id: "26-i3",
+        name: "Scotch bonnet",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "26-i4",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "26-i5",
+        name: "Uziza leaves",
+        amount: 1,
+        unit: "handful"
+      },
+      {
+        id: "26-i6",
+        name: "Scent leaves (efirin)",
+        amount: 1,
+        unit: "handful"
+      },
+      {
+        id: "26-i7",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "26-i8",
+        name: "Crayfish, ground",
+        amount: 1,
+        unit: "tbsp"
+      }
     ],
     steps: [
       "Wash and cut meat into bite-sized pieces.",
@@ -774,9 +1742,9 @@ export const SAMPLE_RECIPES = [
       "Add more water to your preferred consistency.",
       "Simmer for another 15 minutes until the spices are well absorbed.",
       "Add uziza and scent leaves in the last 3 minutes.",
-      "Serve hot in a bowl — great with agidi or white rice.",
+      "Serve hot in a bowl — great with agidi or white rice."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "27",
@@ -788,9 +1756,24 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=400",
     description: "Golden, caramelised fried plantain — sweet, soft inside and slightly crispy outside.",
     ingredients: [
-      { id: "i1", name: "Ripe plantains",  amount: 2,  unit: "whole" },
-      { id: "i2", name: "Vegetable oil",   amount: 1,  unit: "cup"   },
-      { id: "i3", name: "Salt",            amount: 1,  unit: "pinch" },
+      {
+        id: "27-i1",
+        name: "Ripe plantains",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "27-i2",
+        name: "Vegetable oil",
+        amount: 1,
+        unit: "cup"
+      },
+      {
+        id: "27-i3",
+        name: "Salt",
+        amount: 1,
+        unit: "pinch"
+      }
     ],
     steps: [
       "Peel the plantains and cut diagonally into 1cm slices.",
@@ -799,9 +1782,9 @@ export const SAMPLE_RECIPES = [
       "Fry plantain slices in batches for 2–3 minutes per side until golden and caramelised.",
       "Don't overcrowd the pan — fry in batches.",
       "Remove with a slotted spoon and drain on paper towels.",
-      "Serve as a side with rice, beans, eggs, or any Nigerian main.",
+      "Serve as a side with rice, beans, eggs, or any Nigerian main."
     ],
-    isFavourite: true,
+    isFavourite: true
   },
   {
     id: "28",
@@ -813,15 +1796,60 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400",
     description: "Traditional Igbo soup made with washed bitter leaf, cocoyam thickener, and assorted meat.",
     ingredients: [
-      { id: "i1", name: "Bitter leaf, washed", amount: 200, unit: "g"     },
-      { id: "i2", name: "Cocoyam (ofe akwu)", amount: 500, unit: "g"     },
-      { id: "i3", name: "Beef & tripe",        amount: 400, unit: "g"     },
-      { id: "i4", name: "Stockfish",           amount: 100, unit: "g"     },
-      { id: "i5", name: "Palm oil",            amount: 5,   unit: "tbsp"  },
-      { id: "i6", name: "Crayfish, ground",    amount: 3,   unit: "tbsp"  },
-      { id: "i7", name: "Scotch bonnet",       amount: 2,   unit: "whole" },
-      { id: "i8", name: "Seasoning cubes",     amount: 2,   unit: "whole" },
-      { id: "i9", name: "Ogiri okpei",         amount: 1,   unit: "tsp"   },
+      {
+        id: "28-i1",
+        name: "Bitter leaf, washed",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "28-i2",
+        name: "Cocoyam (ofe akwu)",
+        amount: 500,
+        unit: "g"
+      },
+      {
+        id: "28-i3",
+        name: "Beef & tripe",
+        amount: 400,
+        unit: "g"
+      },
+      {
+        id: "28-i4",
+        name: "Stockfish",
+        amount: 100,
+        unit: "g"
+      },
+      {
+        id: "28-i5",
+        name: "Palm oil",
+        amount: 5,
+        unit: "tbsp"
+      },
+      {
+        id: "28-i6",
+        name: "Crayfish, ground",
+        amount: 3,
+        unit: "tbsp"
+      },
+      {
+        id: "28-i7",
+        name: "Scotch bonnet",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "28-i8",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "28-i9",
+        name: "Ogiri okpei",
+        amount: 1,
+        unit: "tsp"
+      }
     ],
     steps: [
       "Boil and pound cocoyam until very smooth. Set aside as thickener.",
@@ -831,9 +1859,9 @@ export const SAMPLE_RECIPES = [
       "Add cocoyam paste in lumps to thicken the soup. Stir well.",
       "Add washed bitter leaf and cook for 10 minutes.",
       "Adjust seasoning and consistency as needed.",
-      "Serve with pounded yam, fufu, or eba.",
+      "Serve with pounded yam, fufu, or eba."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "29",
@@ -845,17 +1873,72 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400",
     description: "Colourful Nigerian-style fried rice with mixed vegetables, liver, and a distinctive golden hue.",
     ingredients: [
-      { id: "i1", name: "Long grain rice",     amount: 3,   unit: "cups"  },
-      { id: "i2", name: "Chicken liver",       amount: 200, unit: "g"     },
-      { id: "i3", name: "Carrots, diced",      amount: 2,   unit: "whole" },
-      { id: "i4", name: "Green peas",          amount: 1,   unit: "cup"   },
-      { id: "i5", name: "Green beans, sliced", amount: 1,   unit: "cup"   },
-      { id: "i6", name: "Onion",               amount: 1,   unit: "whole" },
-      { id: "i7", name: "Vegetable oil",       amount: 4,   unit: "tbsp"  },
-      { id: "i8", name: "Curry powder",        amount: 2,   unit: "tsp"   },
-      { id: "i9", name: "Thyme",               amount: 1,   unit: "tsp"   },
-      { id: "i10", name: "Chicken stock",      amount: 4,   unit: "cups"  },
-      { id: "i11", name: "Seasoning cubes",    amount: 2,   unit: "whole" },
+      {
+        id: "29-i1",
+        name: "Long grain rice",
+        amount: 3,
+        unit: "cups"
+      },
+      {
+        id: "29-i2",
+        name: "Chicken liver",
+        amount: 200,
+        unit: "g"
+      },
+      {
+        id: "29-i3",
+        name: "Carrots, diced",
+        amount: 2,
+        unit: "whole"
+      },
+      {
+        id: "29-i4",
+        name: "Green peas",
+        amount: 1,
+        unit: "cup"
+      },
+      {
+        id: "29-i5",
+        name: "Green beans, sliced",
+        amount: 1,
+        unit: "cup"
+      },
+      {
+        id: "29-i6",
+        name: "Onion",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "29-i7",
+        name: "Vegetable oil",
+        amount: 4,
+        unit: "tbsp"
+      },
+      {
+        id: "29-i8",
+        name: "Curry powder",
+        amount: 2,
+        unit: "tsp"
+      },
+      {
+        id: "29-i9",
+        name: "Thyme",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "29-i10",
+        name: "Chicken stock",
+        amount: 4,
+        unit: "cups"
+      },
+      {
+        id: "29-i11",
+        name: "Seasoning cubes",
+        amount: 2,
+        unit: "whole"
+      }
     ],
     steps: [
       "Parboil rice in stock with curry powder and thyme. Drain when half cooked.",
@@ -866,9 +1949,9 @@ export const SAMPLE_RECIPES = [
       "Add the parboiled rice and mix well with the vegetables.",
       "Add green peas, diced liver, and seasoning. Stir-fry for 5 minutes.",
       "Add a splash of stock if rice seems dry. Cook until rice is done.",
-      "Serve with fried chicken, coleslaw, and fried plantain.",
+      "Serve with fried chicken, coleslaw, and fried plantain."
     ],
-    isFavourite: false,
+    isFavourite: false
   },
   {
     id: "30",
@@ -880,12 +1963,42 @@ export const SAMPLE_RECIPES = [
     image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",
     description: "Fluffy deep-fried bean fritters — a popular Nigerian breakfast or street snack.",
     ingredients: [
-      { id: "i1", name: "Black-eyed beans",   amount: 2,   unit: "cups"  },
-      { id: "i2", name: "Onion",              amount: 0.5, unit: "whole" },
-      { id: "i3", name: "Scotch bonnet",      amount: 1,   unit: "whole" },
-      { id: "i4", name: "Seasoning cube",     amount: 1,   unit: "whole" },
-      { id: "i5", name: "Salt",              amount: 1,   unit: "tsp"   },
-      { id: "i6", name: "Vegetable oil",     amount: 2,   unit: "cups"  },
+      {
+        id: "30-i1",
+        name: "Black-eyed beans",
+        amount: 2,
+        unit: "cups"
+      },
+      {
+        id: "30-i2",
+        name: "Onion",
+        amount: 0.5,
+        unit: "whole"
+      },
+      {
+        id: "30-i3",
+        name: "Scotch bonnet",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "30-i4",
+        name: "Seasoning cube",
+        amount: 1,
+        unit: "whole"
+      },
+      {
+        id: "30-i5",
+        name: "Salt",
+        amount: 1,
+        unit: "tsp"
+      },
+      {
+        id: "30-i6",
+        name: "Vegetable oil",
+        amount: 2,
+        unit: "cups"
+      }
     ],
     steps: [
       "Soak beans for 30 minutes, then rub off the skins and rinse thoroughly.",
@@ -895,8 +2008,8 @@ export const SAMPLE_RECIPES = [
       "Whisk the batter vigorously for 3–5 minutes to incorporate air for fluffiness.",
       "Heat oil in a deep pan over medium heat.",
       "Drop spoonfuls of batter into the oil and fry for 3–4 minutes, turning once.",
-      "Drain on paper towels and serve with ogi (pap) or bread.",
+      "Drain on paper towels and serve with ogi (pap) or bread."
     ],
-    isFavourite: false,
-  },
+    isFavourite: false
+  }
 ];
