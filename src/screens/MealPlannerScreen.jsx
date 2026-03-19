@@ -13,6 +13,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRecipes } from "../context/RecipeContext";
 import RecipePickerModal from "../components/RecipePickerModal";
+import { scheduleMealPlanNotification, isMealReminderScheduled } from "../services/notificationService";
 import {
   getCurrentWeekDates,
   formatDisplayDate,
@@ -22,22 +23,22 @@ import {
 } from "../utils/dateHelpers";
 
 const MEAL_TYPES = [
-  { key: "breakfast", label: "Breakfast", icon: "sunny-outline",       color: "text-amber-500",  bg: "bg-amber-50",  border: "border-amber-200"  },
-  { key: "lunch",     label: "Lunch",     icon: "partly-sunny-outline", color: "text-sky-500",    bg: "bg-sky-50",    border: "border-sky-200"    },
-  { key: "dinner",    label: "Dinner",    icon: "moon-outline",         color: "text-indigo-500", bg: "bg-indigo-50", border: "border-indigo-200" },
+  { key: "breakfast", label: "Breakfast", icon: "sunny-outline", color: "text-amber-500", bg: "bg-amber-50", border: "border-amber-200" },
+  { key: "lunch", label: "Lunch", icon: "partly-sunny-outline", color: "text-sky-500", bg: "bg-sky-50", border: "border-sky-200" },
+  { key: "dinner", label: "Dinner", icon: "moon-outline", color: "text-indigo-500", bg: "bg-indigo-50", border: "border-indigo-200" },
 ];
 
 export default function MealPlannerScreen({ navigation }) {
   const { getMealsForDay, assignMeal, removeMeal, generateShoppingList } = useRecipes();
 
-  const weekDates   = useMemo(() => getCurrentWeekDates(), []);
+  const weekDates = useMemo(() => getCurrentWeekDates(), []);
   const [selectedDay, setSelectedDay] = useState(
     weekDates.find((d) => isToday(d)) ?? weekDates[0]
   );
 
-  const [pickerVisible,  setPickerVisible]  = useState(false);
+  const [pickerVisible, setPickerVisible] = useState(false);
   const [activeMealType, setActiveMealType] = useState(null);
-  const [generating,     setGenerating]     = useState(false);
+  const [generating, setGenerating] = useState(false);
 
   const dayMeals = getMealsForDay(selectedDay);
 
@@ -67,6 +68,15 @@ export default function MealPlannerScreen({ navigation }) {
     try {
       // generateShoppingList is async — MUST be awaited
       const list = await generateShoppingList(weekDates);
+
+      // If user has reminder enabled, update it with today's actual meals
+      const hasReminder = await isMealReminderScheduled();
+      if (hasReminder) {
+        const todayMeals = getMealsForDay(
+          weekDates.find((d) => isToday(d)) ?? weekDates[0]
+        );
+        await scheduleMealPlanNotification(todayMeals);
+      }
 
       console.log("[MealPlanner] Generated list length:", list.length);
 
@@ -118,41 +128,37 @@ export default function MealPlannerScreen({ navigation }) {
         >
           {weekDates.map((dateKey) => {
             const { day, date } = formatShortDate(dateKey);
-            const isSelected    = dateKey === selectedDay;
-            const todayFlag     = isToday(dateKey);
-            const dayData       = getMealsForDay(dateKey);
-            const mealCount     = Object.values(dayData).filter(Boolean).length;
+            const isSelected = dateKey === selectedDay;
+            const todayFlag = isToday(dateKey);
+            const dayData = getMealsForDay(dateKey);
+            const mealCount = Object.values(dayData).filter(Boolean).length;
 
             return (
               <TouchableOpacity
                 key={dateKey}
                 onPress={() => setSelectedDay(dateKey)}
                 activeOpacity={0.8}
-                className={`items-center px-3 py-3 rounded-2xl min-w-[52px] ${
-                  isSelected
+                className={`items-center px-3 py-3 rounded-2xl min-w-[52px] ${isSelected
                     ? "bg-green-600"
                     : todayFlag
-                    ? "bg-green-50 border border-green-200"
-                    : "bg-gray-50"
-                }`}
+                      ? "bg-green-50 border border-green-200"
+                      : "bg-gray-50"
+                  }`}
               >
-                <Text className={`text-xs font-semibold mb-1 ${
-                  isSelected ? "text-green-200" : "text-gray-400"
-                }`}>
+                <Text className={`text-xs font-semibold mb-1 ${isSelected ? "text-green-200" : "text-gray-400"
+                  }`}>
                   {day}
                 </Text>
-                <Text className={`text-base font-bold ${
-                  isSelected ? "text-white" : todayFlag ? "text-green-700" : "text-gray-700"
-                }`}>
+                <Text className={`text-base font-bold ${isSelected ? "text-white" : todayFlag ? "text-green-700" : "text-gray-700"
+                  }`}>
                   {date}
                 </Text>
                 <View className="flex-row gap-0.5 mt-1.5">
                   {[0, 1, 2].map((i) => (
-                    <View key={i} className={`w-1 h-1 rounded-full ${
-                      i < mealCount
+                    <View key={i} className={`w-1 h-1 rounded-full ${i < mealCount
                         ? isSelected ? "bg-green-200" : "bg-green-500"
                         : isSelected ? "bg-green-700" : "bg-gray-200"
-                    }`} />
+                      }`} />
                   ))}
                 </View>
               </TouchableOpacity>
@@ -191,11 +197,11 @@ export default function MealPlannerScreen({ navigation }) {
                   <View
                     className="flex-row items-center gap-3 bg-white border border-gray-100 rounded-2xl p-3"
                     style={{
-                      shadowColor:   "#000",
-                      shadowOffset:  { width: 0, height: 1 },
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
                       shadowOpacity: 0.05,
-                      shadowRadius:  4,
-                      elevation:     1,
+                      shadowRadius: 4,
+                      elevation: 1,
                     }}
                   >
                     <Image
@@ -268,12 +274,12 @@ export default function MealPlannerScreen({ navigation }) {
                 activeOpacity={0.85}
                 className="bg-green-600 rounded-2xl py-4 flex-row items-center justify-center gap-2"
                 style={{
-                  shadowColor:   "#16a34a",
-                  shadowOffset:  { width: 0, height: 4 },
+                  shadowColor: "#16a34a",
+                  shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: generating ? 0.1 : 0.3,
-                  shadowRadius:  8,
-                  elevation:     4,
-                  opacity:       generating ? 0.75 : 1,
+                  shadowRadius: 8,
+                  elevation: 4,
+                  opacity: generating ? 0.75 : 1,
                 }}
               >
                 {generating ? (

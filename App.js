@@ -1,13 +1,16 @@
 // App.js
 import "react-native-gesture-handler";
 import "./global.css";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { RecipeProvider, useRecipes } from "./src/context/RecipeContext";
+import { requestNotificationPermission } from "./src/services/notificationService";
+import * as Notifications from "expo-notifications"
+import "./src/services/notificationService";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -21,6 +24,7 @@ import MealPlannerScreen from "./src/screens/MealPlannerScreen";
 import ShoppingListScreen from "./src/screens/ShoppingListScreen";
 import AddRecipeScreen from "./src/screens/AddRecipeScreen";
 import FavouritesScreen from "./src/screens/FavouritesScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,6 +93,14 @@ function FavouritesStack() {
   );
 }
 
+function SettingsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SettingsMain" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function AppNavigator() {
   return (
     <Tab.Navigator
@@ -107,55 +119,92 @@ function AppNavigator() {
       }}
     >
       <Tab.Screen
-  name="Home"
-  component={HomeStack}
-  options={{
-    tabBarIcon: ({ color, size, focused }) => (
-      <AnimatedTabIcon name="home" color={color} size={size} focused={focused} />
-    ),
-  }}
-/>
-<Tab.Screen
-  name="Planner"
-  component={MealPlannerStack}
-  options={{
-    tabBarIcon: ({ color, size, focused }) => (
-      <AnimatedTabIcon name="calendar" color={color} size={size} focused={focused} />
-    ),
-  }}
-/>
-<Tab.Screen
-  name="Add"
-  component={AddRecipeStack}
-  options={{
-    tabBarIcon: ({ color, size, focused }) => (
-      <AnimatedTabIcon name="add-circle" color={color} size={size} focused={focused} />
-    ),
-  }}
-/>
-<Tab.Screen
-  name="Shopping"
-  component={ShoppingListStack}
-  options={{
-    tabBarIcon: ({ color, size, focused }) => (
-      <AnimatedTabIcon name="cart" color={color} size={size} focused={focused} />
-    ),
-  }}
-/>
-<Tab.Screen
-  name="Favourites"
-  component={FavouritesStack}
-  options={{
-    tabBarIcon: ({ color, size, focused }) => (
-      <AnimatedTabIcon name="heart" color={color} size={size} focused={focused} />
-    ),
-  }}
-/>
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon name="home" color={color} size={size} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Planner"
+        component={MealPlannerStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon name="calendar" color={color} size={size} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={AddRecipeStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon name="add-circle" color={color} size={size} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Shopping"
+        component={ShoppingListStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon name="cart" color={color} size={size} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favourites"
+        component={FavouritesStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) => (
+            <AnimatedTabIcon name="heart" color={color} size={size} focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen name="Settings" component={SettingsStack}
+        options={{
+          tabBarIcon: ({ color, size, focused }) =>
+            <AnimatedTabIcon name="settings-outline" color={color} size={size} focused={focused} />
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 export default function App() {
+  const navigationRef = useRef(null);
+
+  // ── Request notification permission on first launch ───────────────────
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  // ── Handle notification tap — navigate to the right screen ───────────
+  useEffect(() => {
+    // App was opened BY tapping a notification (app was closed/background)
+    Notifications.getLastNotificationResponseAsync().then((response) => {
+      if (!response) return;
+      const screen = response.notification.request.content.data?.screen;
+      if (screen && navigationRef.current) {
+        navigationRef.current.navigate(screen);
+      }
+    });
+
+    // App is open and user taps a notification (foreground)
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        const screen = response.notification.request.content.data?.screen;
+        if (screen && navigationRef.current) {
+          navigationRef.current.navigate(screen);
+        }
+      }
+    );
+
+    return () => subscription.remove();
+  }, []);
+
   return (
     <RecipeProvider>
       <NavigationContainer>
