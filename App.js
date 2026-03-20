@@ -1,16 +1,19 @@
 // App.js
 import "react-native-gesture-handler";
 import "./global.css";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { RecipeProvider, useRecipes } from "./src/context/RecipeContext";
+import { ThemeProvider } from "./src/context/ThemeContext";
 import { requestNotificationPermission } from "./src/services/notificationService";
 import * as Notifications from "expo-notifications"
 import "./src/services/notificationService";
+import * as ExpoSplashScreen from "expo-splash-screen";
+import SplashScreen from "./src/screens/SplashScreen";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -28,6 +31,9 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+// Keep the native splash visible until our JS splash is ready
+ExpoSplashScreen.preventAutoHideAsync();
 
 function AnimatedTabIcon({ name, color, size, focused }) {
   const scale = useSharedValue(1);
@@ -174,7 +180,18 @@ function AppNavigator() {
 }
 
 export default function App() {
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
   const navigationRef = useRef(null);
+
+  // Hide native splash as soon as component mounts
+  const onLayoutRootView = useCallback(async () => {
+    await ExpoSplashScreen.hideAsync();
+  }, []);
+
+  // Called by SplashScreen component when its animation ends
+  const handleSplashFinish = () => {
+    setShowCustomSplash(false);
+  };
 
   // ── Request notification permission on first launch ───────────────────
   useEffect(() => {
@@ -206,10 +223,20 @@ export default function App() {
   }, []);
 
   return (
-    <RecipeProvider>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-    </RecipeProvider>
+    <ThemeProvider>
+      <RecipeProvider>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          {showCustomSplash ? (
+            // Show our animated splash first
+            <SplashScreen onFinish={handleSplashFinish} />
+          ) : (
+            // Then show the full app
+            <NavigationContainer ref={navigationRef}>
+              <AppNavigator />
+            </NavigationContainer>
+          )}
+        </View>
+      </RecipeProvider>
+    </ThemeProvider>
   );
 }

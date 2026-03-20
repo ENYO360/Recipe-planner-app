@@ -1308,7 +1308,7 @@ export const SAMPLE_RECIPES = [
     duration: "60 mins",
     servings: 6,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=400",
+    image: "https://kikifoodies.com/wp-content/uploads/2025/11/ET5B7943-4-1024x1024.jpeg",
     description: "The beloved West African party rice — smoky, tomato-based and deeply flavourful.",
     ingredients: [
       {
@@ -1404,7 +1404,7 @@ export const SAMPLE_RECIPES = [
     duration: "60 mins",
     servings: 6,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400",
+    image: "https://images.squarespace-cdn.com/content/v1/614f831e90f08045038b4dae/9a18e8d0-efc6-4ca6-aa4c-656f7d53cd4e/Recipe-for-Egusi-Soup.png?format=1000w",
     description: "Rich, hearty Nigerian soup made with ground melon seeds, leafy greens and assorted meat.",
     ingredients: [
       {
@@ -1534,7 +1534,7 @@ export const SAMPLE_RECIPES = [
     duration: "35 mins",
     servings: 4,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
+    image: "https://www.tastingtable.com/img/gallery/suya-the-classic-nigerian-street-food-you-should-know/intro-1663005990.webphttps://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
     description: "Spicy Nigerian street-food skewers made with thin beef strips and a peanut-spice rub.",
     ingredients: [
       {
@@ -1604,7 +1604,7 @@ export const SAMPLE_RECIPES = [
     duration: "75 mins",
     servings: 8,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1576402187878-974f70c890a5?w=400",
+    image: "https://sisijemimah.com/wp-content/uploads/2015/12/moimoi-3-1024x652.jpg",
     description: "Steamed bean pudding made from blended black-eyed beans — soft, savoury and packed with flavour.",
     ingredients: [
       {
@@ -1682,7 +1682,7 @@ export const SAMPLE_RECIPES = [
     duration: "50 mins",
     servings: 4,
     difficulty: "Easy",
-    image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=400",
+    image: "https://images.squarespace-cdn.com/content/v1/614f831e90f08045038b4dae/aee89930-fe76-47c8-84b0-8b9e392d8989/pepper-soup-goat-meat.jpeg?format=1000w",
     description: "Light, intensely spiced Nigerian broth with goat meat or fish — the ultimate comfort food.",
     ingredients: [
       {
@@ -1753,7 +1753,7 @@ export const SAMPLE_RECIPES = [
     duration: "15 mins",
     servings: 2,
     difficulty: "Easy",
-    image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=400",
+    image: "https://flawlessfood.co.uk/wp-content/uploads/2023/04/Fried-Plantain-17-edited.jpg",
     description: "Golden, caramelised fried plantain — sweet, soft inside and slightly crispy outside.",
     ingredients: [
       {
@@ -1793,7 +1793,7 @@ export const SAMPLE_RECIPES = [
     duration: "70 mins",
     servings: 6,
     difficulty: "Hard",
-    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400",
+    image: "https://afrokitchennl.ca/wp-content/uploads/2020/11/Ofe-Onugbu.jpg",
     description: "Traditional Igbo soup made with washed bitter leaf, cocoyam thickener, and assorted meat.",
     ingredients: [
       {
@@ -1870,7 +1870,7 @@ export const SAMPLE_RECIPES = [
     duration: "50 mins",
     servings: 6,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400",
+    image: "https://www.allnigerianrecipes.com/wp-content/uploads/2020/04/easy-nigerian-fried-rice.jpg",
     description: "Colourful Nigerian-style fried rice with mixed vegetables, liver, and a distinctive golden hue.",
     ingredients: [
       {
@@ -1960,7 +1960,7 @@ export const SAMPLE_RECIPES = [
     duration: "40 mins",
     servings: 4,
     difficulty: "Medium",
-    image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",
+    image: "https://i0.wp.com/kscuisine.com/wp-content/uploads/2020/02/Akara-pic.jpeg?w=800&ssl=1",
     description: "Fluffy deep-fried bean fritters — a popular Nigerian breakfast or street snack.",
     ingredients: [
       {

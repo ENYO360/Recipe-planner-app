@@ -1,33 +1,45 @@
 {
   "expo": {
-    "name": "RecipePlanner",
-    "slug": "RecipePlanner",
+    "name": "Recipe Planner",
+    "slug": "recipe-planner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourname.recipeplanner",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.yourname.recipeplanner",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-sqlite",
-      "expo-asset",
       [
         "expo-image-picker",
         {
@@ -38,11 +50,18 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/notification-icon.png",
+          "icon": "./assets/icon.png",
           "color": "#16a34a",
           "sounds": []
         }
-      ]
-    ]
+      ],
+      "expo-sqlite"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a7e46512-81ee-4206-9dda-3beae4129de6"
+      }
+    },
+    "owner": "enyotronics"
   }
 }
