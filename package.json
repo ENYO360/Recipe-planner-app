@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/vector-icons": "^15.1.1",
+    "@expo/vector-icons": "~14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^7.15.5",
     "@react-navigation/native": "^7.1.33",
@@ -17,6 +17,7 @@
     "expo": "^52.0.0",
     "expo-asset": "~11.0.5",
     "expo-device": "~7.0.3",
+    "expo-font": "~13.0.4",
     "expo-image-picker": "~16.0.6",
     "expo-notifications": "~0.29.14",
     "expo-splash-screen": "~0.29.24",
