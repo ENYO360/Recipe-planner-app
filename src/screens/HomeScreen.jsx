@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import { useRecipes } from "../context/RecipeContext";
 import { CATEGORIES } from "../data/sampleRecipes";
 import RecipeCard   from "../components/RecipeCard";
@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
 
   const renderEmptyState = useCallback(() => (
     <View className="items-center justify-center py-20">
-      <Ionicons name="search-outline" size={48} color="#d1d5db" />
+      <Icon name="search-outline" size={48} color="#d1d5db" />
       <Text className="text-gray-400 font-semibold text-base mt-4">
         No recipes found
       </Text>
@@ -93,7 +93,7 @@ export default function HomeScreen({ navigation }) {
 
       {/* Search bar — lives OUTSIDE FlatList so it never unmounts on re-render */}
       <View className="mx-5 mt-4 mb-5 flex-row items-center bg-gray-100 rounded-2xl px-4 py-3 gap-2">
-        <Ionicons name="search-outline" size={18} color="#9ca3af" />
+        <Icon name="search-outline" size={18} color="#9ca3af" />
         <TextInput
           placeholder="Search recipes..."
           placeholderTextColor="#9ca3af"
@@ -104,7 +104,7 @@ export default function HomeScreen({ navigation }) {
         />
         {searchQuery.length > 0 && (
           <TouchableOpacity onPress={() => setSearchQuery("")}>
-            <Ionicons name="close-circle" size={18} color="#9ca3af" />
+            <Icon name="close-circle" size={18} color="#9ca3af" />
           </TouchableOpacity>
         )}
       </View>

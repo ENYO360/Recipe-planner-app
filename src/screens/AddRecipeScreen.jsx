@@ -13,7 +13,7 @@ import {
   Alert,
   StatusBar,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import * as ImagePicker from "expo-image-picker";
 import { useRecipes } from "../context/RecipeContext";
 
@@ -281,7 +281,7 @@ export default function AddRecipeScreen({ navigation }) {
                   {/* Edit overlay */}
                   <View className="absolute inset-0 bg-black/20 items-center justify-center">
                     <View className="bg-white/90 rounded-full px-4 py-2 flex-row items-center gap-2">
-                      <Ionicons name="camera" size={14} color="#374151" />
+                      <Icon name="camera" size={14} color="#374151" />
                       <Text className="text-gray-700 text-xs font-bold">
                         Change Photo
                       </Text>
@@ -292,7 +292,7 @@ export default function AddRecipeScreen({ navigation }) {
                 // Upload placeholder
                 <View className="flex-1 items-center justify-center gap-2">
                   <View className="w-14 h-14 rounded-full bg-gray-100 items-center justify-center">
-                    <Ionicons name="camera-outline" size={26} color="#9ca3af" />
+                    <Icon name="camera-outline" size={26} color="#9ca3af" />
                   </View>
                   <Text className="text-gray-400 text-sm font-medium">
                     Add a photo
@@ -436,7 +436,7 @@ export default function AddRecipeScreen({ navigation }) {
                         ingredients.length === 1 ? "bg-gray-100" : "bg-red-50"
                       }`}
                     >
-                      <Ionicons
+                      <Icon
                         name="close"
                         size={14}
                         color={ingredients.length === 1 ? "#d1d5db" : "#ef4444"}
@@ -452,7 +452,7 @@ export default function AddRecipeScreen({ navigation }) {
                 activeOpacity={0.7}
                 className="flex-row items-center justify-center gap-2 mt-3 py-3 border border-dashed border-green-300 rounded-xl bg-green-50"
               >
-                <Ionicons name="add-circle-outline" size={16} color="#16a34a" />
+                <Icon name="add-circle-outline" size={16} color="#16a34a" />
                 <Text className="text-green-700 text-sm font-semibold">
                   Add Ingredient
                 </Text>
@@ -499,7 +499,7 @@ export default function AddRecipeScreen({ navigation }) {
                         steps.length === 1 ? "bg-gray-100" : "bg-red-50"
                       }`}
                     >
-                      <Ionicons
+                      <Icon
                         name="close"
                         size={14}
                         color={steps.length === 1 ? "#d1d5db" : "#ef4444"}
@@ -515,7 +515,7 @@ export default function AddRecipeScreen({ navigation }) {
                 activeOpacity={0.7}
                 className="flex-row items-center justify-center gap-2 mt-3 py-3 border border-dashed border-gray-300 rounded-xl bg-gray-50"
               >
-                <Ionicons name="add-circle-outline" size={16} color="#6b7280" />
+                <Icon name="add-circle-outline" size={16} color="#6b7280" />
                 <Text className="text-gray-500 text-sm font-semibold">
                   Add Step
                 </Text>
@@ -535,7 +535,7 @@ export default function AddRecipeScreen({ navigation }) {
                 elevation: 5,
               }}
             >
-              <Ionicons name="checkmark-circle" size={20} color="white" />
+              <Icon name="checkmark-circle" size={20} color="white" />
               <Text className="text-white font-bold text-base">
                 Save Recipe
               </Text>

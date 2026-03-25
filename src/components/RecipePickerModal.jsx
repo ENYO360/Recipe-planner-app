@@ -10,7 +10,7 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "./Icon";
 import { useRecipes } from "../context/RecipeContext";
 
 export default function RecipePickerModal({ visible, onClose, onSelect, mealType }) {
@@ -40,7 +40,7 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
         <View className="px-5 pt-4 pb-4 border-b border-gray-100">
           <View className="flex-row items-center justify-between mb-1">
             <View className="flex-row items-center gap-2">
-              <Ionicons
+              <Icon
                 name={MEAL_ICONS[mealType] ?? "restaurant-outline"}
                 size={18}
                 color="#16a34a"
@@ -54,13 +54,13 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
               activeOpacity={0.7}
               className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center"
             >
-              <Ionicons name="close" size={16} color="#6b7280" />
+              <Icon name="close" size={16} color="#6b7280" />
             </TouchableOpacity>
           </View>
 
           {/* Search */}
           <View className="flex-row items-center bg-gray-100 rounded-xl px-3 py-2.5 gap-2 mt-3">
-            <Ionicons name="search-outline" size={15} color="#9ca3af" />
+            <Icon name="search-outline" size={15} color="#9ca3af" />
             <TextInput
               value={search}
               onChangeText={setSearch}
@@ -70,7 +70,7 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
             />
             {search.length > 0 && (
               <TouchableOpacity onPress={() => setSearch("")}>
-                <Ionicons name="close-circle" size={15} color="#9ca3af" />
+                <Icon name="close-circle" size={15} color="#9ca3af" />
               </TouchableOpacity>
             )}
           </View>
@@ -84,7 +84,7 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <View className="items-center py-16">
-              <Ionicons name="search-outline" size={36} color="#d1d5db" />
+              <Icon name="search-outline" size={36} color="#d1d5db" />
               <Text className="text-gray-400 mt-3 font-medium">No recipes found</Text>
             </View>
           }
@@ -119,7 +119,7 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
                 </Text>
                 <View className="flex-row items-center gap-3">
                   <View className="flex-row items-center gap-1">
-                    <Ionicons name="time-outline" size={11} color="#9ca3af" />
+                    <Icon name="time-outline" size={11} color="#9ca3af" />
                     <Text className="text-gray-400 text-xs">{item.duration}</Text>
                   </View>
                   <View className="bg-gray-100 px-2 py-0.5 rounded-full">
@@ -130,7 +130,7 @@ export default function RecipePickerModal({ visible, onClose, onSelect, mealType
                 </View>
               </View>
 
-              <Ionicons name="add-circle" size={22} color="#16a34a" />
+              <Icon name="add-circle" size={22} color="#16a34a" />
             </TouchableOpacity>
           )}
         />

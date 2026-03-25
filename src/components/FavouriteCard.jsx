@@ -1,6 +1,6 @@
 // src/components/FavouriteCard.jsx
 import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "./Icon";
 
 // Get the device screen width so we can calculate card size
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -37,7 +37,7 @@ export default function FavouriteCard({ recipe, onPress, onRemove }) {
             elevation: 2,
           }}
         >
-          <Ionicons name="heart" size={14} color="#ef4444" />
+          <Icon name="heart" size={14} color="#ef4444" filled />
         </TouchableOpacity>
 
         {/* Category badge */}
@@ -58,12 +58,12 @@ export default function FavouriteCard({ recipe, onPress, onRemove }) {
         </Text>
 
         <View className="flex-row items-center gap-1">
-          <Ionicons name="time-outline" size={11} color="#9ca3af" />
+          <Icon name="time-outline" size={11} color="#9ca3af" />
           <Text className="text-gray-400 text-xs">{recipe.duration}</Text>
 
           <View className="w-1 h-1 rounded-full bg-gray-300 mx-1" />
 
-          <Ionicons name="bar-chart-outline" size={11} color="#9ca3af" />
+          <Icon name="bar-chart-outline" size={11} color="#9ca3af" />
           <Text className="text-gray-400 text-xs">{recipe.difficulty}</Text>
         </View>
       </View>

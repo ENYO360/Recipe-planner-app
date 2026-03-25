@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "./Icon";
 
 export default function SwipeableItem({ item, onToggle, onDelete }) {
   const swipeableRef = useRef(null);
@@ -27,7 +27,7 @@ export default function SwipeableItem({ item, onToggle, onDelete }) {
         style={{ width: 72 }}
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          <Ionicons name="trash-outline" size={22} color="white" />
+          <Icon name="trash-outline" size={22} color="white" />
         </Animated.View>
         <Text className="text-white text-[10px] font-bold mt-1">Delete</Text>
       </TouchableOpacity>
@@ -55,7 +55,7 @@ export default function SwipeableItem({ item, onToggle, onDelete }) {
           }`}
         >
           {item.checked && (
-            <Ionicons name="checkmark" size={13} color="white" />
+            <Icon name="checkmark" size={13} color="white" />
           )}
         </View>
 

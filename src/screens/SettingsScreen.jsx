@@ -11,7 +11,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import {
@@ -244,7 +244,7 @@ export default function SettingsScreen({ navigation }) {
             {/* Device type */}
             <View className="flex-row items-center justify-between px-4 py-3.5 border-b border-gray-50">
               <View className="flex-row items-center gap-3">
-                <Ionicons name="phone-portrait-outline" size={16} color="#9ca3af" />
+                <Icon name="phone-portrait-outline" size={16} color="#9ca3af" />
                 <Text className="text-gray-600 text-sm">Device Type</Text>
               </View>
               <View className={`px-2.5 py-1 rounded-full ${isRealDevice ? "bg-green-50" : "bg-red-50"}`}>
@@ -257,7 +257,7 @@ export default function SettingsScreen({ navigation }) {
             {/* Permission status */}
             <View className="flex-row items-center justify-between px-4 py-3.5 border-b border-gray-50">
               <View className="flex-row items-center gap-3">
-                <Ionicons name="shield-checkmark-outline" size={16} color="#9ca3af" />
+                <Icon name="shield-checkmark-outline" size={16} color="#9ca3af" />
                 <Text className="text-gray-600 text-sm">Permission</Text>
               </View>
               <View className={`px-2.5 py-1 rounded-full ${
@@ -303,7 +303,7 @@ export default function SettingsScreen({ navigation }) {
               className="flex-row items-center gap-3 px-4 py-4 border-b border-gray-50"
             >
               <View className="w-9 h-9 rounded-full bg-blue-50 items-center justify-center">
-                <Ionicons name="notifications-outline" size={18} color="#3b82f6" />
+                <Icon name="notifications-outline" size={18} color="#3b82f6" />
               </View>
               <View className="flex-1">
                 <Text className="text-gray-900 font-semibold text-sm">
@@ -313,7 +313,7 @@ export default function SettingsScreen({ navigation }) {
                   Fires in 3 seconds — background the app after tapping
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="#d1d5db" />
+              <Icon name="chevron-forward" size={16} color="#d1d5db" />
             </TouchableOpacity>
 
             {/* Cancel all */}
@@ -323,7 +323,7 @@ export default function SettingsScreen({ navigation }) {
               className="flex-row items-center gap-3 px-4 py-4"
             >
               <View className="w-9 h-9 rounded-full bg-red-50 items-center justify-center">
-                <Ionicons name="close-circle-outline" size={18} color="#ef4444" />
+                <Icon name="close-circle-outline" size={18} color="#ef4444" />
               </View>
               <View className="flex-1">
                 <Text className="text-gray-900 font-semibold text-sm">
@@ -333,14 +333,14 @@ export default function SettingsScreen({ navigation }) {
                   Clears all scheduled notifications
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={16} color="#d1d5db" />
+              <Icon name="chevron-forward" size={16} color="#d1d5db" />
             </TouchableOpacity>
           </View>
 
           {/* Important note for Android */}
           {Platform.OS === "android" && (
             <View className="mt-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex-row gap-2">
-              <Ionicons name="information-circle-outline" size={16} color="#d97706" />
+              <Icon name="information-circle-outline" size={16} color="#d97706" />
               <Text className="text-amber-700 text-xs flex-1 leading-5">
                 After tapping "Send Test", press the Home button to background the app. The notification appears in your notification shade.
               </Text>
@@ -363,7 +363,7 @@ export default function SettingsScreen({ navigation }) {
               <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center gap-3 flex-1">
                   <View className="w-10 h-10 rounded-full bg-green-50 items-center justify-center">
-                    <Ionicons name="alarm-outline" size={20} color="#16a34a" />
+                    <Icon name="alarm-outline" size={20} color="#16a34a" />
                   </View>
                   <View className="flex-1">
                     <Text className="text-gray-900 font-bold text-sm">
@@ -495,7 +495,7 @@ export default function SettingsScreen({ navigation }) {
                 }`}
               >
                 <View className="flex-row items-center gap-3">
-                  <Ionicons name={icon} size={16} color="#9ca3af" />
+                  <Icon name={icon} size={16} color="#9ca3af" />
                   <Text className="text-gray-600 text-sm">{label}</Text>
                 </View>
                 <Text className="text-gray-400 text-xs font-semibold">{value}</Text>

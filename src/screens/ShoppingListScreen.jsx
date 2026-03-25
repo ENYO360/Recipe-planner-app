@@ -13,7 +13,7 @@ import {
   Platform,
   Animated,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import { Swipeable, GestureHandlerRootView } from "react-native-gesture-handler";
 import { useShoppingList } from "../hooks/useShoppingList";
 
@@ -134,7 +134,7 @@ export default function ShoppingListScreen({ navigation, route }) {
           {/* All done message */}
           {progressPercent === 100 && (
             <View className="flex-row items-center gap-2 mt-3 bg-green-50 border border-green-200 px-4 py-2.5 rounded-xl">
-              <Ionicons name="checkmark-circle" size={16} color="#16a34a" />
+              <Icon name="checkmark-circle" size={16} color="#16a34a" />
               <Text className="text-green-700 text-sm font-semibold">
                 All done! You're ready to cook. 🎉
               </Text>
@@ -161,14 +161,14 @@ export default function ShoppingListScreen({ navigation, route }) {
             activeOpacity={0.8}
             className="bg-green-600 w-10 h-10 rounded-xl items-center justify-center"
           >
-            <Ionicons name="checkmark" size={18} color="white" />
+            <Icon name="checkmark" size={18} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => { setShowInput(false); setNewItemText(""); }}
             activeOpacity={0.8}
             className="bg-gray-100 w-10 h-10 rounded-xl items-center justify-center"
           >
-            <Ionicons name="close" size={18} color="#6b7280" />
+            <Icon name="close" size={18} color="#6b7280" />
           </TouchableOpacity>
         </View>
       ) : (
@@ -177,7 +177,7 @@ export default function ShoppingListScreen({ navigation, route }) {
           activeOpacity={0.7}
           className="mx-5 mb-4 flex-row items-center gap-2 border border-dashed border-gray-200 rounded-xl px-4 py-3 bg-gray-50"
         >
-          <Ionicons name="add-circle-outline" size={18} color="#9ca3af" />
+          <Icon name="add-circle-outline" size={18} color="#9ca3af" />
           <Text className="text-gray-400 text-sm font-medium">
             Add item manually
           </Text>
@@ -213,7 +213,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   const EmptyState = () => (
     <View className="flex-1 items-center justify-center px-10 py-20">
       <View className="w-24 h-24 rounded-full bg-green-50 items-center justify-center mb-5">
-        <Ionicons name="cart-outline" size={44} color="#86efac" />
+        <Icon name="cart-outline" size={44} color="#86efac" />
       </View>
       <Text className="text-gray-900 font-bold text-xl mb-2 text-center">
         Your list is empty
@@ -235,7 +235,7 @@ export default function ShoppingListScreen({ navigation, route }) {
           elevation:     4,
         }}
       >
-        <Ionicons name="calendar-outline" size={18} color="white" />
+        <Icon name="calendar-outline" size={18} color="white" />
         <Text className="text-white font-bold text-sm">Go to Meal Planner</Text>
       </TouchableOpacity>
     </View>
@@ -304,7 +304,7 @@ function SwipeableItem({ item, onToggle, onDelete }) {
         style={{ width: 72 }}
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          <Ionicons name="trash-outline" size={22} color="white" />
+          <Icon name="trash-outline" size={22} color="white" />
         </Animated.View>
         <Text className="text-white text-[10px] font-bold mt-1">Delete</Text>
       </TouchableOpacity>
@@ -332,7 +332,7 @@ function SwipeableItem({ item, onToggle, onDelete }) {
           }`}
         >
           {item.checked && (
-            <Ionicons name="checkmark" size={13} color="white" />
+            <Icon name="checkmark" size={13} color="white" />
           )}
         </View>
 

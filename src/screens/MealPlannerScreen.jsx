@@ -10,7 +10,7 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import { useRecipes } from "../context/RecipeContext";
 import RecipePickerModal from "../components/RecipePickerModal";
 import { scheduleMealPlanNotification, isMealReminderScheduled } from "../services/notificationService";
@@ -112,7 +112,7 @@ export default function MealPlannerScreen({ navigation }) {
           </View>
           {totalPlanned > 0 && (
             <View className="bg-green-100 px-3 py-1.5 rounded-full flex-row items-center gap-1.5 mt-1">
-              <Ionicons name="restaurant-outline" size={13} color="#16a34a" />
+              <Icon name="restaurant-outline" size={13} color="#16a34a" />
               <Text className="text-green-700 font-bold text-sm">
                 {totalPlanned} meals
               </Text>
@@ -187,7 +187,7 @@ export default function MealPlannerScreen({ navigation }) {
             return (
               <View key={meal.key}>
                 <View className="flex-row items-center gap-2 mb-2">
-                  <Ionicons name={meal.icon} size={15} color="#6b7280" />
+                  <Icon name={meal.icon} size={15} color="#6b7280" />
                   <Text className="text-gray-500 text-xs font-bold uppercase tracking-widest">
                     {meal.label}
                   </Text>
@@ -217,7 +217,7 @@ export default function MealPlannerScreen({ navigation }) {
                         {assigned.title}
                       </Text>
                       <View className="flex-row items-center gap-1">
-                        <Ionicons name="time-outline" size={11} color="#9ca3af" />
+                        <Icon name="time-outline" size={11} color="#9ca3af" />
                         <Text className="text-gray-400 text-xs">{assigned.duration}</Text>
                       </View>
                     </View>
@@ -226,14 +226,14 @@ export default function MealPlannerScreen({ navigation }) {
                       activeOpacity={0.7}
                       className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center"
                     >
-                      <Ionicons name="swap-horizontal" size={14} color="#6b7280" />
+                      <Icon name="swap-horizontal" size={14} color="#6b7280" />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => removeMeal(selectedDay, meal.key)}
                       activeOpacity={0.7}
                       className="w-8 h-8 rounded-full bg-red-50 items-center justify-center"
                     >
-                      <Ionicons name="close" size={14} color="#ef4444" />
+                      <Icon name="close" size={14} color="#ef4444" />
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -242,7 +242,7 @@ export default function MealPlannerScreen({ navigation }) {
                     activeOpacity={0.8}
                     className={`flex-row items-center justify-center gap-2 py-4 rounded-2xl border-2 border-dashed ${meal.border} ${meal.bg}`}
                   >
-                    <Ionicons name="add-circle-outline" size={18} color="#9ca3af" />
+                    <Icon name="add-circle-outline" size={18} color="#9ca3af" />
                     <Text className="text-gray-400 text-sm font-medium">
                       Add {meal.label}
                     </Text>
@@ -285,7 +285,7 @@ export default function MealPlannerScreen({ navigation }) {
                 {generating ? (
                   <ActivityIndicator size="small" color="white" />
                 ) : (
-                  <Ionicons name="cart-outline" size={20} color="white" />
+                  <Icon name="cart-outline" size={20} color="white" />
                 )}
                 <Text className="text-white font-bold text-base">
                   {generating ? "Generating..." : "Generate Shopping List"}

@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import { useRecipes } from "../context/RecipeContext";
 import FavouriteCard from "../components/FavouriteCard";
 
@@ -20,7 +20,7 @@ export default function FavouritesScreen({ navigation }) {
     <View className="flex-1 items-center justify-center px-10 py-20">
       {/* Icon container */}
       <View className="w-24 h-24 rounded-full bg-red-50 items-center justify-center mb-5">
-        <Ionicons name="heart-outline" size={44} color="#fca5a5" />
+        <Icon name="heart-outline" size={44} color="#fca5a5" />
       </View>
 
       <Text className="text-gray-900 font-bold text-xl mb-2 text-center">
@@ -44,7 +44,7 @@ export default function FavouritesScreen({ navigation }) {
           elevation: 4,
         }}
       >
-        <Ionicons name="compass-outline" size={18} color="white" />
+        <Icon name="compass-outline" size={18} color="white" />
         <Text className="text-white font-bold text-sm">Explore Recipes</Text>
       </TouchableOpacity>
     </View>
@@ -64,7 +64,7 @@ export default function FavouritesScreen({ navigation }) {
         {/* Count badge — only shows when there are favourites */}
         {favourites.length > 0 && (
           <View className="bg-red-100 px-3 py-1.5 rounded-full flex-row items-center gap-1.5">
-            <Ionicons name="heart" size={13} color="#ef4444" />
+            <Icon name="heart" size={13} color="#ef4444" />
             <Text className="text-red-500 font-bold text-sm">
               {favourites.length}
             </Text>

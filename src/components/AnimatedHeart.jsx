@@ -7,7 +7,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "./Icon";
 
 export default function AnimatedHeart({
   isFavourite,
@@ -61,10 +61,11 @@ export default function AnimatedHeart({
       }}
     >
       <Animated.View style={animStyle}>
-        <Ionicons
+        <Icon
           name={isFavourite ? "heart" : "heart-outline"}
           size={size}
           color={isFavourite ? "#ef4444" : "#9ca3af"}
+          filled
         />
       </Animated.View>
     </TouchableOpacity>

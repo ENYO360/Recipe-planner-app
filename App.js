@@ -4,25 +4,21 @@ import "./global.css";
 import "./src/services/notificationService";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { View }                          from "react-native";
-import { useFonts }                      from "expo-font";
-import { Ionicons }                      from "@expo/vector-icons";
-import { NavigationContainer }           from "@react-navigation/native";
-import { createBottomTabNavigator }      from "@react-navigation/bottom-tabs";
-import { createStackNavigator }          from "@react-navigation/stack";
-import * as Notifications                from "expo-notifications";
-import * as ExpoSplashScreen             from "expo-splash-screen";
+import { View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as Notifications from "expo-notifications";
+import * as ExpoSplashScreen from "expo-splash-screen";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withSequence,
-}                                        from "react-native-reanimated";
+  useSharedValue, useAnimatedStyle, withSpring, withSequence,
+} from "react-native-reanimated";
 
-import { RecipeProvider }                from "./src/context/RecipeContext";
-import { ThemeProvider, useTheme }       from "./src/context/ThemeContext";
+import { RecipeProvider } from "./src/context/RecipeContext";
+import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 import { requestNotificationPermission } from "./src/services/notificationService";
-import SplashScreen                      from "./src/screens/SplashScreen";
+import SplashScreen from "./src/screens/SplashScreen";
+import Icon from "./src/components/Icon";
 
 import HomeScreen         from "./src/screens/HomeScreen";
 import RecipeDetailScreen from "./src/screens/RecipeDetailScreen";
@@ -32,13 +28,12 @@ import AddRecipeScreen    from "./src/screens/AddRecipeScreen";
 import FavouritesScreen   from "./src/screens/FavouritesScreen";
 import SettingsScreen     from "./src/screens/SettingsScreen";
 
-// Keep native splash visible until fonts are ready
+// No font loading needed — SVG icons don't use font files
 ExpoSplashScreen.preventAutoHideAsync();
 
 const Tab   = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// ── Stack navigators ──────────────────────────────────────────────────────────
 function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -83,7 +78,7 @@ function SettingsStack() {
   );
 }
 
-// ── Animated tab icon ─────────────────────────────────────────────────────────
+// ── Animated tab icon using our local SVG Icon component ─────────────────────
 function AnimatedTabIcon({ name, color, size, focused }) {
   const scale = useSharedValue(1);
 
@@ -102,12 +97,11 @@ function AnimatedTabIcon({ name, color, size, focused }) {
 
   return (
     <Animated.View style={animStyle}>
-      <Ionicons name={name} size={size} color={color} />
+      <Icon name={name} size={size} color={color} />
     </Animated.View>
   );
 }
 
-// ── Tab navigator ─────────────────────────────────────────────────────────────
 function AppNavigator() {
   const { isDark } = useTheme();
 
@@ -155,35 +149,25 @@ function AppNavigator() {
   );
 }
 
-// ── Root App ──────────────────────────────────────────────────────────────────
 export default function App() {
   const [showCustomSplash, setShowCustomSplash] = useState(true);
+  const [appReady,         setAppReady]         = useState(false);
   const navigationRef = useRef(null);
 
-  // ── ALL HOOKS MUST COME BEFORE ANY EARLY RETURN (Rules of Hooks) ──────
-
-  // 1. Load Ionicons font — required for production APK
-  //    Expo Go pre-loads this globally; a standalone build does NOT.
-  //    Without this, every Ionicons icon renders as a blank square in APK.
-  const [fontsLoaded, fontError] = useFonts({
-    ...Ionicons.font,
-  });
-
-  // 2. Hide native splash once fonts are ready
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded || fontError) {
+    if (appReady) {
       await ExpoSplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [appReady]);
 
-  // 3. Request notification permission on first launch
   useEffect(() => {
+    // No font loading needed with SVG icons
+    // Just mark ready immediately
+    setAppReady(true);
     requestNotificationPermission();
   }, []);
 
-  // 4. Handle notification taps
   useEffect(() => {
-    // Opened by tapping notification while app was closed/backgrounded
     Notifications.getLastNotificationResponseAsync().then((response) => {
       if (!response) return;
       const screen = response.notification.request.content.data?.screen;
@@ -192,7 +176,6 @@ export default function App() {
       }
     });
 
-    // Tapped while app is open in foreground
     const sub = Notifications.addNotificationResponseReceivedListener((response) => {
       const screen = response.notification.request.content.data?.screen;
       if (screen && navigationRef.current) {
@@ -203,12 +186,7 @@ export default function App() {
     return () => sub.remove();
   }, []);
 
-  // ── Early return AFTER all hooks ──────────────────────────────────────
-  // While fonts load, return null so the native splash stays visible.
-  // preventAutoHideAsync() above keeps it open until hideAsync() is called.
-  if (!fontsLoaded && !fontError) {
-    return null;
-  }
+  if (!appReady) return null;
 
   return (
     <ThemeProvider>

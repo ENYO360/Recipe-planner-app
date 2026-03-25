@@ -17,7 +17,7 @@ import Animated, {
   withSequence,
   withSpring
 } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../components/Icon";
 import { useRecipes } from "../context/RecipeContext";
 import AnimatedHeart from "../components/AnimatedHeart";
 
@@ -157,7 +157,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
             ].map(({ icon, label }) => (
               <View key={label}
                 className="flex-row items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
-                <Ionicons name={icon} size={13} color="#6b7280" />
+                <Icon name={icon} size={13} color="#6b7280" />
                 <Text className="text-gray-500 text-xs font-medium">{label}</Text>
               </View>
             ))}
@@ -182,7 +182,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
                 onPress={() => setServings((s) => Math.max(1, s - 1))}
                 activeOpacity={0.7}
               >
-                <Ionicons name="remove" size={16} color="#374151" />
+                <Icon name="remove" size={16} color="#374151" />
               </TouchableOpacity>
 
               <Text className="text-gray-800 font-bold text-sm w-4 text-center">
@@ -193,7 +193,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
                 onPress={() => setServings((s) => Math.min(20, s + 1))}
                 activeOpacity={0.7}
               >
-                <Ionicons name="add" size={16} color="#374151" />
+                <Icon name="add" size={16} color="#374151" />
               </TouchableOpacity>
             </View>
           </View>
@@ -286,7 +286,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
               elevation: 3,
             }}
           >
-            <Ionicons name="arrow-back" size={20} color="#111827" />
+            <Icon name="arrow-back" size={20} color="#111827" />
           </TouchableOpacity>
 
           {/* Delete button */}
@@ -302,7 +302,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
               elevation: 3,
             }}
           >
-            <Ionicons name="trash-outline" size={18} color="#ef4444" />
+            <Icon name="trash-outline" size={18} color="#ef4444" />
           </TouchableOpacity>
         </Animated.View>
       </SafeAreaView>
@@ -361,7 +361,7 @@ function AnimatedStep({ step, index, isChecked, onToggle }) {
           }`}>
           {isChecked ? (
             <Animated.View style={checkStyle}>
-              <Ionicons name="checkmark" size={14} color="white" />
+              <Icon name="checkmark" size={14} color="white" />
             </Animated.View>
           ) : (
             <Text className="text-gray-500 text-xs font-bold">{index + 1}</Text>

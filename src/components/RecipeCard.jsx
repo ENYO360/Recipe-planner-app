@@ -1,7 +1,7 @@
 // src/components/RecipeCard.jsx
 import React from "react";
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "./Icon";
 import AnimatedHeart from "./AnimatedHeart";
 import Animated, {
   useSharedValue,
@@ -106,7 +106,7 @@ export default function RecipeCard({
             </Text>
           </View>
           <View className="absolute bottom-3 right-3 bg-black/40 px-2 py-1 rounded-full flex-row items-center gap-1">
-            <Ionicons name="trash-outline" size={10} color="white" />
+            <Icon name="trash-outline" size={10} color="white" />
             <Text className="text-white text-[10px]">Hold to delete</Text>
           </View>
         </View>
@@ -120,13 +120,13 @@ export default function RecipeCard({
           </Text>
           <View className="flex-row items-center gap-4">
             <View className="flex-row items-center gap-1">
-              <Ionicons name="time-outline" size={14} color="#9ca3af" />
+              <Icon name="time-outline" size={14} color="#9ca3af" />
               <Text className="text-gray-400 text-xs font-medium">
                 {recipe.duration}
               </Text>
             </View>
             <View className="flex-row items-center gap-1">
-              <Ionicons name="people-outline" size={14} color="#9ca3af" />
+              <Icon name="people-outline" size={14} color="#9ca3af" />
               <Text className="text-gray-400 text-xs font-medium">
                 {recipe.servings} servings
               </Text>
