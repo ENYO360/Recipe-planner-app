@@ -1,9 +1,8 @@
-// src/services/notificationService.js
 import * as Notifications from "expo-notifications";
 import * as Device        from "expo-device";
 import { Platform }       from "react-native";
 
-// ── CRITICAL: must be called at module level ──────────────────────────────────
+// ── CRITICAL: must be called at module level
 // Controls notification appearance when app is in foreground
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -13,7 +12,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// ── Android notification channel ─────────────────────────────────────────────
+// ── Android notification channel
 // Must be created before scheduling any notifications on Android
 async function ensureAndroidChannel() {
   if (Platform.OS !== "android") return;
@@ -26,7 +25,7 @@ async function ensureAndroidChannel() {
   });
 }
 
-// ── Request permission ────────────────────────────────────────────────────────
+// ── Request permission
 export async function requestNotificationPermission() {
   if (!Device.isDevice) {
     console.log("[Notifications] Not a real device — skipping permission request");
@@ -47,7 +46,7 @@ export async function requestNotificationPermission() {
   return finalStatus === "granted";
 }
 
-// ── Schedule a daily repeating notification ───────────────────────────────────
+// ── Schedule a daily repeating notification
 export async function scheduleDailyMealReminder(hour = 8, minute = 0) {
   await cancelMealReminders();
 
@@ -56,7 +55,7 @@ export async function scheduleDailyMealReminder(hour = 8, minute = 0) {
 
   await ensureAndroidChannel();
 
-  // ── Trigger format differs between expo-notifications versions ──────────
+  // ── Trigger format differs between expo-notifications versions
   // v0.28+ uses the object format below. If you get a trigger error,
   // see the fallback format in the comments beneath.
   await Notifications.scheduleNotificationAsync({
@@ -82,7 +81,7 @@ export async function scheduleDailyMealReminder(hour = 8, minute = 0) {
   return true;
 }
 
-// ── Schedule with actual meal names ──────────────────────────────────────────
+// ── Schedule with actual meal names
 export async function scheduleMealPlanNotification(mealsToday, hour = 8, minute = 0) {
   await cancelMealReminders();
 
@@ -119,7 +118,7 @@ export async function scheduleMealPlanNotification(mealsToday, hour = 8, minute 
   return true;
 }
 
-// ── Cancel all meal reminders ─────────────────────────────────────────────────
+// ── Cancel all meal reminders
 export async function cancelMealReminders() {
   try {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();
@@ -133,7 +132,7 @@ export async function cancelMealReminders() {
   }
 }
 
-// ── Check if reminder is active ───────────────────────────────────────────────
+// ── Check if reminder is active
 export async function isMealReminderScheduled() {
   try {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();
@@ -143,7 +142,7 @@ export async function isMealReminderScheduled() {
   }
 }
 
-// ── Get the scheduled time ────────────────────────────────────────────────────
+// ── Get the scheduled time
 export async function getScheduledReminderTime() {
   try {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();

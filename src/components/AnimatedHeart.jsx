@@ -1,4 +1,3 @@
-// src/components/AnimatedHeart.jsx
 import { TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,

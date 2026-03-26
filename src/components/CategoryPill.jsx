@@ -1,4 +1,3 @@
-// src/components/CategoryPill.jsx
 import { Text, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,

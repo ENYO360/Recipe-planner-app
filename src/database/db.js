@@ -1,4 +1,3 @@
-// src/database/db.js
 import * as SQLite from "expo-sqlite";
 import { SAMPLE_RECIPES } from "../data/sampleRecipes";
 
@@ -15,7 +14,7 @@ export async function initDatabase() {
 
   await database.execAsync(`PRAGMA foreign_keys = ON;`);
 
-  // ── Create all tables ─────────────────────────────────────────────────
+  // ── Create all tables
   await database.execAsync(`
     CREATE TABLE IF NOT EXISTS recipes (
       id           TEXT PRIMARY KEY,
@@ -69,7 +68,7 @@ export async function initDatabase() {
     );
   `);
 
-  // ── Migration system ──────────────────────────────────────────────────
+  // ── Migration system
   // user_version tracks which seed/migration has run.
   // Bump TARGET_VERSION whenever sample data changes.
   const TARGET_VERSION = 4;
@@ -82,10 +81,6 @@ export async function initDatabase() {
 
 async function migrateTo(database, version) {
   console.log(`[DB] Migrating to version ${version}...`);
-
-  // ── Step 1: Wipe ALL existing sample recipe data ──────────────────────
-  // We wipe by the known sample IDs from the current file.
-  // Also wipe any old IDs that may have existed in previous versions.
   const currentSampleIds = SAMPLE_RECIPES.map((r) => r.id);
 
   // Old sample IDs from earlier versions of the app (ids "1"–"5")
@@ -100,10 +95,10 @@ async function migrateTo(database, version) {
     }
   });
 
-  // ── Step 2: Re-seed with current sample data ──────────────────────────
+  // ── Step 2: Re-seed with current sample data 
   await seedSampleData(database);
 
-  // ── Step 3: Mark migration complete ──────────────────────────────────
+  // ── Step 3: Mark migration complete
   await database.execAsync(`PRAGMA user_version = ${version}`);
 
   console.log(`[DB] Migration to version ${version} complete.`);

@@ -1,4 +1,3 @@
-// src/screens/SettingsScreen.jsx
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -21,7 +20,7 @@ import {
   getScheduledReminderTime,
 } from "../services/notificationService";
 
-// ── MUST be set at module level, outside any component ───────────────────────
+// ── MUST be set at module level, outside any component
 // This controls how notifications behave when the app is in the foreground
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -42,7 +41,7 @@ export default function SettingsScreen({ navigation }) {
   const [permStatus,      setPermStatus]      = useState("unknown");
   const [isRealDevice,    setIsRealDevice]    = useState(true);
 
-  // ── Load state on mount ───────────────────────────────────────────────
+  // ── Load state on mount
   useEffect(() => {
     const load = async () => {
       // Check if real device
@@ -69,7 +68,7 @@ export default function SettingsScreen({ navigation }) {
     load();
   }, []);
 
-  // ── Request permission explicitly ─────────────────────────────────────
+  // ── Request permission explicitly
   const handleRequestPermission = async () => {
     const { status } = await Notifications.requestPermissionsAsync();
     setPermStatus(status);
@@ -85,7 +84,7 @@ export default function SettingsScreen({ navigation }) {
     }
   };
 
-  // ── Send immediate test notification ─────────────────────────────────
+  // ── Send immediate test notification
   const handleTestNotification = async () => {
     console.log("[Test] Starting notification test...");
     console.log("[Test] Is real device:", Device.isDevice);
@@ -152,7 +151,7 @@ export default function SettingsScreen({ navigation }) {
     }
   };
 
-  // ── Cancel all notifications ──────────────────────────────────────────
+  // ── Cancel all notifications
   const handleCancelAll = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync();
     const remaining = await Notifications.getAllScheduledNotificationsAsync();
@@ -160,7 +159,7 @@ export default function SettingsScreen({ navigation }) {
     Alert.alert("Cancelled", `All notifications cancelled.\nRemaining: ${remaining.length}`);
   };
 
-  // ── Toggle reminder ───────────────────────────────────────────────────
+  // ── Toggle reminder
   const handleToggle = async (value) => {
     setReminderEnabled(value);
     setSaving(true);

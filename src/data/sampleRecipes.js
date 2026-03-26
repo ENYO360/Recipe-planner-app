@@ -1,4 +1,3 @@
-// src/data/sampleRecipes.js
 export const CATEGORIES = [
   { id: "all",       label: "All"           },
   { id: "breakfast", label: "Breakfast"     },
@@ -1534,7 +1533,7 @@ export const SAMPLE_RECIPES = [
     duration: "35 mins",
     servings: 4,
     difficulty: "Medium",
-    image: "https://www.tastingtable.com/img/gallery/suya-the-classic-nigerian-street-food-you-should-know/intro-1663005990.webphttps://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400",
+    image: "https://cheflolaskitchen.com/wp-content/uploads/2025/07/Suya-960x960.jpg.webp",
     description: "Spicy Nigerian street-food skewers made with thin beef strips and a peanut-spice rub.",
     ingredients: [
       {

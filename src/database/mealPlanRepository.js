@@ -22,7 +22,7 @@ export async function getAllMealPlan() {
   return plan;
 }
 
-// ── ASSIGN a recipe to a meal slot ────────────────────────────────────────────
+// ── ASSIGN a recipe to a meal slot 
 // INSERT OR REPLACE handles the UNIQUE(date_key, meal_type) constraint —
 // if a slot already has a recipe it gets replaced automatically
 export async function assignMealInDb(dateKey, mealType, recipe) {
@@ -43,7 +43,7 @@ export async function assignMealInDb(dateKey, mealType, recipe) {
   );
 }
 
-// ── REMOVE a recipe from a meal slot ─────────────────────────────────────────
+// ── REMOVE a recipe from a meal slot
 export async function removeMealFromDb(dateKey, mealType) {
   const db = await getDb();
   await db.runAsync(

@@ -1,4 +1,3 @@
-// src/utils/dateHelpers.js
 
 // Returns an array of 7 date strings for the current week (Mon–Sun)
 export function getCurrentWeekDates() {

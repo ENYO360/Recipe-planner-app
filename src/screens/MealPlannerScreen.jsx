@@ -1,4 +1,3 @@
-// src/screens/MealPlannerScreen.jsx
 import React, { useState, useMemo } from "react";
 import {
   View,
@@ -58,9 +57,6 @@ export default function MealPlannerScreen({ navigation }) {
     assignMeal(selectedDay, activeMealType, recipe);
   };
 
-  // ── FIXED: properly await generateShoppingList ────────────────────────
-  // Previously this was NOT awaited, so navigation received a Promise
-  // instead of an array, causing the shopping screen to show nothing.
   const handleGenerateShoppingList = async () => {
     if (totalPlanned === 0) return;
 

@@ -1,4 +1,3 @@
-// src/screens/SplashScreen.jsx
 import React, { useEffect } from "react";
 import { View, Text, Image, Dimensions } from "react-native";
 import Animated, {
@@ -24,7 +23,7 @@ export default function SplashScreen({ onFinish }) {
   const screenOpacity = useSharedValue(1);
 
   useEffect(() => {
-    // ── Sequence of animations ────────────────────────────────────────
+    // ── Sequence of animations
     // 1. Logo pops in with spring
     logoOpacity.value = withTiming(1, { duration: 400 });
     logoScale.value   = withSpring(1, {
@@ -164,7 +163,7 @@ export default function SplashScreen({ onFinish }) {
   );
 }
 
-// ── Bouncing loading dot ──────────────────────────────────────────────────────
+// ── Bouncing loading dot
 function AnimatedDot({ delay }) {
   const translateY = useSharedValue(0);
 

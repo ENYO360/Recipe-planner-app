@@ -1,4 +1,3 @@
-// src/database/shoppingRepository.js
 import { getDb } from "./db";
 
 export async function getAllShoppingItems() {
@@ -18,7 +17,7 @@ export async function insertShoppingItem(item) {
   );
 }
 
-// ── Insert multiple items from meal plan generation ───────────────────────────
+// ── Insert multiple items from meal plan generation
 // Uses INSERT OR REPLACE so if the same ingredient already exists
 // (from a previous generation) its amount gets updated, not skipped.
 export async function insertShoppingItems(items) {

@@ -1,4 +1,3 @@
-// src/screens/AddRecipeScreen.jsx
 import React, { useState } from "react";
 import {
   View,
@@ -17,7 +16,7 @@ import Icon from "../components/Icon";
 import * as ImagePicker from "expo-image-picker";
 import { useRecipes } from "../context/RecipeContext";
 
-// ── Reusable labelled input ───────────────────────────────────────────────────
+// Reusable labelled input
 function Field({ label, children }) {
   return (
     <View className="mb-4">
@@ -29,18 +28,18 @@ function Field({ label, children }) {
   );
 }
 
-// ── Shared input style ────────────────────────────────────────────────────────
+// ── Shared input style
 const INPUT_CLASS =
   "border border-gray-200 rounded-xl bg-gray-50 px-4 py-3 text-gray-800 text-sm";
 
-// ── Category and difficulty options ──────────────────────────────────────────
+// ── Category and difficulty options
 const CATEGORIES  = ["breakfast", "lunch", "dinner", "snacks", "dessert"];
 const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 
 export default function AddRecipeScreen({ navigation }) {
   const { addRecipe } = useRecipes();
 
-  // ── Form state ────────────────────────────────────────────────────────
+  // ── Form state
   const [image,       setImage]       = useState(null);
   const [title,       setTitle]       = useState("");
   const [category,    setCategory]    = useState("dinner");
@@ -55,7 +54,7 @@ export default function AddRecipeScreen({ navigation }) {
 
   const [steps, setSteps] = useState([""]);
 
-  // ── Image picker ──────────────────────────────────────────────────────
+  // ── Image picker
   const pickImage = async () => {
     // Show action sheet — camera or gallery
     Alert.alert(
@@ -106,7 +105,7 @@ export default function AddRecipeScreen({ navigation }) {
     );
   };
 
-  // ── Ingredient helpers ────────────────────────────────────────────────
+  // ── Ingredient helpers
   const addIngredient = () => {
     setIngredients((prev) => [
       ...prev,
@@ -126,7 +125,7 @@ export default function AddRecipeScreen({ navigation }) {
     setIngredients((prev) => prev.filter((ing) => ing.id !== id));
   };
 
-  // ── Step helpers ──────────────────────────────────────────────────────
+  // ── Step helpers
   const addStep = () => {
     setSteps((prev) => [...prev, ""]);
   };
@@ -140,7 +139,7 @@ export default function AddRecipeScreen({ navigation }) {
     setSteps((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // ── Validation & save ─────────────────────────────────────────────────
+  // ── Validation & save
   const handleSave = () => {
     // Basic validation
     if (!title.trim()) {

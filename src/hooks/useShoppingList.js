@@ -14,7 +14,7 @@ export function useShoppingList(incomingList) {
   const [items,   setItems]   = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ── Load from SQLite on mount ─────────────────────────────────────────
+  // ── Load from SQLite on mount
   useEffect(() => {
     const load = async () => {
       try {
@@ -30,7 +30,7 @@ export function useShoppingList(incomingList) {
     load();
   }, []);
 
-  // ── Handle incoming list from Meal Planner ────────────────────────────
+  // ── Handle incoming list from Meal Planner 
   // incomingList is the array passed via navigation params.
   // It arrives AFTER the initial load, so we refresh from DB after saving.
   useEffect(() => {
@@ -66,7 +66,7 @@ export function useShoppingList(incomingList) {
     merge();
   }, [incomingList]);
 
-  // ── Actions ───────────────────────────────────────────────────────────
+  // ── Actions
   const toggleItem = useCallback(async (id) => {
     const item = items.find((i) => i.id === id);
     if (!item) return;

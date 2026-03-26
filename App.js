@@ -1,4 +1,3 @@
-// App.js
 import "react-native-gesture-handler";
 import "./global.css";
 import "./src/services/notificationService";
@@ -78,7 +77,7 @@ function SettingsStack() {
   );
 }
 
-// ── Animated tab icon using our local SVG Icon component ─────────────────────
+// ── Animated tab icon using our local SVG Icon component
 function AnimatedTabIcon({ name, color, size, focused }) {
   const scale = useSharedValue(1);
 

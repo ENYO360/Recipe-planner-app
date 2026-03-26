@@ -1,4 +1,3 @@
-// src/screens/ShoppingListScreen.jsx
 import React, { useState } from "react";
 import {
   View,
@@ -37,7 +36,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   const [newItemText, setNewItemText] = useState("");
   const [showInput,   setShowInput]   = useState(false);
 
-  // ── Confirm before clearing ───────────────────────────────────────────
+  // ── Confirm before clearing
   const handleClearAll = () => {
     Alert.alert(
       "Clear List",
@@ -73,7 +72,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   const checked     = items.filter((i) => i.checked);
   const sortedItems = [...unchecked, ...checked];
 
-  // ── List header ───────────────────────────────────────────────────────
+  // ── List header
   const ListHeader = () => (
     <View>
       {/* Page header */}
@@ -195,7 +194,7 @@ export default function ShoppingListScreen({ navigation, route }) {
     </View>
   );
 
-  // ── Section divider between unchecked and checked ────────────────────
+  // ── Section divider between unchecked and checked
   const renderSeparator = (index) => {
     const isLastUnchecked =
       index === unchecked.length - 1 && checked.length > 0;
@@ -209,7 +208,7 @@ export default function ShoppingListScreen({ navigation, route }) {
     );
   };
 
-  // ── Empty state ───────────────────────────────────────────────────────
+  // ── Empty state
   const EmptyState = () => (
     <View className="flex-1 items-center justify-center px-10 py-20">
       <View className="w-24 h-24 rounded-full bg-green-50 items-center justify-center mb-5">
@@ -282,7 +281,7 @@ export default function ShoppingListScreen({ navigation, route }) {
   );
 }
 
-// ── SwipeableItem ─────────────────────────────────────────────────────────────
+// ── SwipeableItem
 function SwipeableItem({ item, onToggle, onDelete }) {
   const swipeableRef = React.useRef(null);
 

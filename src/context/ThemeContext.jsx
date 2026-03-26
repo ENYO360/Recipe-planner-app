@@ -1,4 +1,3 @@
-// src/context/ThemeContext.jsx
 import React, {
   createContext, useContext, useState,
   useEffect, useCallback,
@@ -27,7 +26,7 @@ export function ThemeProvider({ children }) {
 
   const isDark = activeTheme === "dark";
 
-  // ── Load saved preference on mount ───────────────────────────────────
+  // ── Load saved preference on mount
   useEffect(() => {
     const load = async () => {
       try {
@@ -44,7 +43,7 @@ export function ThemeProvider({ children }) {
     load();
   }, []);
 
-  // ── Sync NativeWind's colorScheme whenever activeTheme changes ────────
+  // ── Sync NativeWind's colorScheme whenever activeTheme changes
   // This is what actually makes dark: classes activate
   useEffect(() => {
     if (!loaded) return;
@@ -52,7 +51,7 @@ export function ThemeProvider({ children }) {
     console.log("[Theme] Active theme:", activeTheme);
   }, [activeTheme, loaded]);
 
-  // ── Save preference and apply ─────────────────────────────────────────
+  // ── Save preference and apply 
   const setTheme = useCallback(async (preference) => {
     setThemePreference(preference);
     try {

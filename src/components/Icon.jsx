@@ -1,21 +1,11 @@
-// src/components/Icon.jsx
-//
-// Self-contained SVG icon library — no font files, no external dependencies.
-// Every icon is an inline SVG path so it works identically in Expo Go and
-// production APK builds without any font loading.
-//
-// Usage:
-//   import Icon from "../components/Icon";
-//   <Icon name="home" size={24} color="#16a34a" />
-
 import React from "react";
 import Svg, { Path, Circle, Rect, Line, Polyline, Polygon } from "react-native-svg";
 
-// ── Icon path definitions ─────────────────────────────────────────────────────
+// ── Icon path definitions 
 // All paths use a 24×24 viewBox (standard Ionicons / Heroicons dimensions)
 const ICONS = {
 
-  // ── Navigation ─────────────────────────────────────────────────────────────
+  // ── Navigation
   "home": (
     <Path
       d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z M9 21V12h6v9"
@@ -59,7 +49,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Actions ─────────────────────────────────────────────────────────────────
+  // ── Actions
   "search-outline": (
     <>
       <Circle cx="11" cy="11" r="8" strokeWidth={1.8}/>
@@ -120,7 +110,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Info / Status ────────────────────────────────────────────────────────────
+  // ── Info / Status
   "time-outline": (
     <>
       <Circle cx="12" cy="12" r="9" strokeWidth={1.8} fill="none"/>
@@ -158,7 +148,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Media / Content ──────────────────────────────────────────────────────────
+  // ── Media / Content
   "camera-outline": (
     <>
       <Path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"/>
@@ -179,7 +169,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Food / Recipe specific ────────────────────────────────────────────────────
+  // ── Food / Recipe specific
   "restaurant-outline": (
     <>
       <Path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"/>
@@ -192,7 +182,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Weather / Time (meal planner) ─────────────────────────────────────────────
+  // ── Weather / Time (meal planner)
   "sunny-outline": (
     <>
       <Circle cx="12" cy="12" r="4" strokeWidth={1.8} fill="none"/>
@@ -213,7 +203,7 @@ const ICONS = {
     />
   ),
 
-  // ── Notifications ─────────────────────────────────────────────────────────────
+  // ── Notifications
   "notifications-outline": (
     <>
       <Path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"/>
@@ -226,7 +216,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Device / System ───────────────────────────────────────────────────────────
+  // ── Device / System
   "phone-portrait-outline": (
     <>
       <Rect x="5" y="2" width="14" height="20" rx="2" strokeWidth={1.8}/>
@@ -241,7 +231,7 @@ const ICONS = {
     </>
   ),
 
-  // ── Misc ─────────────────────────────────────────────────────────────────────
+  // ── Misc
   "compass-outline": (
     <>
       <Circle cx="12" cy="12" r="9" strokeWidth={1.8} fill="none"/>
@@ -273,7 +263,7 @@ const ICONS = {
   ),
 };
 
-// ── Icon component ────────────────────────────────────────────────────────────
+// ── Icon component
 export default function Icon({
   name,
   size   = 24,

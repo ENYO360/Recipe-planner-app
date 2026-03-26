@@ -1,23 +1,26 @@
-// src/context/RecipeContext.jsx
 import React, {
   createContext, useContext, useState,
   useEffect, useCallback,
 } from "react";
-import { initDatabase }                              from "../database/db";
-import { getAllRecipes, insertRecipe,
-         toggleFavouriteInDb, deleteRecipe }         from "../database/recipeRepository";
-import { getAllMealPlan, assignMealInDb,
-         removeMealFromDb }                          from "../database/mealPlanRepository";
-import { insertShoppingItems }                       from "../database/shoppingRepository";
+import { initDatabase } from "../database/db";
+import {
+  getAllRecipes, insertRecipe,
+  toggleFavouriteInDb, deleteRecipe
+} from "../database/recipeRepository";
+import {
+  getAllMealPlan, assignMealInDb,
+  removeMealFromDb
+} from "../database/mealPlanRepository";
+import { insertShoppingItems } from "../database/shoppingRepository";
 
 const RecipeContext = createContext();
 
 export function RecipeProvider({ children }) {
-  const [dbReady,  setDbReady]  = useState(false);
-  const [recipes,  setRecipes]  = useState([]);
+  const [dbReady, setDbReady] = useState(false);
+  const [recipes, setRecipes] = useState([]);
   const [mealPlan, setMealPlan] = useState({});
 
-  // ── Init DB then load all data ────────────────────────────────────────
+  // ── Init DB then load all data
   useEffect(() => {
     const setup = async () => {
       try {
@@ -32,7 +35,7 @@ export function RecipeProvider({ children }) {
     setup();
   }, []);
 
-  // ── Refresh helpers ───────────────────────────────────────────────────
+  // ── Refresh helpers
   const refreshRecipes = useCallback(async () => {
     const data = await getAllRecipes();
     console.log(`[RecipeContext] Loaded ${data.length} recipes from DB`);
@@ -50,7 +53,7 @@ export function RecipeProvider({ children }) {
     setMealPlan(data);
   }, []);
 
-  // ── Recipe actions ────────────────────────────────────────────────────
+  // ── Recipe actions
   const addRecipe = useCallback(async (recipe) => {
     const newRecipe = { ...recipe, id: Date.now().toString() };
     await insertRecipe(newRecipe);
@@ -72,7 +75,7 @@ export function RecipeProvider({ children }) {
     await refreshRecipes();
   }, [refreshRecipes]);
 
-  // ── Meal plan actions ─────────────────────────────────────────────────
+  // ── Meal plan actions
   const assignMeal = useCallback(async (dateKey, mealType, recipe) => {
     // Optimistic update
     setMealPlan((prev) => ({
@@ -80,9 +83,9 @@ export function RecipeProvider({ children }) {
       [dateKey]: {
         ...prev[dateKey],
         [mealType]: {
-          id:       recipe.id,
-          title:    recipe.title,
-          image:    recipe.image,
+          id: recipe.id,
+          title: recipe.title,
+          image: recipe.image,
           duration: recipe.duration,
         },
       },
@@ -103,7 +106,7 @@ export function RecipeProvider({ children }) {
     return mealPlan[dateKey] ?? { breakfast: null, lunch: null, dinner: null };
   }, [mealPlan]);
 
-  // ── Generate shopping list ────────────────────────────────────────────
+  // ── Generate shopping list
   // IMPORTANT: this is async — always await it at the call site
   const generateShoppingList = useCallback(async (weekDates) => {
     console.log("[generateShoppingList] Starting for", weekDates.length, "days");
@@ -112,7 +115,7 @@ export function RecipeProvider({ children }) {
     const ingredientMap = {};
 
     weekDates.forEach((dateKey) => {
-      const dayMeals    = getMealsForDay(dateKey);
+      const dayMeals = getMealsForDay(dateKey);
       const assignedIds = Object.values(dayMeals)
         .filter(Boolean)
         .map((m) => m.id);
@@ -142,10 +145,10 @@ export function RecipeProvider({ children }) {
             ingredientMap[key].amount += ing.amount;
           } else {
             ingredientMap[key] = {
-              id:      key,
-              name:    ing.name,
-              amount:  ing.amount,
-              unit:    ing.unit,
+              id: key,
+              name: ing.name,
+              amount: ing.amount,
+              unit: ing.unit,
               checked: false,
             };
           }

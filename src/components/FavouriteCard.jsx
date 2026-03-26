@@ -1,4 +1,3 @@
-// src/components/FavouriteCard.jsx
 import { View, Text, Image, TouchableOpacity, Dimensions } from "react-native";
 import Icon from "./Icon";
 

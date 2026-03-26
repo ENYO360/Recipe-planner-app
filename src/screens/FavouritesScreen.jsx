@@ -1,4 +1,3 @@
-// src/screens/FavouritesScreen.jsx
 import React from "react";
 import {
   View,
@@ -15,7 +14,7 @@ import FavouriteCard from "../components/FavouriteCard";
 export default function FavouritesScreen({ navigation }) {
   const { favourites, toggleFavourite } = useRecipes();
 
-  // ── Empty state when no recipes are favourited ────────────────────────
+  // ── Empty state when no recipes are favourited 
   const EmptyState = () => (
     <View className="flex-1 items-center justify-center px-10 py-20">
       {/* Icon container */}
@@ -50,7 +49,7 @@ export default function FavouritesScreen({ navigation }) {
     </View>
   );
 
-  // ── List header ───────────────────────────────────────────────────────
+  // ── List header
   const ListHeader = () => (
     <View className="px-5 pt-4 pb-5">
       <View className="flex-row items-center justify-between">

@@ -1,4 +1,3 @@
-// src/screens/RecipeDetailScreen.jsx
 import React, { useState, useRef } from "react";
 import {
   View,
@@ -24,18 +23,11 @@ import AnimatedHeart from "../components/AnimatedHeart";
 const HEADER_IMAGE_HEIGHT = 300;
 
 export default function RecipeDetailScreen({ navigation, route }) {
-  // ── Receive the recipe passed from HomeScreen ─────────────────────────
-  const { recipe: initialRecipe } = route.params;
 
-  // Pull live recipe data from context so favourite state stays in sync
-  const { recipes, toggleFavourite, removeRecipe } = useRecipes();
-  const recipe = recipes.find((r) => r.id === initialRecipe.id) ?? initialRecipe;
-
-  // ── Local state ───────────────────────────────────────────────────────
   const [servings, setServings] = useState(recipe.servings);
   const [checkedSteps, setCheckedSteps] = useState([]);
 
-  // ── Animated scroll value ─────────────────────────────────────────────
+  // ── Animated scroll value
   const scrollY = useSharedValue(0);
 
   // Scroll handler — runs on UI thread
@@ -69,7 +61,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
   // As user scrolls down 80px, the back button bg fades from
   // semi-transparent white to fully white
 
-  // ── Serving scaler logic ──────────────────────────────────────────────
+  // ── Serving scaler logic
   // Multiply each ingredient amount by (current servings / original servings)
   const scaledAmount = (originalAmount) => {
     const scaled = (originalAmount * servings) / recipe.servings;
@@ -95,7 +87,7 @@ export default function RecipeDetailScreen({ navigation, route }) {
     );
   };
 
-  // ── Step checkbox toggle ──────────────────────────────────────────────
+  // ── Step checkbox toggle
   const toggleStep = (index) => {
     setCheckedSteps((prev) =>
       prev.includes(index)

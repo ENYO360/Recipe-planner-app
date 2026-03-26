@@ -1,7 +1,6 @@
-// src/database/recipeRepository.js
 import { getDb } from "./db";
 
-// ── READ all recipes (with ingredients + steps) ───────────────────────────────
+// ── READ all recipes (with ingredients + steps)
 export async function getAllRecipes() {
   const db = await getDb();
 
@@ -29,7 +28,7 @@ export async function getAllRecipes() {
   return recipes;
 }
 
-// ── READ single recipe by id ──────────────────────────────────────────────────
+// ── READ single recipe by id
 export async function getRecipeById(id) {
   const db = await getDb();
 
@@ -48,7 +47,7 @@ export async function getRecipeById(id) {
   return dbRowToRecipe(row, ingredients, steps);
 }
 
-// ── INSERT new recipe ─────────────────────────────────────────────────────────
+// ── INSERT new recipe 
 export async function insertRecipe(recipe) {
   const db = await getDb();
 
@@ -89,7 +88,7 @@ export async function insertRecipe(recipe) {
   });
 }
 
-// ── TOGGLE favourite ──────────────────────────────────────────────────────────
+// ── TOGGLE favourite 
 export async function toggleFavouriteInDb(id, currentValue) {
   const db = await getDb();
   await db.runAsync(
@@ -98,13 +97,13 @@ export async function toggleFavouriteInDb(id, currentValue) {
   );
 }
 
-// ── DELETE recipe (CASCADE removes ingredients + steps) ───────────────────────
+// ── DELETE recipe (CASCADE removes ingredients + steps)
 export async function deleteRecipe(id) {
   const db = await getDb();
   await db.runAsync(`DELETE FROM recipes WHERE id = ?`, [id]);
 }
 
-// ── Map a DB row → our JS recipe shape ───────────────────────────────────────
+// ── Map a DB row → our JS recipe shape
 function dbRowToRecipe(row, ingredientRows, stepRows) {
   return {
     id:          row.id,
